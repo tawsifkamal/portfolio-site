@@ -1,12 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --primary-bg-color: #111830;
-  --secondary-bg-color: #1a3049;
-  --primary-text-color: rgb(182, 194, 223);
-  --tertiary-text-color: #54d2d3;
-  --secondary-text-color: #E2E8F0;
-  --hover-color: #1a3049;
+  --primary-bg-color: #f5e49f;
+  --secondary-bg-color: #f4d96a;
+  --primary-text-color: #333333;
+  --tertiary-text-color: #e5a12d;
+  --secondary-text-color: #1a1a1a;
+  --hover-color: #f0c420;
   --font-family: Inter;
 }
 
