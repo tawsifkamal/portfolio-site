@@ -1,4 +1,7 @@
 import { Component, Input } from '@angular/core';
+/**
+ * The tag component.
+ */
 @Component({
   selector: 'app-tag',
   standalone: true,
@@ -7,5 +10,8 @@ import { Component, Input } from '@angular/core';
   styleUrl: './tag.component.css',
 })
 export class TagComponent {
+  /**
+   * The text of the tag.
+   */
   @Input() text: string;
 }
