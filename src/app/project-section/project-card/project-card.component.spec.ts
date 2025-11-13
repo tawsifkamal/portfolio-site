@@ -14,6 +14,13 @@ describe('ProjectCardComponent', () => {
     
     fixture = TestBed.createComponent(ProjectCardComponent);
     component = fixture.componentInstance;
+    component.project = {
+      name: 'Test Project',
+      description: 'Test Description',
+      imageUrl: 'test.jpg',
+      skills: ['Angular', 'TypeScript'],
+      link: 'https://example.com'
+    };
     fixture.detectChanges();
   });
 

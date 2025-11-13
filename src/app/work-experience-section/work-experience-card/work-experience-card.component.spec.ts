@@ -13,6 +13,15 @@ describe('ProjectCardComponent', () => {
 
     fixture = TestBed.createComponent(WorkExperienceCardComponent);
     component = fixture.componentInstance;
+    component.workExperience = {
+      company: 'Test Company',
+      role: 'Test Role',
+      dateWorked: 'Test Date',
+      description: 'Test Description',
+      additionalInfo: 'Test Info',
+      skills: ['Angular', 'TypeScript'],
+      logoSrc: 'test.jpg'
+    };
     fixture.detectChanges();
   });
 
