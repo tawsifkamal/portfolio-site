@@ -7,7 +7,7 @@
     <div class="left-section">
       <div class="img-wrapper">
         <img [src]="project.imageUrl" />
-        @if (project.linkIconSrc && !screen.isLarge) {
+        @if (project.linkIconSrc && !(screen.isLarge$ | async)) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
@@ -17,7 +17,7 @@
         <p class="project-name">
           {{ project.name }}
         </p>
-        @if (project.linkIconSrc && screen.isLarge) {
+        @if (project.linkIconSrc && (screen.isLarge$ | async)) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
