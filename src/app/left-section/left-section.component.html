@@ -1,0 +1,38 @@
+<div class="left-section">
+  <h1 class="name">Tawsif Kamal</h1>
+
+  @if (screen.isSmall) {
+  <h4 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h4>
+  } @else {
+  <h3 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h3>
+  }
+
+  <h4 class="punchline">
+    Fullstack developer interested in Reinforcement Learning
+  </h4>
+
+  <img class="profile-image" src="assets/images/profile.jpeg" />
+  <app-navigation
+    [selectedItem]="currentSection"
+    (sectionChangeEvent)="navigateToSection($event)"
+    class="navigation"
+  />
+
+  <div class="profile-icons">
+    <a
+      href="https://www.youtube.com/channel/UCfYIV34hpU_DXoOnYGngfWQ"
+      target="_blank"
+    >
+      <img src="assets/profileIcons/youtube-outline.png" />
+    </a>
+    <a href="https://www.linkedin.com/in/tawsif-kamal/" target="_blank">
+      <img src="assets/profileIcons/linkedin-outline.png" />
+    </a>
+    <a href="https://github.com/tawsifkamal" target="_blank">
+      <img src="assets/profileIcons/github-outline.png" />
+    </a>
+    <a href="https://medium.com/@tawsifkamal" target="_blank">
+      <img src="assets/profileIcons/medium-outline.png" />
+    </a>
+  </div>
+</div>

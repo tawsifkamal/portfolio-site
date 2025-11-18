@@ -1,99 +1,11 @@
 <main class="main">
-  <div class="left-section">
-    <h1 class="name">Tawsif Kamal</h1>
-
-    @if (screen.isSmall) {
-    <h4 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h4>
-    } @else {
-    <h3 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h3>
-    }
-
-    <h4 class="punchline">
-      Fullstack developer interested in Reinforcement Learning
-    </h4>
-
-    <img class="profile-image" src="assets/images/profile.jpeg" />
-    <app-navigation
-      [selectedItem]="currentSection"
-      (sectionChangeEvent)="navigateToSection($event)"
-      class="navigation"
-    />
-
-    <div class="profile-icons">
-      <a
-        href="https://www.youtube.com/channel/UCfYIV34hpU_DXoOnYGngfWQ"
-        target="_blank"
-      >
-        <img src="assets/profileIcons/youtube-outline.png" />
-      </a>
-      <a href="https://www.linkedin.com/in/tawsif-kamal/" target="_blank">
-        <img src="assets/profileIcons/linkedin-outline.png" />
-      </a>
-      <a href="https://github.com/tawsifkamal" target="_blank">
-        <img src="assets/profileIcons/github-outline.png" />
-      </a>
-      <a href="https://medium.com/@tawsifkamal" target="_blank">
-        <img src="assets/profileIcons/medium-outline.png" />
-      </a>
-    </div>
-  </div>
-  <div class="right-section">
-    <div class="about-me" id="ABOUT">
-      Hey! I'm a 3rd year Computer Science student at Georgia Tech with a
-      concentration in AI and Networking. I'm currently interning as a Machine Learning
-      Developer &#64; IBM and have previously worked at NCR and LogicomUSA as a Fullstack Developer. I
-      also help make apps for non-profits at my school club Bits of Good.<br /><br />
-
-      My journey involves learning and exploring the fundamentals behind Large Language Models (LLMs) and Natural Language Processing (NLP).  In my current internship, I'm diving into the intricacies of Kubernetes and LLMOps infrastructure. I'm equally
-      fascinated by the nuances of full-stack development, continually exploring
-      Angular, Vue, React and the subtle differences between frontend/backend
-      frameworks. <br /><br />
-
-      When I'm not at the computer, you can find me experimenting with my camera,
-      hitting the gym, or eating out!
-    </div>
-
-    @if(screen.isSmall) {
-    <div class="divider"></div>
-    }
-
-    <app-work-experience-section id="EXPERIENCE" />
-
-    <div class="divider"></div>
-
-    <app-project-section id="PROJECTS" />
-
-    <div class="divider"></div>
-
-    <div class="article-section">
-      <div class="article-section-header">
-        <h1 class="title">Articles</h1>
-        <img src="assets/images/linkClipIcon.png" />
-      </div>
-
-      @for (article of articles; track $index) {
-      <div class="article-list">
-        <a
-          class="article-link"
-          [ngStyle]="screen.isSmall ? { 'text-decoration': 'underline' } : {}"
-          [href]="article.link"
-          target="_blank"
-          >{{ article.name }}</a
-        >
-      </div>
-      }
-    </div>
-  </div>
-
-  <div class="mouse-follower"></div>
+  <app-left-section
+    [currentSection]="currentSection"
+    (sectionChangeEvent)="navigateToSection($event)"
+  />
+  <app-right-section />
 </main>
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<app-mouse-follower />
 
 <router-outlet></router-outlet>
