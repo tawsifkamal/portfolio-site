@@ -1,3 +1,4 @@
+import { TestComponent } from './test/test.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
@@ -18,6 +19,7 @@ import { ScreenSizeService } from './services/screen-size.service';
     TagComponent,
     NavigationComponent,
     ProjectSectionComponent,
+    TestComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
