@@ -110,5 +110,5 @@ export class AppComponent implements AfterViewInit {
     },
   ];
 
-  title = 'portfolio-website';
+  title = 'portfolio-website 🚀';
 }
