@@ -3,6 +3,11 @@
 ## Project Overview
 This repository contains a portfolio website built with **Angular 17**. It utilizes **Server-Side Rendering (SSR)** for better performance and SEO. Additionally, there is a separate experimental backend directory (`server/`) that is currently isolated from the main application.
 
+## Deployment
+The application is currently deployed on:
+- **Render**
+- **Vercel**
+
 ## Architecture
 
 ### Frontend (Angular 17)
@@ -13,7 +18,7 @@ This repository contains a portfolio website built with **Angular 17**. It utili
 
 ### Backend (Experimental)
 - Located in the `server/` directory.
-- **Status**: Isolated and not currently integrated with the main Angular app.
+- **Status**: Isolated and not currently integrated with the main Angular app. This backend is intended for **upcoming AI features** that are not yet implemented.
 - **Contents**:
     - `index.js`: A basic Express server (port 3000).
     - `genAi.js`: A script demonstrating Google Vertex AI integration (image analysis).
