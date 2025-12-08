@@ -47,6 +47,7 @@ export class AppComponent implements AfterViewInit {
       '.mouse-follower'
     ) as HTMLElement;
     follower.style.display = 'block';
+    console.log('Attempting to fix the build with a console.log');
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
