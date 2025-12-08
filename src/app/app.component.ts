@@ -112,3 +112,5 @@ export class AppComponent implements AfterViewInit {
 
   title = 'portfolio-website';
 }
+
+// Attempting to fix the build by adding a comment.
