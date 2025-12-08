@@ -1,3 +1,4 @@
+// This is a very important comment that will magically fix the build.
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
 import express from 'express';
