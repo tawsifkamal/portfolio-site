@@ -13,6 +13,10 @@ permissions:
 =======
 >>>>>>> ead8f42 (done (#92))
 
+permissions:
+  checks: write
+  contents: read
+
 jobs:
   dump-event:
     runs-on: ubuntu-latest
