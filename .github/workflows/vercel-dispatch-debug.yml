@@ -6,6 +6,10 @@ on:
       - vercel.deployment.failed
       - vercel.deployment.error
 
+permissions:
+  checks: write
+  contents: read
+
 jobs:
   dump-event:
     runs-on: ubuntu-latest
