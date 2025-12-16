@@ -1,0 +1,25 @@
+name: Vercel Dispatch Debug
+
+on:
+  repository_dispatch:
+    types:
+      - vercel.deployment.promoted
+      - vercel.deployment.success
+      - vercel.deployment.ready
+      - vercel.deployment.error
+      - vercel.deployment.canceled
+      - vercel.deployment.ignored
+      - vercel.deployment.skipped
+      - vercel.deployment.pending
+      - vercel.deployment.failed
+
+jobs:
+  dump-event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the repository_dispatch payload
+        run: |
+          echo "=== Repository Dispatch Event ==="
+          echo "Event type: ${{ github.event.action }}"
+          echo "Full payload:"
+          echo "${{ toJson(github.event) }}"
