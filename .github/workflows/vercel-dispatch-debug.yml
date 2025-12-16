@@ -3,23 +3,41 @@ name: Vercel Dispatch Debug
 on:
   repository_dispatch:
     types:
-      - vercel.deployment.promoted
-      - vercel.deployment.success
-      - vercel.deployment.ready
-      - vercel.deployment.error
-      - vercel.deployment.canceled
-      - vercel.deployment.ignored
-      - vercel.deployment.skipped
-      - vercel.deployment.pending
       - vercel.deployment.failed
+      - vercel.deployment.error
 
 jobs:
   dump-event:
     runs-on: ubuntu-latest
     steps:
-      - name: Print the repository_dispatch payload
-        run: |
-          echo "=== Repository Dispatch Event ==="
-          echo "Event type: ${{ github.event.action }}"
-          echo "Full payload:"
-          echo "${{ toJson(github.event) }}"
+      - name: Create check run
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get the commit SHA from Vercel's payload
+            const sha = context.payload.client_payload.github.sha;
+            
+            // Create a check run on that commit
+            const checkRun = await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Vercel Deployment Status',
+              head_sha: sha,
+              status: 'in_progress',
+              output: {
+                title: 'Vercel deployment failed',
+                summary: `Vercel deployment failed:\n${context.payload.client_payload.deployment.errorMessage || 'Unknown error'}`
+              }
+            });
+            
+            // Later, mark it as completed
+            await github.rest.checks.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_run_id: checkRun.data.id,
+              status: 'completed',
+              conclusion: 'failure'
+            });
+      
+      - name: Print payload
+        run: echo "${{ toJson(github.event) }}"
