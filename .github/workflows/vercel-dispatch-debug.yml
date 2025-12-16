@@ -75,8 +75,8 @@ jobs:
               console.log(`Posted comment on PR #${pr.number}`);
             }
       
-      - name: Invoke Jules to fix the deployment error
-        uses: google-labs-code/jules-invoke@v1
+      - name: Invoke Jules to fix deployment error
+        uses: google-labs-code/jules-action@v1.0.0
         with:
           prompt: |
             The Vercel deployment just failed with the following error:
