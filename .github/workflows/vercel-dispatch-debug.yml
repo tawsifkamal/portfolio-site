@@ -43,6 +43,59 @@ jobs:
           curl -s "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID" \
             -H "Authorization: Bearer $VERCEL_TOKEN" | jq .
       
+      - name: Find PR and comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.payload.client_payload.git.sha;
+            const deploymentUrl = context.payload.client_payload.url;
+            const errorMessage = context.payload.client_payload.state?.detail || 'Unknown error';
+            
+            // Find PRs associated with this commit
+            const prs = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha
+            });
+            
+            if (prs.data.length > 0) {
+              const pr = prs.data[0];
+              
+              // Post a comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: `🤖 **Jules AI here!**\n\n` +
+                  `I noticed the Vercel deployment failed with: \`${errorMessage}\`\n\n` +
+                  `I'm already on it—analyzing the error and working on a fix. I'll push a commit shortly! 🔧\n\n` +
+                  `[View deployment logs](${deploymentUrl})`
+              });
+              
+              console.log(`Posted comment on PR #${pr.number}`);
+            }
+      
+      - name: Invoke Jules to fix the deployment error
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          prompt: |
+            The Vercel deployment just failed with the following error:
+            
+            **Error:** ${{ github.event.client_payload.state.detail }}
+            **Deployment URL:** ${{ github.event.client_payload.url }}
+            **Commit SHA:** ${{ github.event.client_payload.git.sha }}
+            **Branch:** ${{ github.event.client_payload.git.ref }}
+            
+            Please:
+            1. Analyze the deployment failure
+            2. Identify the root cause from the Vercel error
+            3. Implement a fix
+            4. Create a commit with the fix
+            5. Ensure the fix will pass Vercel's build process
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: ${{ github.event.client_payload.git.ref }}
+          include_last_commit: true
+      
       - name: Create check run on PR
         uses: actions/github-script@v7
         with:
