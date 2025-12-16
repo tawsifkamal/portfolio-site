@@ -5,10 +5,13 @@ on:
     types:
       - vercel.deployment.failed
       - vercel.deployment.error
+<<<<<<< HEAD
 
 permissions:
   checks: write
   contents: read
+=======
+>>>>>>> ead8f42 (done (#92))
 
 jobs:
   dump-event:
