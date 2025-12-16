@@ -3,23 +3,67 @@ name: Vercel Dispatch Debug
 on:
   repository_dispatch:
     types:
-      - vercel.deployment.promoted
-      - vercel.deployment.success
-      - vercel.deployment.ready
-      - vercel.deployment.error
-      - vercel.deployment.canceled
-      - vercel.deployment.ignored
-      - vercel.deployment.skipped
-      - vercel.deployment.pending
       - vercel.deployment.failed
+      - vercel.deployment.error
 
 jobs:
   dump-event:
     runs-on: ubuntu-latest
     steps:
-      - name: Print the repository_dispatch payload
+      - name: Print payload (debug)
         run: |
-          echo "=== Repository Dispatch Event ==="
-          echo "Event type: ${{ github.event.action }}"
+          echo "=== Vercel Deployment Failed ==="
+          echo "Deployment ID: ${{ github.event.client_payload.id }}"
+          echo "Deployment URL: ${{ github.event.client_payload.url }}"
+          echo "Commit SHA: ${{ github.event.client_payload.git.sha }}"
+          echo "Branch: ${{ github.event.client_payload.git.ref }}"
+          echo ""
           echo "Full payload:"
-          echo "${{ toJson(github.event) }}"
+          echo "${{ toJson(github.event.client_payload) }}"
+      
+      - name: Fetch Vercel deployment logs
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          DEPLOYMENT_ID: ${{ github.event.client_payload.id }}
+        run: |
+          echo "Fetching Vercel deployment logs..."
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "⚠️  VERCEL_TOKEN secret not set - cannot fetch logs"
+            echo "To get logs, add VERCEL_TOKEN to repo secrets:"
+            echo "  1. Create token: https://vercel.com/account/tokens"
+            echo "  2. Add to GitHub: Settings → Secrets → Actions → New secret"
+            exit 0
+          fi
+          
+          # Fetch deployment details from Vercel API
+          curl -s "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" | jq .
+      
+      - name: Create check run on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get the commit SHA from Vercel's payload (CORRECT path: git.sha not github.sha)
+            const sha = context.payload.client_payload.git.sha;
+            const deploymentUrl = context.payload.client_payload.url;
+            
+            console.log(`Creating check run for commit ${sha}`);
+            
+            // Create a check run on that commit
+            const checkRun = await github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Vercel Deployment Status',
+              head_sha: sha,
+              status: 'completed',
+              conclusion: 'failure',
+              output: {
+                title: 'Vercel deployment failed',
+                summary: `Vercel deployment failed for this commit.\n\n` +
+                  `**Deployment URL:** ${deploymentUrl}\n` +
+                  `**SHA:** ${sha}\n\n` +
+                  `View full logs at: ${deploymentUrl}`
+              }
+            });
+            
+            console.log(`Check run created: ${checkRun.data.html_url}`);
