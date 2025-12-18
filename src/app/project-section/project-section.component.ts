@@ -115,5 +115,14 @@ export class ProjectSectionComponent {
       linkIconSrc: 'assets/images/linkIcon.png',
       link: 'https://tawsifcoin.vercel.app/',
     },
+    {
+      name: 'Dummy Project',
+      description:
+        'This is a dummy project to demonstrate the new project addition.',
+      imageUrl: 'assets/images/blackJackThumbnail.png',
+      skills: ['Dummy Skill 1', 'Dummy Skill 2', 'Dummy Skill 3'],
+      linkIconSrc: 'assets/images/linkIcon.png',
+      link: 'https://example.com',
+    },
   ];
 }
