@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --invalid-flag",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "lint": "ng lint",
     "serve:ssr:portfolio-website": "node dist/portfolio-website/server/server.mjs"
   },
   "private": true,
