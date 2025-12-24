@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ScreenSizeService {
+export class ScreenSizeService implements OnDestroy {
   private SMALL_SCREEN = '(max-width: 1023px)';
   private MEDIUM_SCREEN = '(min-width: 1024px) and (max-width: 1439px)';
   private LARGE_SCREEN = '(min-width: 1440px)';
@@ -14,13 +14,21 @@ export class ScreenSizeService {
   isMedium: boolean;
   isLarge: boolean;
 
+  private breakpointSubscription: Subscription;
+
   constructor(private breakpointObserver: BreakpointObserver) {
-    breakpointObserver
+    this.breakpointSubscription = breakpointObserver
       .observe([this.SMALL_SCREEN, this.MEDIUM_SCREEN, this.LARGE_SCREEN])
       .subscribe(() => {
         this.isSmall = breakpointObserver.isMatched(this.SMALL_SCREEN);
         this.isMedium = breakpointObserver.isMatched(this.MEDIUM_SCREEN);
         this.isLarge = breakpointObserver.isMatched(this.LARGE_SCREEN);
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.breakpointSubscription) {
+      this.breakpointSubscription.unsubscribe();
+    }
   }
 }
