@@ -34,7 +34,4 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-      
-      # This step will intentionally fail to test CI
-      - name: Intentional CI failure test
-        run: exit 1
+
