@@ -14,6 +14,8 @@ import { ScreenSizeService } from '../services/screen-size.service';
 export class ProjectSectionComponent {
   constructor(public screen: ScreenSizeService) {}
 
+
+
   hoveredProject: string | null = null;
   projects: Project[] = [
     {
@@ -117,3 +119,12 @@ export class ProjectSectionComponent {
     },
   ];
 }
+
+// Add a new function with NO test coverage
+function untestableMath(a: any, b: any) {
+  if (a > 10) {
+    return a * b + 100;  // ← Not covered by any test!
+  }
+  return a - b;  // ← Also not covered!
+}
+export { untestableMath };
