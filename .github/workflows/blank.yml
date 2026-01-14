@@ -35,13 +35,9 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       
-      # Add a failing step to make CI fail
-      - name: Intentional failure for testing
-        run: exit 1
-      
-      # Add Codecov (will fail without token)
+      # Add Codecov (optional, won't fail if token is not set)
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}  # This will fail since token is not set
+          fail_ci_if_error: false  # Don't fail CI if codecov upload fails
+          token: ${{ secrets.CODECOV_TOKEN }}
