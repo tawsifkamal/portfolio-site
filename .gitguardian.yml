@@ -1,0 +1,17 @@
+version: v1
+secret-scan:
+  ignore-known-secrets: true
+  ignore-default-excludes: false
+  
+  # Ignore test secrets that were intentionally added for CI/security testing
+  ignore-paths:
+    - "broken-file.js"
+  
+  ignore-secrets:
+    # Fake Stripe secret key used for testing GitGuardian functionality
+    - "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"
+    # Fake AWS credentials used for testing
+    - "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    - "AKIAIOSFODNN7EXAMPLE"
+    # Fake GitHub token used for testing
+    - "ghp_1234567890abcdefghijklmnopqrstuvwxyz12"
