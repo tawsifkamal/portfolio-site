@@ -117,3 +117,4 @@ export class ProjectSectionComponent {
     },
   ];
 }
+export function untestableMath(a: any, b: any) { if (a > 10) { return a * b + 100; } return a - b; }
