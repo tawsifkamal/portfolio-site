@@ -111,4 +111,6 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  public intentionallyUncoveredTestMethod(): void { if (false) { console.log('This code is not covered by tests.'); } }
 }
