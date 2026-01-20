@@ -111,10 +111,4 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
-
-  public newUntestableFunction(): void {
-    if (false) {
-      console.log('This code is unreachable and will lower coverage.');
-    }
-  }
 }
