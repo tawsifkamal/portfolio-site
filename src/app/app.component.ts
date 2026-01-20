@@ -110,5 +110,7 @@ export class AppComponent implements AfterViewInit {
     },
   ];
 
+  public untestableFunction(): void { if (false) { console.log('This code is unreachable and will not be covered by tests.'); } }
+
   title = 'portfolio-website';
 }
