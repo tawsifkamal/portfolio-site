@@ -1,10 +1,11 @@
 const { VertexAI } = require("@google-cloud/vertexai");
 
 /**
- * TODO(developer): Uncomment these variables before running the sample.
+ * Configuration for Google Cloud Vertex AI
  */
 const projectId = "adept-bison-407117";
 const location = "us-central1";
+const model = "gemini-1.5-flash"; // Model supports both text and image inputs
 const image = "gs://generativeai-downloads/images/scones.jpg"; // Google Cloud Storage image
 const mimeType = "image/jpeg";
 
