@@ -111,10 +111,4 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
-
-  untestableFunction() {
-    if (false) {
-      console.log('unreachable');
-    }
-  }
 }
