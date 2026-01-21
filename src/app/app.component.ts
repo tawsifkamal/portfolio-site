@@ -111,4 +111,8 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  public untestableFunction() {
+    console.log('This function is not tested');
+  }
 }
