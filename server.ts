@@ -54,3 +54,5 @@ function run(): void {
 }
 
 run();
+
+function thisFunctionIsUntested() { let x = 1; x++; return x; }
