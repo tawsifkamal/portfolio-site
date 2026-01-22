@@ -54,4 +54,3 @@ function run(): void {
 }
 
 run();
-export function untestableFunction(a: number): number { if (a > 0) { if (a < 10) { return 1; } } return 0; }
