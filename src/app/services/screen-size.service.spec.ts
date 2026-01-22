@@ -10,8 +10,10 @@ describe('ScreenSizeService', () => {
 
   beforeEach(() => {
     breakpointSubject = new Subject();
-    breakpointObserverSpy = jasmine.createSpyObj('BreakpointObserver', ['observe', 'isMatched']);
-    breakpointObserverSpy.observe.and.returnValue(breakpointSubject.asObservable());
+    breakpointObserverSpy = {
+      observe: jest.fn().mockReturnValue(breakpointSubject.asObservable()),
+      isMatched: jest.fn()
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -35,7 +37,7 @@ describe('ScreenSizeService', () => {
   });
 
   it('should set isSmall to true when small screen breakpoint matches', () => {
-    breakpointObserverSpy.isMatched.and.callFake((query: string) => {
+    breakpointObserverSpy.isMatched.mockImplementation((query: string) => {
       return query === '(max-width: 1023px)';
     });
     
@@ -47,7 +49,7 @@ describe('ScreenSizeService', () => {
   });
 
   it('should set isMedium to true when medium screen breakpoint matches', () => {
-    breakpointObserverSpy.isMatched.and.callFake((query: string) => {
+    breakpointObserverSpy.isMatched.mockImplementation((query: string) => {
       return query === '(min-width: 1024px) and (max-width: 1439px)';
     });
     
@@ -59,7 +61,7 @@ describe('ScreenSizeService', () => {
   });
 
   it('should set isLarge to true when large screen breakpoint matches', () => {
-    breakpointObserverSpy.isMatched.and.callFake((query: string) => {
+    breakpointObserverSpy.isMatched.mockImplementation((query: string) => {
       return query === '(min-width: 1440px)';
     });
     
@@ -72,14 +74,14 @@ describe('ScreenSizeService', () => {
 
   it('should update screen size properties when breakpoint changes', () => {
     // Initially set to small
-    breakpointObserverSpy.isMatched.and.callFake((query: string) => {
+    breakpointObserverSpy.isMatched.mockImplementation((query: string) => {
       return query === '(max-width: 1023px)';
     });
     breakpointSubject.next({});
     expect(service.isSmall).toBe(true);
 
     // Change to large
-    breakpointObserverSpy.isMatched.and.callFake((query: string) => {
+    breakpointObserverSpy.isMatched.mockImplementation((query: string) => {
       return query === '(min-width: 1440px)';
     });
     breakpointSubject.next({});

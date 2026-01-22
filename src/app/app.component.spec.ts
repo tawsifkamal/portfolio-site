@@ -11,41 +11,62 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     const mockStyleElement = {
       style: {},
-      setAttribute: jasmine.createSpy('setAttribute'),
-      appendChild: jasmine.createSpy('appendChild'),
+      setAttribute: jest.fn(),
+      appendChild: jest.fn(),
       sheet: {
         cssRules: [],
-        insertRule: jasmine.createSpy('insertRule'),
-        deleteRule: jasmine.createSpy('deleteRule')
+        insertRule: jest.fn(),
+        deleteRule: jest.fn()
       }
     };
 
+    const mockElement = {
+      style: { display: '' },
+      setAttribute: jest.fn(),
+      appendChild: jest.fn(),
+      removeChild: jest.fn(),
+      offsetTop: 100,
+      scrollIntoView: jest.fn()
+    };
+
     const mockHead = {
-      appendChild: jasmine.createSpy('appendChild'),
-      removeChild: jasmine.createSpy('removeChild'),
-      querySelector: jasmine.createSpy('querySelector').and.returnValue(mockStyleElement),
-      querySelectorAll: jasmine.createSpy('querySelectorAll').and.returnValue([])
+      appendChild: jest.fn(),
+      removeChild: jest.fn(),
+      querySelector: jest.fn().mockReturnValue(mockStyleElement),
+      querySelectorAll: jest.fn().mockReturnValue([])
+    };
+
+    // Create a proper window mock
+    const mockWindow = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      pageYOffset: 0,
+      document: null as any // Will be set after mockDocument is created
     };
 
     mockDocument = {
-      querySelector: jasmine.createSpy('querySelector').and.callFake((selector) => {
+      querySelector: jest.fn().mockImplementation((selector) => {
         if (selector === 'head') return mockHead;
-        return { style: { display: '' } };
+        return mockElement;
       }),
-      querySelectorAll: jasmine.createSpy('querySelectorAll').and.returnValue([]),
-      getElementById: jasmine.createSpy('getElementById').and.returnValue({
-        offsetTop: 100,
-        scrollIntoView: jasmine.createSpy('scrollIntoView')
-      }),
-      createElement: jasmine.createSpy('createElement').and.returnValue(mockStyleElement),
+      querySelectorAll: jest.fn().mockReturnValue([]),
+      getElementById: jest.fn().mockReturnValue(mockElement),
+      createElement: jest.fn().mockReturnValue(mockStyleElement),
       documentElement: { scrollTop: 0 },
       head: mockHead,
       body: { 
         scrollTop: 0,
-        appendChild: jasmine.createSpy('appendChild'),
-        removeChild: jasmine.createSpy('removeChild')
-      }
+        appendChild: jest.fn(),
+        removeChild: jest.fn(),
+        setAttribute: jest.fn()
+      },
+      defaultView: mockWindow,
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn()
     };
+
+    // Set up the circular reference
+    mockWindow.document = mockDocument;
 
     await TestBed.configureTestingModule({
       imports: [AppComponent],
@@ -99,14 +120,14 @@ describe('AppComponent', () => {
   });
 
   it('should return 0 when element is not found', () => {
-    mockDocument.getElementById.and.returnValue(null);
+    mockDocument.getElementById.mockReturnValue(null);
     const offset = component['calculateOffset']('NONEXISTENT', 70);
     expect(offset).toBe(0);
   });
 
   it('should navigate to section when navigateToSection is called', () => {
-    const mockElement = { scrollIntoView: jasmine.createSpy('scrollIntoView') };
-    mockDocument.getElementById.and.returnValue(mockElement);
+    const mockElement = { scrollIntoView: jest.fn() };
+    mockDocument.getElementById.mockReturnValue(mockElement);
     
     component.navigateToSection('ABOUT');
     
@@ -146,7 +167,7 @@ describe('AppComponent', () => {
 
   it('should update mouse follower style on mouse move', () => {
     const mockFollower = { style: { background: '' } };
-    spyOn(document, 'querySelector').and.returnValue(mockFollower as any);
+    jest.spyOn(document, 'querySelector').mockReturnValue(mockFollower as any);
     
     const mockEvent = { clientX: 100, clientY: 200 } as MouseEvent;
     component.onMouseMove(mockEvent);

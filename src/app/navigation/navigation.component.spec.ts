@@ -33,7 +33,7 @@ describe('NavigationComponent', () => {
   });
 
   it('should emit sectionChangeEvent when selectItem is called', () => {
-    spyOn(component.sectionChangeEvent, 'emit');
+    jest.spyOn(component.sectionChangeEvent, 'emit');
 
     component.selectItem('EXPERIENCE');
 
@@ -41,7 +41,7 @@ describe('NavigationComponent', () => {
   });
 
   it('should emit the correct section when selectItem is called multiple times', () => {
-    spyOn(component.sectionChangeEvent, 'emit');
+    jest.spyOn(component.sectionChangeEvent, 'emit');
 
     component.selectItem('ABOUT');
     expect(component.sectionChangeEvent.emit).toHaveBeenCalledWith('ABOUT');
