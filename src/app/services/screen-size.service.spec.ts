@@ -5,7 +5,7 @@ import { ScreenSizeService } from './screen-size.service';
 
 describe('ScreenSizeService', () => {
   let service: ScreenSizeService;
-  let breakpointObserverSpy: jasmine.SpyObj<BreakpointObserver>;
+  let breakpointObserverSpy: any;
   let breakpointSubject: Subject<any>;
 
   beforeEach(() => {

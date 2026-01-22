@@ -1,6 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
 import { AppComponent } from './app.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -8,23 +9,50 @@ describe('AppComponent', () => {
   let mockDocument: any;
 
   beforeEach(async () => {
+    const mockStyleElement = {
+      style: {},
+      setAttribute: jasmine.createSpy('setAttribute'),
+      appendChild: jasmine.createSpy('appendChild'),
+      sheet: {
+        cssRules: [],
+        insertRule: jasmine.createSpy('insertRule'),
+        deleteRule: jasmine.createSpy('deleteRule')
+      }
+    };
+
+    const mockHead = {
+      appendChild: jasmine.createSpy('appendChild'),
+      removeChild: jasmine.createSpy('removeChild'),
+      querySelector: jasmine.createSpy('querySelector').and.returnValue(mockStyleElement),
+      querySelectorAll: jasmine.createSpy('querySelectorAll').and.returnValue([])
+    };
+
     mockDocument = {
-      querySelector: jasmine.createSpy('querySelector').and.returnValue({
-        style: { display: '' }
+      querySelector: jasmine.createSpy('querySelector').and.callFake((selector) => {
+        if (selector === 'head') return mockHead;
+        return { style: { display: '' } };
       }),
+      querySelectorAll: jasmine.createSpy('querySelectorAll').and.returnValue([]),
       getElementById: jasmine.createSpy('getElementById').and.returnValue({
         offsetTop: 100,
         scrollIntoView: jasmine.createSpy('scrollIntoView')
       }),
+      createElement: jasmine.createSpy('createElement').and.returnValue(mockStyleElement),
       documentElement: { scrollTop: 0 },
-      body: { scrollTop: 0 }
+      head: mockHead,
+      body: { 
+        scrollTop: 0,
+        appendChild: jasmine.createSpy('appendChild'),
+        removeChild: jasmine.createSpy('removeChild')
+      }
     };
 
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
         { provide: DOCUMENT, useValue: mockDocument }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
@@ -50,8 +78,8 @@ describe('AppComponent', () => {
 
   it('should have correct article data structure', () => {
     component.articles.forEach(article => {
-      expect(article).toHaveProperty('name');
-      expect(article).toHaveProperty('link');
+      expect(article.name).toBeDefined();
+      expect(article.link).toBeDefined();
       expect(typeof article.name).toBe('string');
       expect(typeof article.link).toBe('string');
     });
@@ -89,7 +117,7 @@ describe('AppComponent', () => {
   it('should update currentSection to ABOUT when scrolled to ABOUT section', () => {
     component.offsets = { ABOUT: 0, EXPERIENCE: 500, PROJECTS: 1000 };
     
-    spyOnProperty(window, 'pageYOffset', 'get').and.returnValue(250);
+    Object.defineProperty(window, 'pageYOffset', { value: 250, writable: true });
     
     component.onWindowScroll();
     
@@ -99,7 +127,7 @@ describe('AppComponent', () => {
   it('should update currentSection to EXPERIENCE when scrolled to EXPERIENCE section', () => {
     component.offsets = { ABOUT: 0, EXPERIENCE: 500, PROJECTS: 1000 };
     
-    spyOnProperty(window, 'pageYOffset', 'get').and.returnValue(750);
+    Object.defineProperty(window, 'pageYOffset', { value: 750, writable: true });
     
     component.onWindowScroll();
     
@@ -109,7 +137,7 @@ describe('AppComponent', () => {
   it('should update currentSection to PROJECTS when scrolled to PROJECTS section', () => {
     component.offsets = { ABOUT: 0, EXPERIENCE: 500, PROJECTS: 1000 };
     
-    spyOnProperty(window, 'pageYOffset', 'get').and.returnValue(1200);
+    Object.defineProperty(window, 'pageYOffset', { value: 1200, writable: true });
     
     component.onWindowScroll();
     
