@@ -1,81 +1,32 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { DOCUMENT } from '@angular/common';
 import { AppComponent } from './app.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ScreenSizeService } from './services/screen-size.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let mockDocument: any;
+  let mockBreakpointObserver: jest.Mocked<BreakpointObserver>;
 
   beforeEach(async () => {
-    const mockStyleElement = {
-      style: {},
-      setAttribute: jest.fn(),
-      appendChild: jest.fn(),
-      sheet: {
-        cssRules: [],
-        insertRule: jest.fn(),
-        deleteRule: jest.fn()
-      }
-    };
-
-    const mockElement = {
-      style: { display: '' },
-      setAttribute: jest.fn(),
-      appendChild: jest.fn(),
-      removeChild: jest.fn(),
-      offsetTop: 100,
-      scrollIntoView: jest.fn()
-    };
-
-    const mockHead = {
-      appendChild: jest.fn(),
-      removeChild: jest.fn(),
-      querySelector: jest.fn().mockReturnValue(mockStyleElement),
-      querySelectorAll: jest.fn().mockReturnValue([])
-    };
-
-    // Create a proper window mock
-    const mockWindow = {
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      pageYOffset: 0,
-      document: null as any // Will be set after mockDocument is created
-    };
-
-    mockDocument = {
-      querySelector: jest.fn().mockImplementation((selector) => {
-        if (selector === 'head') return mockHead;
-        return mockElement;
-      }),
-      querySelectorAll: jest.fn().mockReturnValue([]),
-      getElementById: jest.fn().mockReturnValue(mockElement),
-      createElement: jest.fn().mockReturnValue(mockStyleElement),
-      documentElement: { scrollTop: 0 },
-      head: mockHead,
-      body: { 
-        scrollTop: 0,
-        appendChild: jest.fn(),
-        removeChild: jest.fn(),
-        setAttribute: jest.fn()
-      },
-      defaultView: mockWindow,
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn()
-    };
-
-    // Set up the circular reference
-    mockWindow.document = mockDocument;
+    // Mock BreakpointObserver
+    mockBreakpointObserver = {
+      observe: jest.fn().mockReturnValue(of({ matches: false }))
+    } as any;
 
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
-        { provide: DOCUMENT, useValue: mockDocument }
+        { provide: BreakpointObserver, useValue: mockBreakpointObserver },
+        ScreenSizeService
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
   });
@@ -107,6 +58,11 @@ describe('AppComponent', () => {
   });
 
   it('should initialize offsets in ngAfterViewInit', () => {
+    // Mock document.getElementById for this test
+    const mockElement = { offsetTop: 100 };
+    jest.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
+    jest.spyOn(document, 'querySelector').mockReturnValue({ style: { display: '' } } as any);
+    
     component.ngAfterViewInit();
     
     expect(component.offsets.ABOUT).toBeDefined();
@@ -115,23 +71,26 @@ describe('AppComponent', () => {
   });
 
   it('should calculate offset correctly', () => {
+    const mockElement = { offsetTop: 100 };
+    jest.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
+    
     const offset = component['calculateOffset']('ABOUT', 70);
     expect(offset).toBe(30); // 100 (offsetTop) - 70 (padding)
   });
 
   it('should return 0 when element is not found', () => {
-    mockDocument.getElementById.mockReturnValue(null);
+    jest.spyOn(document, 'getElementById').mockReturnValue(null);
     const offset = component['calculateOffset']('NONEXISTENT', 70);
     expect(offset).toBe(0);
   });
 
   it('should navigate to section when navigateToSection is called', () => {
     const mockElement = { scrollIntoView: jest.fn() };
-    mockDocument.getElementById.mockReturnValue(mockElement);
+    jest.spyOn(document, 'getElementById').mockReturnValue(mockElement as any);
     
     component.navigateToSection('ABOUT');
     
-    expect(mockDocument.getElementById).toHaveBeenCalledWith('ABOUT');
+    expect(document.getElementById).toHaveBeenCalledWith('ABOUT');
     expect(mockElement.scrollIntoView).toHaveBeenCalled();
   });
 
