@@ -113,7 +113,7 @@ export class AppComponent implements AfterViewInit {
   title = 'portfolio-website';
 
   untestedMethod() {
-    if (true) {
+    if (Math.random() > -1) {
       console.log('This is untested code');
       return 'untested';
     }
