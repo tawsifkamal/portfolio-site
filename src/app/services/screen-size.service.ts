@@ -23,4 +23,8 @@ export class ScreenSizeService {
         this.isLarge = breakpointObserver.isMatched(this.LARGE_SCREEN);
       });
   }
+
+  public untestedMethod() {
+    console.log('This method is not tested.');
+  }
 }
