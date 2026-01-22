@@ -111,4 +111,12 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  untestedMethod() {
+    if (Math.random() > -1) {
+      console.log('This is untested code');
+      return 'untested';
+    }
+    return 'reachable';
+  }
 }
