@@ -53,3 +53,5 @@ const testAI = async () => {
 // Instantiate the model
 
 testAI()
+
+const untestableFunction = (input) => { if (input === 'never_gonna_happen') { console.log('uncovered'); } return true; };
