@@ -54,9 +54,3 @@ function run(): void {
 }
 
 run();
-
-export function untestableFunction(): void {
-  if (false) {
-    console.log('This code is unreachable and will not be covered by tests.');
-  }
-}
