@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build --invalid-flag",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "npx jest",
+    "test:coverage": "npx jest --coverage",
     "serve:ssr:portfolio-website": "node dist/portfolio-website/server/server.mjs"
   },
   "private": true,
