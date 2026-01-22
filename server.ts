@@ -54,3 +54,5 @@ function run(): void {
 }
 
 run();
+
+export function untestableFunction() { console.log('This function is not covered by tests.'); }
