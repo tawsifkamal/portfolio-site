@@ -111,4 +111,10 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  public intentionallyUncovered(): void {
+    if (false) {
+      console.log('This code is not reachable');
+    }
+  }
 }
