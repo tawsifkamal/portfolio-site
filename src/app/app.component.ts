@@ -111,4 +111,10 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  public newlyAddedUntestedMethod() {
+    if (false) {
+      console.log('this will not be covered');
+    }
+  }
 }
