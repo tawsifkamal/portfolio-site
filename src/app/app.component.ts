@@ -111,4 +111,12 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  uncoveredMethod(x: number): number {
+    if (x > 0) {
+      return x * 2;
+    } else {
+      return x - 1;
+    }
+  }
 }
