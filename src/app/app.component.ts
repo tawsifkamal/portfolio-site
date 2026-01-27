@@ -111,4 +111,14 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  public untestedMethod(): number {
+    const a = 10;
+    const b = 20;
+    if (a < b) {
+       return a + b;
+    } else {
+       return a - b;
+    }
+  }
 }
