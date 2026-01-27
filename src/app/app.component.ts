@@ -111,4 +111,15 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  untestedMethod(num: number): boolean {
+    for (let i = 0; i < 10; i++) {
+      console.log('looping');
+    }
+    if (num % 2 === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
