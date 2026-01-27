@@ -113,16 +113,17 @@ export class AppComponent implements AfterViewInit {
   title = 'portfolio-website';
 
   unusedMethod(a: number, b: number): number {
+    let result = 0;
     if (a > b) {
-      return a - b;
+      result = a - b;
     } else {
-      return b - a;
+      result = b - a;
     }
     console.log('This is unused code');
     let x = 0;
     for (let i = 0; i < 100; i++) {
       x += i;
     }
-    return x;
+    return result + x;
   }
 }
