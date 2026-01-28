@@ -111,4 +111,30 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  untestedMethod1() {
+    console.log('This method is not tested.');
+    if (Math.random() > 0.5) {
+      return 'A';
+    } else {
+      return 'B';
+    }
+  }
+
+  untestedMethod2(input: number) {
+    switch (input) {
+      case 1:
+        return 'One';
+      case 2:
+        return 'Two';
+      default:
+        return 'Many';
+    }
+  }
+
+  untestedMethod3() {
+    for (let i = 0; i < 10; i++) {
+      console.log(i);
+    }
+  }
 }
