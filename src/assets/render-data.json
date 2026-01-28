@@ -1,0 +1,38 @@
+{
+  "service": {
+    "id": "srv-d4nn3r3e5dus7388a3og",
+    "name": "Tawsif's Portfolio Site",
+    "type": "web_service",
+    "region": "oregon",
+    "url": "https://tawsifs-portfolio-site.onrender.com",
+    "dashboardUrl": "https://dashboard.render.com/web/srv-d4nn3r3e5dus7388a3og",
+    "status": "not_suspended",
+    "updatedAt": "2026-01-14T05:13:01.408409Z"
+  },
+  "deployments": [
+    {
+      "id": "dep-d5t7a5emcj7s7391qbe0",
+      "status": "build_failed",
+      "createdAt": "2026-01-28T20:44:06.038493Z",
+      "finishedAt": "2026-01-28T20:45:20.472049Z",
+      "commitMessage": "Remove untested code to establish coverage baseline",
+      "trigger": "new_commit"
+    },
+    {
+      "id": "dep-d5t57n6mcj7s739112bg",
+      "status": "build_failed",
+      "createdAt": "2026-01-28T18:22:20.724428Z",
+      "finishedAt": "2026-01-28T18:23:30.795488Z",
+      "commitMessage": "ci: Increase Codecov project coverage target to 99%.",
+      "trigger": "new_commit"
+    },
+    {
+      "id": "dep-d5t486vdiees73b11p20",
+      "status": "build_failed",
+      "createdAt": "2026-01-28T17:15:08.05117Z",
+      "finishedAt": "2026-01-28T17:16:10.66919Z",
+      "commitMessage": "Add test workflows and untested code for CI failure testing",
+      "trigger": "new_commit"
+    }
+  ]
+}

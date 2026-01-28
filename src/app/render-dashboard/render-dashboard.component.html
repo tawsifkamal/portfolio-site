@@ -1,0 +1,26 @@
+<div class="dashboard-container" *ngIf="renderData">
+  <h2 class="section-title">Render Deployment Dashboard</h2>
+
+  <div class="service-info">
+    <h3>Service: {{ renderData.service.name }}</h3>
+    <p><strong>Status:</strong> <span [style.color]="getStatusColor(renderData.service.status)">{{ renderData.service.status }}</span></p>
+    <p><strong>Region:</strong> {{ renderData.service.region }}</p>
+    <p><strong>URL:</strong> <a [href]="renderData.service.url" target="_blank">{{ renderData.service.url }}</a></p>
+    <p><a [href]="renderData.service.dashboardUrl" target="_blank" class="external-link">View on Render Dashboard</a></p>
+  </div>
+
+  <div class="deployments-section">
+    <h3>Recent Deployments</h3>
+    <div class="deployment-card" *ngFor="let dep of renderData.deployments">
+      <div class="deployment-header">
+        <span class="status-indicator" [style.background-color]="getStatusColor(dep.status)"></span>
+        <span class="dep-id">{{ dep.id }}</span>
+        <span class="dep-status">{{ dep.status }}</span>
+      </div>
+      <div class="dep-details">
+        <p class="dep-commit">{{ dep.commitMessage }}</p>
+        <p class="dep-time">{{ dep.createdAt | date:'medium' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
