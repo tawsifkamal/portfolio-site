@@ -111,4 +111,20 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  untestedMethod() {
+    if (true) {
+      console.log('untested');
+    } else {
+      console.log('impossible');
+    }
+    for(let i=0; i<100; i++) {
+      console.log(i);
+      if (i % 2 === 0) {
+         console.log('even');
+      } else {
+         console.log('odd');
+      }
+    }
+  }
 }
