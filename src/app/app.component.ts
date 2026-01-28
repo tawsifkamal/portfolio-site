@@ -7,6 +7,7 @@ import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
+import { UntestedService } from './services/untested.service';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,8 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
+    public screen: ScreenSizeService,
+    private untested: UntestedService
   ) {}
 
   ngAfterViewInit() {

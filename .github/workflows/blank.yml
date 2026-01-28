@@ -22,6 +22,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run a one-line script
         run: echo Hello, world!
+      - name: Intentional failure
+        run: exit 1
       - name: Run a multi-line script
         run: |
           echo Add other actions to build,
@@ -34,6 +36,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Echo lint message
         run: echo "Running lint checks..."
+      - name: Illegal command
+        run: some-illegal-command --fail
       - name: List files
         run: ls -la
 
@@ -44,6 +48,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Echo type check message
         run: echo "Running type checks..."
+      - name: Intentional failure
+        run: exit 1
       - name: Show node version
         run: node --version || echo "Node not installed"
 
