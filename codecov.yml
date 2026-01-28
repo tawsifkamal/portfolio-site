@@ -7,7 +7,7 @@ coverage:
     # Project coverage - overall project coverage check
     project:
       default:
-        target: 80%  # Must maintain 80% overall coverage
+        target: 99%  # Impossible target - will always fail
         threshold: 1%  # Allow 1% drop before failing
         # This will create a "codecov/project" check run
 
