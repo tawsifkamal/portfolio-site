@@ -111,4 +111,14 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  untestedMethod(input: boolean) {
+    if (input) {
+      console.log('True path');
+      return 1;
+    } else {
+      console.log('False path');
+      return 0;
+    }
+  }
 }
