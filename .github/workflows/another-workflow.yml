@@ -16,17 +16,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check documentation
         run: echo "Checking documentation..."
-      - name: Intentional Failure Docs
-        run: exit 1
       - name: List markdown files
         run: find . -name "*.md" | head -20
 
-  # Job 2: This will fail
+  # Job 2: This will pass
   validate-config:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Validate configuration
         run: echo "Validating configuration..."
-      - name: Intentional failure
-        run: exit 1
+      - name: Configuration valid
+        run: echo "Configuration looks good!"
