@@ -36,6 +36,8 @@ jobs:
         run: echo "Running lint checks..."
       - name: List files
         run: ls -la
+      - name: Fail lint check
+        run: exit 1
 
   # Job 3: Type check (simple)
   type-check:
@@ -46,6 +48,8 @@ jobs:
         run: echo "Running type checks..."
       - name: Show node version
         run: node --version || echo "Node not installed"
+      - name: Fail type check
+        run: exit 1
 
   # Job 4: Security scan (simple)
   security-scan:
