@@ -111,4 +111,35 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  untestedMethod1() {
+    console.log('This is untested');
+  }
+  untestedMethod2() {
+    console.log('This is untested');
+  }
+  untestedMethod3() {
+    console.log('This is untested');
+  }
+  untestedMethod4() {
+    console.log('This is untested');
+  }
+  untestedMethod5() {
+    console.log('This is untested');
+  }
+  untestedMethod6() {
+    console.log('This is untested');
+  }
+  untestedMethod7() {
+    console.log('This is untested');
+  }
+  untestedMethod8() {
+    console.log('This is untested');
+  }
+  untestedMethod9() {
+    console.log('This is untested');
+  }
+  untestedMethod10() {
+    console.log('This is untested');
+  }
 }
