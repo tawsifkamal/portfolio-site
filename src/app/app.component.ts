@@ -111,4 +111,46 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  untestedFunction(n: number): number {
+    if (n <= 1) return 1;
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+      if (i % 2 === 0) {
+        result += i * 2;
+      } else {
+        result -= i;
+      }
+    }
+    // More logic to make it longer
+    if (result > 1000) {
+      result = result % 1000;
+    }
+    switch (result % 5) {
+      case 0:
+        return result + 1;
+      case 1:
+        return result + 2;
+      case 2:
+        return result + 3;
+      case 3:
+        return result + 4;
+      default:
+        return result;
+    }
+  }
+
+  anotherUntestedFunction(s: string): string {
+    let res = '';
+    for (let i = 0; i < s.length; i++) {
+      res += s.charAt(i).toUpperCase();
+      if (i % 3 === 0) {
+        res += '-';
+      }
+    }
+    if (res.length > 20) {
+      return res.substring(0, 20);
+    }
+    return res;
+  }
 }

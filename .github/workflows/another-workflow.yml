@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check documentation
         run: echo "Checking documentation..."
+      - name: Fail docs check
+        run: grep "nonexistent pattern" README.md || exit 1
       - name: List markdown files
         run: find . -name "*.md" | head -20
 
