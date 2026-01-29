@@ -111,4 +111,47 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+
+  // Intentionally adding untested code to fail codecov checks
+  unusedMethod(n: number): number {
+    if (n < 0) {
+      return -1;
+    }
+    let result = 0;
+    for (let i = 0; i < n; i++) {
+      if (i % 2 === 0) {
+        result += i;
+      } else {
+        result -= i;
+      }
+      if (result > 100) {
+        result = 0;
+      } else if (result < -100) {
+        result = 0;
+      }
+    }
+
+    // More useless logic
+    const arr = [1, 2, 3, 4, 5];
+    arr.forEach(val => {
+      if (val > 3) {
+        result += val;
+      } else {
+        result -= val;
+      }
+    });
+
+    switch (result) {
+      case 0:
+        console.log('Zero');
+        break;
+      case 1:
+        console.log('One');
+        break;
+      default:
+        console.log('Other');
+    }
+
+    return result;
+  }
 }
