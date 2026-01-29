@@ -111,6 +111,7 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+  // 🐛 coverage fail
 
   untestedFunction(n: number): number {
     if (n <= 1) return 1;
