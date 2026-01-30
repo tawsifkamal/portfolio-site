@@ -1,6 +1,6 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, AfterViewInit, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
@@ -32,21 +32,64 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone,
     public screen: ScreenSizeService
   ) {}
 
   ngAfterViewInit() {
-    this.offsets = {
-      ABOUT: this.calculateOffset('ABOUT', 70),
-      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
-      PROJECTS: this.calculateOffset('PROJECTS', 70),
-    };
+    if (isPlatformBrowser(this.platformId)) {
+      this.offsets = {
+        ABOUT: this.calculateOffset('ABOUT', 70),
+        EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
+        PROJECTS: this.calculateOffset('PROJECTS', 70),
+      };
 
+      const follower = this.document.querySelector(
+        '.mouse-follower'
+      ) as HTMLElement;
+      if (follower) {
+        follower.style.display = 'block';
 
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
+        this.ngZone.runOutsideAngular(() => {
+          this.document.addEventListener('mousemove', (e: MouseEvent) => {
+            follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+          });
+        });
+      }
+
+      this.ngZone.runOutsideAngular(() => {
+        window.addEventListener('scroll', () => {
+          const scrollPosition =
+            window.pageYOffset ||
+            this.document.documentElement.scrollTop ||
+            this.document.body.scrollTop ||
+            0;
+
+          let newSection = this.currentSection;
+
+          if (
+            scrollPosition > this.offsets['ABOUT'] &&
+            scrollPosition < this.offsets['EXPERIENCE']
+          ) {
+            newSection = 'ABOUT';
+          } else if (
+            scrollPosition > this.offsets['EXPERIENCE'] &&
+            scrollPosition < this.offsets['PROJECTS']
+          ) {
+            newSection = 'EXPERIENCE';
+          } else if (scrollPosition > this.offsets['PROJECTS']) {
+            newSection = 'PROJECTS';
+          }
+
+          if (newSection !== this.currentSection) {
+            this.ngZone.run(() => {
+              this.currentSection = newSection;
+            });
+          }
+        });
+      });
+    }
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
@@ -58,37 +101,6 @@ export class AppComponent implements AfterViewInit {
 
   navigateToSection(section: string) {
     this.document.getElementById(section)?.scrollIntoView();
-  }
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    // Get current scroll position
-    const scrollPosition =
-      window.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop ||
-      0;
-
-    if (
-      scrollPosition > this.offsets['ABOUT'] &&
-      scrollPosition < this.offsets['EXPERIENCE']
-    ) {
-      this.currentSection = 'ABOUT';
-    } else if (
-      scrollPosition > this.offsets['EXPERIENCE'] &&
-      scrollPosition < this.offsets['PROJECTS']
-    ) {
-      this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
-    }
-  }
-
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
   }
 
   articles: Article[] = [
