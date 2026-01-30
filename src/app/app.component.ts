@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, AfterViewInit, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, Inject, NgZone, PLATFORM_ID } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -23,12 +23,15 @@ import { ScreenSizeService } from './services/screen-size.service';
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
   offsets = {
     ABOUT: 0,
     EXPERIENCE: 0,
     PROJECTS: 0,
   };
+
+  private scrollListener: (() => void) | undefined;
+  private mouseMoveListener: ((e: MouseEvent) => void) | undefined;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -52,14 +55,15 @@ export class AppComponent implements AfterViewInit {
         follower.style.display = 'block';
 
         this.ngZone.runOutsideAngular(() => {
-          this.document.addEventListener('mousemove', (e: MouseEvent) => {
+          this.mouseMoveListener = (e: MouseEvent) => {
             follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
-          });
+          };
+          this.document.addEventListener('mousemove', this.mouseMoveListener);
         });
       }
 
       this.ngZone.runOutsideAngular(() => {
-        window.addEventListener('scroll', () => {
+        this.scrollListener = () => {
           const scrollPosition =
             window.pageYOffset ||
             this.document.documentElement.scrollTop ||
@@ -87,8 +91,18 @@ export class AppComponent implements AfterViewInit {
               this.currentSection = newSection;
             });
           }
-        });
+        };
+        window.addEventListener('scroll', this.scrollListener);
       });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.mouseMoveListener) {
+      this.document.removeEventListener('mousemove', this.mouseMoveListener);
+    }
+    if (this.scrollListener) {
+      window.removeEventListener('scroll', this.scrollListener);
     }
   }
 
