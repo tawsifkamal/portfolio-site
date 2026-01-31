@@ -1,10 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { PortfolioService } from './services/portfolio.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
+    const portfolioServiceMock = {
+      articles: []
+    };
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: PortfolioService, useValue: portfolioServiceMock }
+      ]
     }).compileComponents();
   });
 
