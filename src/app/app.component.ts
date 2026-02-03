@@ -129,7 +129,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   onMouseMove(e: MouseEvent, follower: HTMLElement) {
     // Update background style for radial gradient to follow the cursor
     if (follower) {
-      follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+      this.renderer.setStyle(
+        follower,
+        'background',
+        `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`
+      );
     }
   }
 
