@@ -17,16 +17,16 @@
       class="navigation" />
 
     <div class="profile-icons">
-      <a href="https://www.youtube.com/channel/UCfYIV34hpU_DXoOnYGngfWQ" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.youtube.com/channel/UCfYIV34hpU_DXoOnYGngfWQ" target="_blank">
         <img src="assets/profileIcons/youtube-outline.png" />
       </a>
-      <a href="https://www.linkedin.com/in/tawsif-kamal/" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.linkedin.com/in/tawsif-kamal/" target="_blank">
         <img src="assets/profileIcons/linkedin-outline.png" />
       </a>
-      <a href="https://github.com/tawsifkamal" target="_blank" rel="noopener noreferrer">
+      <a href="https://github.com/tawsifkamal" target="_blank">
         <img src="assets/profileIcons/github-outline.png" />
       </a>
-      <a href="https://medium.com/@tawsifkamal" target="_blank" rel="noopener noreferrer">
+      <a href="https://medium.com/@tawsifkamal" target="_blank">
         <img src="assets/profileIcons/medium-outline.png" />
       </a>
     </div>
@@ -57,7 +57,7 @@
       @for (article of articles; track $index) {
       <div class="article-list">
         <a class="article-link" [ngStyle]="screen.isSmall ? { 'text-decoration': 'underline' } : {}"
-          [href]="article.link" target="_blank" rel="noopener noreferrer">{{ article.name }}</a>
+          [href]="article.link" target="_blank">{{ article.name }}</a>
       </div>
       }
     </div>
@@ -65,5 +65,13 @@
 
   <div class="mouse-follower"></div>
 </main>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <router-outlet></router-outlet>
