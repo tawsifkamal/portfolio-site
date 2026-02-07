@@ -26,4 +26,16 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Tawsif Kamal');
   });
+
+  it('should have rel="noopener noreferrer" on all target="_blank" links', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    const links = compiled.querySelectorAll('a[target="_blank"]');
+    links.forEach((link) => {
+      const rel = link.getAttribute('rel');
+      expect(rel).toContain('noopener');
+      expect(rel).toContain('noreferrer');
+    });
+  });
 });
