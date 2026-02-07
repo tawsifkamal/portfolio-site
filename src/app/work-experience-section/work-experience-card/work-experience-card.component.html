@@ -8,6 +8,7 @@
     <img
       [src]="workExperience.logoSrc"
       class="logo"
+      [alt]="workExperience.company + ' Logo'"
       [ngStyle]="
         workExperience.additionalInfo && screen.isLarge
           ? { 'margin-top': '-2.45em' }
@@ -22,7 +23,7 @@
         @if (screen.isSmall || screen.isMedium) {
         <div class="role-and-company-section">
           <p>{{ workExperience.company }}</p>
-          <img [src]="workExperience.logoSrc" class="logo" />
+          <img [src]="workExperience.logoSrc" class="logo" [alt]="workExperience.company + ' Logo'" />
         </div>
 
         <p class="role">{{ workExperience.role }}</p>

@@ -2,13 +2,14 @@
   [ngStyle]="{ color: 'inherit', textDecoration: 'none' }"
   [href]="project.link"
   target="_blank"
+  rel="noopener noreferrer"
 >
   <div class="container">
     <div class="left-section">
       <div class="img-wrapper">
-        <img [src]="project.imageUrl" />
+        <img [src]="project.imageUrl" [alt]="project.name + ' Thumbnail'" />
         @if (project.linkIconSrc && !screen.isLarge) {
-        <img class="icon" [src]="project.linkIconSrc" />
+        <img class="icon" [src]="project.linkIconSrc" [alt]="project.name + ' Link'" />
         }
       </div>
     </div>
@@ -18,7 +19,7 @@
           {{ project.name }}
         </p>
         @if (project.linkIconSrc && screen.isLarge) {
-        <img class="icon" [src]="project.linkIconSrc" />
+        <img class="icon" [src]="project.linkIconSrc" [alt]="project.name + ' Link'" />
         }
       </div>
 
