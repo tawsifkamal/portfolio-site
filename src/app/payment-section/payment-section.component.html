@@ -1,0 +1,68 @@
+<div class="payment-section">
+  <div class="section-header">
+    <h1 class="title">Payment Methods</h1>
+    <span class="header-icon">💰</span>
+  </div>
+
+  <div class="payment-methods-grid">
+    @for (method of paymentMethods; track method.id) {
+      <app-payment-card
+        [method]="method"
+        [isSelected]="selectedMethod === method.type"
+        (selected)="selectMethod($event)"
+      />
+    }
+  </div>
+
+  @if (selectedMethod) {
+    <div class="payment-form">
+      <h3 class="form-title">
+        Pay with {{ getSelectedMethodLabel() }}
+      </h3>
+
+      <div class="form-group">
+        <label for="amount" class="form-label">Amount</label>
+        <input
+          id="amount"
+          type="number"
+          class="form-input"
+          [(ngModel)]="amount"
+          placeholder="Enter amount"
+          min="0"
+          step="0.01"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="currency" class="form-label">Currency</label>
+        <select
+          id="currency"
+          class="form-input"
+          [(ngModel)]="currency"
+        >
+          <option value="USD">USD - US Dollar</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="GBP">GBP - British Pound</option>
+        </select>
+      </div>
+
+      <button
+        class="pay-button"
+        (click)="submitPayment()"
+        [disabled]="amount <= 0"
+      >
+        Pay {{ amount > 0 ? amount : '' }} {{ currency }}
+      </button>
+    </div>
+  }
+
+  @if (paymentMessage) {
+    <div
+      class="payment-result"
+      [class.success]="paymentSuccess"
+      [class.error]="!paymentSuccess"
+    >
+      {{ paymentMessage }}
+    </div>
+  }
+</div>
