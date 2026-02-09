@@ -1,0 +1,21 @@
+.section-title {
+  color: var(--secondary-text-color);
+  font-family: var(--font-family);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: bolder;
+}
+
+.payments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.payment-item {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.blurred {
+  opacity: 60%;
+}

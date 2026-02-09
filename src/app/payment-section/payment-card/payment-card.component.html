@@ -1,0 +1,24 @@
+<div class="payment-card">
+  <div class="icon-box">
+    {{ payment.icon }}
+  </div>
+  <div class="payment-details">
+    <h3 class="payment-name">{{ payment.name }}</h3>
+    <p class="payment-description">{{ payment.description }}</p>
+    <div class="payment-info">
+      <div class="info-item">
+        <span class="info-label">Processing Time:</span>
+        <span class="info-value">{{ payment.processingTime }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Fee:</span>
+        <span class="info-value">{{ payment.fee }}</span>
+      </div>
+    </div>
+    <div class="currency-tags">
+      @for (currency of payment.supportedCurrencies; track currency) {
+        <app-tag [text]="currency" />
+      }
+    </div>
+  </div>
+</div>

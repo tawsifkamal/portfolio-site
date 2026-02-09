@@ -1,0 +1,16 @@
+<div class="section-container">
+  <h2 class="section-title">Payments</h2>
+  <div class="payments-list">
+    @for (payment of payments; track payment.name) {
+      <div
+        class="payment-item"
+        [class.blurred]="hoveredPayment !== null && hoveredPayment !== payment.name"
+        (mouseenter)="hoveredPayment = payment.name"
+        (mouseleave)="hoveredPayment = null">
+        <app-payment-card
+          [payment]="payment"
+          [hoveredPayment]="hoveredPayment" />
+      </div>
+    }
+  </div>
+</div>
