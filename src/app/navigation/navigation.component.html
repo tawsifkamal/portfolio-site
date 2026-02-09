@@ -23,4 +23,12 @@
     <span class="menu-line"></span>
     <span class="menu-text">PROJECTS</span>
   </div>
+  <div
+    class="menu-item"
+    [ngClass]="{ selected: selectedItem === 'PAYMENTS' }"
+    (click)="selectItem('PAYMENTS')"
+  >
+    <span class="menu-line"></span>
+    <span class="menu-text">PAYMENTS</span>
+  </div>
 </div>
