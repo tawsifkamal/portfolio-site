@@ -58,6 +58,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       const follower = this.document.querySelector(
         '.mouse-follower'
       ) as HTMLElement;
+
       if (follower) {
         follower.style.display = 'block';
       }
