@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --invalid-flag",
     "watch": "ng build --watch --configuration development",
-    "test": "npx jest",
+    "test": "ng test",
     "serve:ssr:portfolio-website": "node dist/portfolio-website/server/server.mjs"
   },
   "private": true,
