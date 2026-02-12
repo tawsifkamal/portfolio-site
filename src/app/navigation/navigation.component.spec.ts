@@ -20,4 +20,14 @@ describe('NavigationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit sectionChangeEvent when an item is selected', () => {
+    const emitSpy = jest.spyOn(component.sectionChangeEvent, 'emit');
+    const selectedItem = 'EXPERIENCE';
+
+    component.selectItem(selectedItem);
+
+    expect(component.selectedItem).toEqual(selectedItem);
+    expect(emitSpy).toHaveBeenCalledWith(selectedItem);
+  });
 });
