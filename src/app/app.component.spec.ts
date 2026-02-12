@@ -1,11 +1,35 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { PortfolioService } from './services/portfolio.service';
+import { Article } from './interfaces/article';
+
+class MockPortfolioService {
+  getArticles() { return []; }
+  getProjects() { return []; }
+  getWorkExperiences() { return []; }
+}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: PortfolioService, useClass: MockPortfolioService }
+      ]
     }).compileComponents();
+  });
+
+  beforeEach(() => {
+    const follower = document.createElement('div');
+    follower.classList.add('mouse-follower');
+    document.body.appendChild(follower);
+  });
+
+  afterEach(() => {
+    const follower = document.querySelector('.mouse-follower');
+    if (follower) {
+      document.body.removeChild(follower);
+    }
   });
 
   it('should create the app', () => {

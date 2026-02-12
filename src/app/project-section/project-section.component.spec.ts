@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectSectionComponent } from './project-section.component';
+import { PortfolioService } from '../services/portfolio.service';
+import { Project } from '../interfaces/project';
+
+class MockPortfolioService {
+  getProjects() { return []; }
+}
 
 describe('ProjectSectionComponent', () => {
   let component: ProjectSectionComponent;
@@ -8,7 +14,10 @@ describe('ProjectSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProjectSectionComponent]
+      imports: [ProjectSectionComponent],
+      providers: [
+        { provide: PortfolioService, useClass: MockPortfolioService }
+      ]
     })
     .compileComponents();
     

@@ -1,12 +1,13 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, NgZone, OnDestroy, Renderer2 } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
+import { PortfolioService } from './services/portfolio.service';
 
 @Component({
   selector: 'app-root',
@@ -21,32 +22,69 @@ import { ScreenSizeService } from './services/screen-size.service';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
-  offsets = {
-    ABOUT: 0,
-    EXPERIENCE: 0,
-    PROJECTS: 0,
+export class AppComponent implements AfterViewInit, OnDestroy {
+  readonly SECTION_ABOUT = 'ABOUT';
+  readonly SECTION_EXPERIENCE = 'EXPERIENCE';
+  readonly SECTION_PROJECTS = 'PROJECTS';
+
+  offsets: { [key: string]: number } = {
+    [this.SECTION_ABOUT]: 0,
+    [this.SECTION_EXPERIENCE]: 0,
+    [this.SECTION_PROJECTS]: 0,
   };
+
+  private unlistenScroll: () => void;
+  private unlistenMouseMove: () => void;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public screen: ScreenSizeService,
+    private portfolioService: PortfolioService,
+    private ngZone: NgZone,
+    private renderer: Renderer2
+  ) {
+    this.articles = this.portfolioService.getArticles();
+  }
 
   ngAfterViewInit() {
-    this.offsets = {
-      ABOUT: this.calculateOffset('ABOUT', 70),
-      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
-      PROJECTS: this.calculateOffset('PROJECTS', 70),
-    };
+    if (isPlatformBrowser(this.platformId)) {
+      this.offsets = {
+        [this.SECTION_ABOUT]: this.calculateOffset(this.SECTION_ABOUT, 70),
+        [this.SECTION_EXPERIENCE]: this.calculateOffset(this.SECTION_EXPERIENCE, 70),
+        [this.SECTION_PROJECTS]: this.calculateOffset(this.SECTION_PROJECTS, 70),
+      };
 
+      const follower = this.document.querySelector(
+        '.mouse-follower'
+      ) as HTMLElement;
 
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
+      if (follower) {
+        follower.style.display = 'block';
+
+        this.ngZone.runOutsideAngular(() => {
+          this.unlistenMouseMove = this.renderer.listen(this.document, 'mousemove', (e: MouseEvent) => {
+             follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+          });
+        });
+      }
+
+      this.ngZone.runOutsideAngular(() => {
+        this.unlistenScroll = this.renderer.listen(window, 'scroll', () => {
+          this.onWindowScroll();
+        });
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.unlistenScroll) {
+      this.unlistenScroll();
+    }
+    if (this.unlistenMouseMove) {
+      this.unlistenMouseMove();
+    }
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
@@ -54,13 +92,12 @@ export class AppComponent implements AfterViewInit {
     return element ? element.offsetTop - padding : 0;
   }
 
-  currentSection = 'ABOUT';
+  currentSection = this.SECTION_ABOUT;
 
   navigateToSection(section: string) {
     this.document.getElementById(section)?.scrollIntoView();
   }
 
-  @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     // Get current scroll position
     const scrollPosition =
@@ -69,46 +106,30 @@ export class AppComponent implements AfterViewInit {
       this.document.body.scrollTop ||
       0;
 
+    let newSection = this.currentSection;
+
     if (
-      scrollPosition > this.offsets['ABOUT'] &&
-      scrollPosition < this.offsets['EXPERIENCE']
+      scrollPosition > this.offsets[this.SECTION_ABOUT] &&
+      scrollPosition < this.offsets[this.SECTION_EXPERIENCE]
     ) {
-      this.currentSection = 'ABOUT';
+      newSection = this.SECTION_ABOUT;
     } else if (
-      scrollPosition > this.offsets['EXPERIENCE'] &&
-      scrollPosition < this.offsets['PROJECTS']
+      scrollPosition > this.offsets[this.SECTION_EXPERIENCE] &&
+      scrollPosition < this.offsets[this.SECTION_PROJECTS]
     ) {
-      this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
+      newSection = this.SECTION_EXPERIENCE;
+    } else if (scrollPosition > this.offsets[this.SECTION_PROJECTS]) {
+      newSection = this.SECTION_PROJECTS;
+    }
+
+    if (newSection !== this.currentSection) {
+      this.ngZone.run(() => {
+        this.currentSection = newSection;
+      });
     }
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
-  }
-
-  articles: Article[] = [
-    {
-      name: 'An Intuitive Approach To Linear Regression',
-      link: 'https://medium.com/swlh/an-intuitive-approach-to-linear-regression-b127da628e45',
-    },
-    {
-      name: 'A Brief Introduction To Classification',
-      link: 'https://medium.com/swlh/a-brief-introduction-to-classification-619d38f4880f',
-    },
-    {
-      name: 'An Intuitive Approach To Q-Learning',
-      link: 'https://medium.com/swlh/an-intuitive-approach-to-q-learning-p1-acedb6dff968',
-    },
-    {
-      name: 'Hands On Approach To Monte-Carlo Learning',
-      link: 'https://medium.com/@tawsifkamal/monte-carlo-reinforcement-learning-a-hands-on-approach-97b412b48293',
-    },
-  ];
+  articles: Article[] = [];
 
   title = 'portfolio-website';
 }
