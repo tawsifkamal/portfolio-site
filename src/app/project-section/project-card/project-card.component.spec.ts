@@ -27,4 +27,11 @@ describe('ProjectCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have rel="noopener noreferrer" when target="_blank"', () => {
+    fixture.detectChanges();
+    const link = fixture.nativeElement.querySelector('a');
+    expect(link.getAttribute('target')).toBe('_blank');
+    expect(link.getAttribute('rel')).toBe('noopener noreferrer');
+  });
 });
