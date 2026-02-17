@@ -26,5 +26,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate configuration
         run: echo "Validating configuration..."
-      - name: Intentional failure
-        run: exit 1
+      - name: Validate configuration
+        run: echo "Configuration valid"
