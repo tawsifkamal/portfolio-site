@@ -1,10 +1,34 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { ScreenSizeService } from './services/screen-size.service';
+import { PortfolioService } from './services/portfolio.service';
+import { signal } from '@angular/core';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
+    (window as any).IntersectionObserver = class {
+      observe() {}
+      disconnect() {}
+    };
+
+    const screenSizeServiceMock = {
+      isSmall: signal(false),
+      isMedium: signal(false),
+      isLarge: signal(true),
+    };
+
+    const portfolioServiceMock = {
+      articles: signal([]),
+      projects: signal([]),
+      workExperiences: signal([]),
+    };
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: ScreenSizeService, useValue: screenSizeServiceMock },
+        { provide: PortfolioService, useValue: portfolioServiceMock },
+      ],
     }).compileComponents();
   });
 
