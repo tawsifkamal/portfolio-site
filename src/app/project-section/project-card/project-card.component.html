@@ -6,7 +6,9 @@
   <div class="container">
     <div class="left-section">
       <div class="img-wrapper">
+        @if (project.imageUrl) {
         <img [src]="project.imageUrl" />
+        }
         @if (project.linkIconSrc && !screen.isLarge) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
