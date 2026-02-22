@@ -1,9 +1,9 @@
 <div class="container">
-  @if(screen.isSmall) {
+  @if(screen.isSmall()) {
 
     <h1 class="title">Projects</h1>
   }
-  @for (project of projects; track $index) {
+  @for (project of portfolioService.projects(); track $index) {
   <app-project-card
     class="project-card"
     [project]="project"
