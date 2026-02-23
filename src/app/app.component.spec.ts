@@ -3,9 +3,30 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
+    // Mock IntersectionObserver
+    (window as any).IntersectionObserver = class {
+      constructor(callback: any) {}
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
+
+    // Mock mouse-follower element
+    const mouseFollower = document.createElement('div');
+    mouseFollower.classList.add('mouse-follower');
+    document.body.appendChild(mouseFollower);
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    // Cleanup mouse-follower
+    const mouseFollower = document.querySelector('.mouse-follower');
+    if (mouseFollower) {
+      document.body.removeChild(mouseFollower);
+    }
   });
 
   it('should create the app', () => {
