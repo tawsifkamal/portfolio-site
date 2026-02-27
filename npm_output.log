@@ -15,3 +15,10 @@ main.js             | main          |  72.39 kB |
 Application bundle generation complete. [9.935 seconds]
 Watch mode enabled. Watching for file changes...
   ➜  Local:   http://localhost:4200/
+- Changes detected. Rebuilding...
+
+
+No output file changes.
+
+Unchanged output files: 3
+Application bundle generation complete. [4.159 seconds]
