@@ -28,6 +28,7 @@ export class AppComponent implements AfterViewInit {
     ABOUT: 0,
     EXPERIENCE: 0,
     PROJECTS: 0,
+    SKILLS: 0,
   };
 
   constructor(
@@ -40,6 +41,7 @@ export class AppComponent implements AfterViewInit {
       ABOUT: this.calculateOffset('ABOUT', 70),
       EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
       PROJECTS: this.calculateOffset('PROJECTS', 70),
+      SKILLS: this.calculateOffset('SKILLS', 70),
     };
 
 
@@ -79,8 +81,13 @@ export class AppComponent implements AfterViewInit {
       scrollPosition < this.offsets['PROJECTS']
     ) {
       this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
+    } else if (
+      scrollPosition > this.offsets['PROJECTS'] &&
+      scrollPosition < this.offsets['SKILLS']
+    ) {
       this.currentSection = 'PROJECTS';
+    } else if (scrollPosition > this.offsets['SKILLS']) {
+      this.currentSection = 'SKILLS';
     }
   }
 
