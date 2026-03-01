@@ -1,10 +1,8 @@
 const { VertexAI } = require("@google-cloud/vertexai");
 
-/**
- * TODO(developer): Uncomment these variables before running the sample.
- */
 const projectId = "adept-bison-407117";
 const location = "us-central1";
+const model = "gemini-pro-vision";
 const image = "gs://generativeai-downloads/images/scones.jpg"; // Google Cloud Storage image
 const mimeType = "image/jpeg";
 
@@ -33,7 +31,7 @@ const testAI = async () => {
   };
 
   console.log("Prompt Text:");
-  console.log(request.contents[0].parts[0].text);
+  console.log(request.contents[0].parts[1].text);
 
   console.log("Non-Streaming Response Text:");
   // Create the response stream
@@ -50,6 +48,5 @@ const testAI = async () => {
 
   console.log(fullTextResponse);
 };
-// Instantiate the model
 
-testAI()
+module.exports = { testAI };
