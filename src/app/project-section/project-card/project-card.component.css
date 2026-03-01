@@ -107,3 +107,43 @@ img {
     background-color: transparent;
   }
 }
+
+/* Simple Card Layout (No Image) */
+.simple-card-wrapper {
+  display: block;
+  text-decoration: none;
+  color: var(--primary-text-color);
+  /* Use default from AppComponent or fallback */
+  background-color: var(--card-background-color, #1a1a1a);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.simple-card-wrapper:hover {
+  transform: translateY(-5px);
+  border-color: var(--tertiary-text-color);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.project-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--secondary-text-color);
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.project-description {
+  font-size: 1rem;
+  color: var(--primary-text-color);
+  margin-bottom: 15px;
+}
+
+.project-link {
+  display: inline-block;
+  font-weight: 500;
+  color: var(--tertiary-text-color);
+}

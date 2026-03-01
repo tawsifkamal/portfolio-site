@@ -2,7 +2,9 @@
   [ngStyle]="{ color: 'inherit', textDecoration: 'none' }"
   [href]="project.link"
   target="_blank"
+  [class.simple-card-wrapper]="!project.imageUrl"
 >
+  @if (project.imageUrl) {
   <div class="container">
     <div class="left-section">
       <div class="img-wrapper">
@@ -37,4 +39,11 @@
       </div>
     </div>
   </div>
+  } @else {
+  <div class="simple-card">
+    <h2 class="project-title">{{ project.name }}</h2>
+    <p class="project-description">{{ project.description }}</p>
+    <span class="project-link">View Project &#8594;</span>
+  </div>
+  }
 </a>
