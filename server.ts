@@ -53,4 +53,6 @@ function run(): void {
   });
 }
 
-run();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  run();
+}
