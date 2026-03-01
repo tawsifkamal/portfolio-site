@@ -1,5 +1,4 @@
 {
   "buildCommand": "npm run build",
-  "framework": "angular",
-  "nodeVersion": "24.x"
+  "framework": "angular"
 }
