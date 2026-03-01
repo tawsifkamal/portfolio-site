@@ -58,11 +58,12 @@
 
 .profile-icons img {
   width: 35px;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
 }
 
 .profile-icons img:hover {
-  transform: scale(1.02);
+  transform: scale(1.1);
+  filter: brightness(1.2);
 }
 
 .profile-icons a:hover {
