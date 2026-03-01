@@ -14,6 +14,7 @@ describe('TagComponent', () => {
     
     fixture = TestBed.createComponent(TagComponent);
     component = fixture.componentInstance;
+    component.text = 'Test';
     fixture.detectChanges();
   });
 

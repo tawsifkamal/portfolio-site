@@ -1,14 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { WorkExperienceCardComponent } from './work-experience-card.component';
+import { ScreenSizeService } from '../../services/screen-size.service';
+import { signal } from '@angular/core';
 
-describe('ProjectCardComponent', () => {
+describe('WorkExperienceCardComponent', () => {
   let component: WorkExperienceCardComponent;
   let fixture: ComponentFixture<WorkExperienceCardComponent>;
 
   beforeEach(async () => {
+    const screenSizeServiceMock = {
+      isSmall: signal(false),
+      isMedium: signal(false),
+      isLarge: signal(true),
+    };
+
     await TestBed.configureTestingModule({
       imports: [WorkExperienceCardComponent],
+      providers: [
+        { provide: ScreenSizeService, useValue: screenSizeServiceMock }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(WorkExperienceCardComponent);
