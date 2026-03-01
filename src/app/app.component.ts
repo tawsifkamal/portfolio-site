@@ -1,12 +1,18 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, NgZone, OnDestroy } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
-import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
+import { PortfolioService } from './services/portfolio.service';
+
+const SECTIONS = {
+  ABOUT: 'ABOUT',
+  EXPERIENCE: 'EXPERIENCE',
+  PROJECTS: 'PROJECTS',
+};
 
 @Component({
   selector: 'app-root',
@@ -21,94 +27,112 @@ import { ScreenSizeService } from './services/screen-size.service';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
   offsets = {
-    ABOUT: 0,
-    EXPERIENCE: 0,
-    PROJECTS: 0,
+    [SECTIONS.ABOUT]: 0,
+    [SECTIONS.EXPERIENCE]: 0,
+    [SECTIONS.PROJECTS]: 0,
   };
+
+  currentSection = SECTIONS.ABOUT;
+  title = 'portfolio-website';
+
+  private removeScrollListener: (() => void) | undefined;
+  private removeMouseMoveListener: (() => void) | undefined;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone,
+    public screen: ScreenSizeService,
+    public portfolioService: PortfolioService
   ) {}
 
   ngAfterViewInit() {
-    this.offsets = {
-      ABOUT: this.calculateOffset('ABOUT', 70),
-      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
-      PROJECTS: this.calculateOffset('PROJECTS', 70),
-    };
+    if (isPlatformBrowser(this.platformId)) {
+      this.offsets = {
+        [SECTIONS.ABOUT]: this.calculateOffset(SECTIONS.ABOUT, 70),
+        [SECTIONS.EXPERIENCE]: this.calculateOffset(SECTIONS.EXPERIENCE, 70),
+        [SECTIONS.PROJECTS]: this.calculateOffset(SECTIONS.PROJECTS, 70),
+      };
 
+      const follower = this.document.querySelector(
+        '.mouse-follower'
+      ) as HTMLElement;
+      if (follower) {
+        follower.style.display = 'block';
+      }
 
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
+      this.ngZone.runOutsideAngular(() => {
+        const scrollHandler = () => this.onWindowScroll();
+        window.addEventListener('scroll', scrollHandler);
+        this.removeScrollListener = () =>
+          window.removeEventListener('scroll', scrollHandler);
+
+        const mouseMoveHandler = (e: MouseEvent) => this.onMouseMove(e);
+        document.addEventListener('mousemove', mouseMoveHandler);
+        this.removeMouseMoveListener = () =>
+          document.removeEventListener('mousemove', mouseMoveHandler);
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.removeScrollListener) this.removeScrollListener();
+    if (this.removeMouseMoveListener) this.removeMouseMoveListener();
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
+    if (!isPlatformBrowser(this.platformId)) return 0;
     const element = this.document.getElementById(sectionId);
     return element ? element.offsetTop - padding : 0;
   }
 
-  currentSection = 'ABOUT';
-
   navigateToSection(section: string) {
-    this.document.getElementById(section)?.scrollIntoView();
+    if (isPlatformBrowser(this.platformId)) {
+      this.document.getElementById(section)?.scrollIntoView();
+    }
   }
 
-  @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
-    // Get current scroll position
     const scrollPosition =
       window.pageYOffset ||
       this.document.documentElement.scrollTop ||
       this.document.body.scrollTop ||
       0;
 
+    let newSection = this.currentSection;
+
     if (
-      scrollPosition > this.offsets['ABOUT'] &&
-      scrollPosition < this.offsets['EXPERIENCE']
+      scrollPosition > this.offsets[SECTIONS.ABOUT] &&
+      scrollPosition < this.offsets[SECTIONS.EXPERIENCE]
     ) {
-      this.currentSection = 'ABOUT';
+      newSection = SECTIONS.ABOUT;
     } else if (
-      scrollPosition > this.offsets['EXPERIENCE'] &&
-      scrollPosition < this.offsets['PROJECTS']
+      scrollPosition > this.offsets[SECTIONS.EXPERIENCE] &&
+      scrollPosition < this.offsets[SECTIONS.PROJECTS]
     ) {
-      this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
+      newSection = SECTIONS.EXPERIENCE;
+    } else if (scrollPosition > this.offsets[SECTIONS.PROJECTS]) {
+      newSection = SECTIONS.PROJECTS;
+    }
+
+    if (newSection !== this.currentSection) {
+      this.ngZone.run(() => {
+        this.currentSection = newSection;
+      });
     }
   }
 
-  @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
     const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    if (follower) {
+      follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    }
   }
 
-  articles: Article[] = [
-    {
-      name: 'An Intuitive Approach To Linear Regression',
-      link: 'https://medium.com/swlh/an-intuitive-approach-to-linear-regression-b127da628e45',
-    },
-    {
-      name: 'A Brief Introduction To Classification',
-      link: 'https://medium.com/swlh/a-brief-introduction-to-classification-619d38f4880f',
-    },
-    {
-      name: 'An Intuitive Approach To Q-Learning',
-      link: 'https://medium.com/swlh/an-intuitive-approach-to-q-learning-p1-acedb6dff968',
-    },
-    {
-      name: 'Hands On Approach To Monte-Carlo Learning',
-      link: 'https://medium.com/@tawsifkamal/monte-carlo-reinforcement-learning-a-hands-on-approach-97b412b48293',
-    },
-  ];
-
-  title = 'portfolio-website';
+  get articles() {
+    return this.portfolioService.articles;
+  }
 }
