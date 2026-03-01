@@ -12,6 +12,6 @@ import { ScreenSizeService } from '../../services/screen-size.service';
 })
 export class ProjectCardComponent {
   constructor(public screen: ScreenSizeService) {}
-  @Input() project: Project;
-  @Input() hoveredProject: string | null;
+  @Input() project!: Project;
+  @Input() hoveredProject: string | null = null;
 }
