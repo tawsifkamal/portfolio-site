@@ -1,11 +1,43 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { PortfolioService } from './services/portfolio.service';
 
 describe('AppComponent', () => {
+  let mockPortfolioService: any;
+
   beforeEach(async () => {
+    mockPortfolioService = {
+      articles: [],
+      projects: [],
+      workExperiences: [],
+    };
+
+    // Mock IntersectionObserver
+    (window as any).IntersectionObserver = class {
+      constructor(callback: any, options: any) {}
+      observe() {}
+      disconnect() {}
+    };
+
+    // Create .mouse-follower element
+    const follower = document.createElement('div');
+    follower.classList.add('mouse-follower');
+    document.body.appendChild(follower);
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { provide: PortfolioService, useValue: mockPortfolioService },
+      ],
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    // Cleanup .mouse-follower
+    const follower = document.querySelector('.mouse-follower');
+    if (follower) {
+      document.body.removeChild(follower);
+    }
   });
 
   it('should create the app', () => {
