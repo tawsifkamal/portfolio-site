@@ -7,6 +7,7 @@ const projectId = "adept-bison-407117";
 const location = "us-central1";
 const image = "gs://generativeai-downloads/images/scones.jpg"; // Google Cloud Storage image
 const mimeType = "image/jpeg";
+const model = "gemini-pro-vision";
 
 // Initialize Vertex with your Cloud project and location
 const vertexAI = new VertexAI({ project: projectId, location: location });
@@ -33,7 +34,7 @@ const testAI = async () => {
   };
 
   console.log("Prompt Text:");
-  console.log(request.contents[0].parts[0].text);
+  console.log(request.contents[0].parts[1].text);
 
   console.log("Non-Streaming Response Text:");
   // Create the response stream
