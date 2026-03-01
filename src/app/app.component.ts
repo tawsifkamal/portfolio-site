@@ -1,12 +1,12 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, NgZone, OnDestroy } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
-import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
+import { PortfolioService } from './services/portfolio.service';
 
 @Component({
   selector: 'app-root',
@@ -21,32 +21,63 @@ import { ScreenSizeService } from './services/screen-size.service';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
   offsets = {
     ABOUT: 0,
     EXPERIENCE: 0,
     PROJECTS: 0,
   };
 
+  private scrollUnlistener: (() => void) | undefined;
+  private mouseMoveUnlistener: (() => void) | undefined;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public screen: ScreenSizeService,
+    public portfolioService: PortfolioService,
+    private ngZone: NgZone
   ) {}
 
   ngAfterViewInit() {
-    this.offsets = {
-      ABOUT: this.calculateOffset('ABOUT', 70),
-      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
-      PROJECTS: this.calculateOffset('PROJECTS', 70),
-    };
+    if (isPlatformBrowser(this.platformId)) {
+        // Calculate offsets after a slight delay to allow rendering
+        setTimeout(() => {
+            this.offsets = {
+              ABOUT: this.calculateOffset('ABOUT', 70),
+              EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
+              PROJECTS: this.calculateOffset('PROJECTS', 70),
+            };
+        }, 100);
 
 
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
+        const follower = this.document.querySelector(
+          '.mouse-follower'
+        ) as HTMLElement;
+        if (follower) {
+           follower.style.display = 'block';
+        }
+
+        this.ngZone.runOutsideAngular(() => {
+            const scrollCallback = this.onWindowScroll.bind(this);
+            window.addEventListener('scroll', scrollCallback);
+            this.scrollUnlistener = () => window.removeEventListener('scroll', scrollCallback);
+
+            const mouseMoveCallback = this.onMouseMove.bind(this);
+            document.addEventListener('mousemove', mouseMoveCallback);
+            this.mouseMoveUnlistener = () => document.removeEventListener('mousemove', mouseMoveCallback);
+        });
+    }
+  }
+
+  ngOnDestroy() {
+      if (this.scrollUnlistener) {
+          this.scrollUnlistener();
+      }
+      if (this.mouseMoveUnlistener) {
+          this.mouseMoveUnlistener();
+      }
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
@@ -57,10 +88,11 @@ export class AppComponent implements AfterViewInit {
   currentSection = 'ABOUT';
 
   navigateToSection(section: string) {
-    this.document.getElementById(section)?.scrollIntoView();
+     if (isPlatformBrowser(this.platformId)) {
+        this.document.getElementById(section)?.scrollIntoView();
+     }
   }
 
-  @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     // Get current scroll position
     const scrollPosition =
@@ -69,46 +101,35 @@ export class AppComponent implements AfterViewInit {
       this.document.body.scrollTop ||
       0;
 
+    let newSection = this.currentSection;
     if (
       scrollPosition > this.offsets['ABOUT'] &&
       scrollPosition < this.offsets['EXPERIENCE']
     ) {
-      this.currentSection = 'ABOUT';
+      newSection = 'ABOUT';
     } else if (
       scrollPosition > this.offsets['EXPERIENCE'] &&
       scrollPosition < this.offsets['PROJECTS']
     ) {
-      this.currentSection = 'EXPERIENCE';
+      newSection = 'EXPERIENCE';
     } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
+      newSection = 'PROJECTS';
+    }
+
+    if (newSection !== this.currentSection) {
+        this.ngZone.run(() => {
+            this.currentSection = newSection;
+        });
     }
   }
 
-  @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
     const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    if (follower) {
+        // Update background style for radial gradient to follow the cursor
+        follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    }
   }
-
-  articles: Article[] = [
-    {
-      name: 'An Intuitive Approach To Linear Regression',
-      link: 'https://medium.com/swlh/an-intuitive-approach-to-linear-regression-b127da628e45',
-    },
-    {
-      name: 'A Brief Introduction To Classification',
-      link: 'https://medium.com/swlh/a-brief-introduction-to-classification-619d38f4880f',
-    },
-    {
-      name: 'An Intuitive Approach To Q-Learning',
-      link: 'https://medium.com/swlh/an-intuitive-approach-to-q-learning-p1-acedb6dff968',
-    },
-    {
-      name: 'Hands On Approach To Monte-Carlo Learning',
-      link: 'https://medium.com/@tawsifkamal/monte-carlo-reinforcement-learning-a-hands-on-approach-97b412b48293',
-    },
-  ];
 
   title = 'portfolio-website';
 }
