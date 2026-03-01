@@ -14,11 +14,11 @@ import { ScreenSizeService } from '../../services/screen-size.service';
 })
 export class WorkExperienceCardComponent {
   isSmallScreen: boolean = false;
-  breakpointSubscription: Subscription;
+  breakpointSubscription!: Subscription;
 
   // we are injecting the BreakpointObserver class so that we don't have to initialize it here
   // injecting means angular does the initliazation of the class for you to prevent tight coupling (also hierarchal injection being used)
   constructor(public screen: ScreenSizeService){}
 
-  @Input() workExperience: WorkExperience;
+  @Input() workExperience!: WorkExperience;
 }
