@@ -1,26 +1,12 @@
 <div class="menu">
+  @for (item of menuItems; track item) {
   <div
     class="menu-item"
-    [ngClass]="{ selected: selectedItem === 'ABOUT' }"
-    (click)="selectItem('ABOUT')"
+    [ngClass]="{ selected: selectedItem === item }"
+    (click)="selectItem(item)"
   >
     <span class="menu-line"></span>
-    <span class="menu-text">ABOUT</span>
+    <span class="menu-text">{{ item }}</span>
   </div>
-  <div
-    class="menu-item"
-    [ngClass]="{ selected: selectedItem === 'EXPERIENCE' }"
-    (click)="selectItem('EXPERIENCE')"
-  >
-    <span class="menu-line"></span>
-    <span class="menu-text">EXPERIENCE</span>
-  </div>
-  <div
-    class="menu-item"
-    [ngClass]="{ selected: selectedItem === 'PROJECTS' }"
-    (click)="selectItem('PROJECTS')"
-  >
-    <span class="menu-line"></span>
-    <span class="menu-text">PROJECTS</span>
-  </div>
+  }
 </div>
