@@ -26,6 +26,8 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+      - name: Intentional failure
+        run: exit 1
 
   # Job 2: Lint check (simple)
   lint-check:
@@ -36,6 +38,8 @@ jobs:
         run: echo "Running lint checks..."
       - name: List files
         run: ls -la
+      - name: Intentional failure
+        run: exit 1
 
   # Job 3: Type check (simple)
   type-check:
@@ -46,6 +50,8 @@ jobs:
         run: echo "Running type checks..."
       - name: Show node version
         run: node --version || echo "Node not installed"
+      - name: Intentional failure
+        run: exit 1
 
   # Job 4: Security scan (simple)
   security-scan:
@@ -56,6 +62,8 @@ jobs:
         run: echo "Running security scan..."
       - name: Check for secrets
         run: echo "No secrets found!"
+      - name: Intentional failure
+        run: exit 1
 
   # Job 5: Integration test - THIS ONE WILL FAIL (bad command)
   integration-test:
