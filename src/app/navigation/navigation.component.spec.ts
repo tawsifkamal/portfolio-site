@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NavigationComponent } from './navigation.component';
 
 describe('NavigationComponent', () => {
@@ -19,5 +18,15 @@ describe('NavigationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit sectionChangeEvent when selectItem is called', () => {
+    jest.spyOn(component.sectionChangeEvent, 'emit');
+    const testItem = 'PROJECTS';
+
+    component.selectItem(testItem);
+
+    expect(component.selectedItem).toBe(testItem);
+    expect(component.sectionChangeEvent.emit).toHaveBeenCalledWith(testItem);
   });
 });
