@@ -1,8 +1,18 @@
+.project-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+/* Complex Layout (Existing) */
 .container {
   padding: 1em 0;
   gap: 2rem;
   font-family: "Inter";
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .container:hover {
@@ -45,7 +55,6 @@
   padding: 0.15em;
   background-color: black;
   right: 0.6em;
-  /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); */
 }
 
 .img-wrapper {
@@ -57,12 +66,6 @@
   color: var(--secondary-text-color);
   font-weight: bold;
   display: flex;
-  align-items: center;
-}
-
-.header-section {
-  display: flex;
-  gap: 3px;
   align-items: center;
 }
 
@@ -79,6 +82,7 @@ p {
 .project-prize {
   color: var(--secondary-text-color);
 }
+
 img {
   width: 200px;
   height: 105px;
@@ -88,14 +92,54 @@ img {
   box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Simple Layout (Migrated from app.component.css) */
+.simple-card {
+  display: block;
+  text-decoration: none;
+  color: var(--primary-text-color);
+  background-color: var(--card-background-color, #1a1a1a);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.simple-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--tertiary-text-color);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.simple-project-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--secondary-text-color);
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.simple-project-description {
+  font-size: 1rem;
+  color: var(--primary-text-color);
+  margin-bottom: 15px;
+}
+
+.simple-project-link {
+  display: inline-block;
+  font-weight: 500;
+  color: var(--tertiary-text-color);
+}
+
 @media (min-width: 1439px) {
   .container {
     display: flex;
+    flex-direction: row;
     border: 4px black white;
     padding: 1rem;
     gap: 2rem;
     font-family: "Inter";
-    transition: box-shadow 0.1s ease-in-out, background-color 0.1s ease-in-out; /* Add this line */
+    transition: box-shadow 0.1s ease-in-out, background-color 0.1s ease-in-out;
     border-radius: 10px;
   }
   .icon {
@@ -106,4 +150,8 @@ img {
     position: static;
     background-color: transparent;
   }
+}
+
+:host {
+  display: block;
 }

@@ -1,13 +1,24 @@
 .blurred {
-  opacity: 60%; /* Adjust the pixel value to increase/decrease the blur */
+  opacity: 60%;
 }
 
 .title {
   font-weight: bolder;
   margin: 0;
+  margin-bottom: 1rem;
 }
-
 
 .project-card {
   transition: opacity 0.2s ease-in-out;
+}
+
+.project-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+:host {
+  display: block;
 }
