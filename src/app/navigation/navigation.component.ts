@@ -12,6 +12,8 @@ export class NavigationComponent {
   @Input() selectedItem: string = 'ABOUT';
   @Output() sectionChangeEvent = new EventEmitter<string>();
 
+  sections = ['ABOUT', 'EXPERIENCE', 'PROJECTS'];
+
   selectItem(item: string) {
     this.selectedItem = item;
     this.sectionChangeEvent.emit(this.selectedItem);
