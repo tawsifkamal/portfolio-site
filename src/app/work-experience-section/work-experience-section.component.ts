@@ -3,6 +3,9 @@ import { WorkExperienceCardComponent } from './work-experience-card/work-experie
 import { WorkExperience } from '../interfaces/work-experience';
 import { ScreenSizeService } from '../services/screen-size.service';
 
+/**
+ * The work experience section component.
+ */
 @Component({
   selector: 'app-work-experience-section',
   standalone: true,
@@ -11,9 +14,15 @@ import { ScreenSizeService } from '../services/screen-size.service';
   styleUrl: './work-experience-section.component.css',
 })
 export class WorkExperienceSectionComponent {
-
+  /**
+   * The constructor of the component.
+   * @param screen The screen size service.
+   */
   constructor(public screen: ScreenSizeService) {}
 
+  /**
+   * The list of work experiences.
+   */
   workExperiences: WorkExperience[] = [
     {
       role: 'Machine Learning Engineering Intern',

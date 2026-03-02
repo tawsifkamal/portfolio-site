@@ -8,6 +8,9 @@ import { ProjectSectionComponent } from './project-section/project-section.compo
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
 
+/**
+ * The main component of the application.
+ */
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -24,17 +27,28 @@ import { ScreenSizeService } from './services/screen-size.service';
   providers: [ScreenSizeService],
 })
 export class AppComponent implements AfterViewInit {
+  /**
+   * The offsets of the sections.
+   */
   offsets = {
     ABOUT: 0,
     EXPERIENCE: 0,
     PROJECTS: 0,
   };
 
+  /**
+   * The constructor of the component.
+   * @param document The document object.
+   * @param screen The screen size service.
+   */
   constructor(
     @Inject(DOCUMENT) private document: Document,
     public screen: ScreenSizeService
   ) {}
 
+  /**
+   * A lifecycle hook that is called after Angular has fully initialized a component's view.
+   */
   ngAfterViewInit() {
     this.offsets = {
       ABOUT: this.calculateOffset('ABOUT', 70),
@@ -42,24 +56,39 @@ export class AppComponent implements AfterViewInit {
       PROJECTS: this.calculateOffset('PROJECTS', 70),
     };
 
-
     const follower = this.document.querySelector(
       '.mouse-follower'
     ) as HTMLElement;
     follower.style.display = 'block';
   }
 
+  /**
+   * Calculates the offset of a section.
+   * @param sectionId The ID of the section.
+   * @param padding The padding of the section.
+   * @returns The offset of the section.
+   */
   private calculateOffset(sectionId: string, padding: number): number {
     const element = this.document.getElementById(sectionId);
     return element ? element.offsetTop - padding : 0;
   }
 
+  /**
+   * The current section.
+   */
   currentSection = 'ABOUT';
 
+  /**
+   * Navigates to a section.
+   * @param section The section to navigate to.
+   */
   navigateToSection(section: string) {
     this.document.getElementById(section)?.scrollIntoView();
   }
 
+  /**
+   * A lifecycle hook that is called when the window is scrolled.
+   */
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     // Get current scroll position
@@ -84,6 +113,10 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * A lifecycle hook that is called when the mouse is moved.
+   * @param e The mouse event.
+   */
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
     const follower = document.querySelector('.mouse-follower') as HTMLElement;
@@ -91,6 +124,9 @@ export class AppComponent implements AfterViewInit {
     follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
   }
 
+  /**
+   * The list of articles.
+   */
   articles: Article[] = [
     {
       name: 'An Intuitive Approach To Linear Regression',
@@ -110,5 +146,8 @@ export class AppComponent implements AfterViewInit {
     },
   ];
 
+  /**
+   * The title of the application.
+   */
   title = 'portfolio-website';
 }

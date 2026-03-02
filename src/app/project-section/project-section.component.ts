@@ -4,6 +4,9 @@ import { Project } from '../interfaces/project';
 import { CommonModule } from '@angular/common';
 import { ScreenSizeService } from '../services/screen-size.service';
 
+/**
+ * The project section component.
+ */
 @Component({
   selector: 'app-project-section',
   standalone: true,
@@ -12,9 +15,19 @@ import { ScreenSizeService } from '../services/screen-size.service';
   styleUrl: './project-section.component.css',
 })
 export class ProjectSectionComponent {
+  /**
+   * The constructor of the component.
+   * @param screen The screen size service.
+   */
   constructor(public screen: ScreenSizeService) {}
 
+  /**
+   * The hovered project.
+   */
   hoveredProject: string | null = null;
+  /**
+   * The list of projects.
+   */
   projects: Project[] = [
     {
       name: 'TinyGen: An LLM Coding Agent',
