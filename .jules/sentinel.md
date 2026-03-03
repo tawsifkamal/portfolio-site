@@ -1,0 +1,4 @@
+## 2024-05-18 - Missing Security Headers and Host Header Injection
+**Vulnerability:** The Express server in `server.ts` lacked standard security headers (e.g., `Strict-Transport-Security`, `X-Frame-Options`, `X-Content-Type-Options`) and exposed the `X-Powered-By` header. Additionally, a potential Host Header Injection vulnerability existed in the fallback route where `headers.host` was concatenated with the original URL without verification.
+**Learning:** Default Express servers do not provide built-in security headers by default and trust headers like `host` inherently, making the application vulnerable to various attacks like clickjacking and cache poisoning when used to build URLs.
+**Prevention:** Implement security header middleware using `helmet` or manual headers, disable `x-powered-by`, and securely handle host headers by preferring trusted sources like `x-forwarded-host` or validating them against an allowlist.
