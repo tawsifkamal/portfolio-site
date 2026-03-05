@@ -17,6 +17,19 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
+  // Security enhancements
+  server.disable('x-powered-by');
+  server.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+
+    // Avoid unconditionally trusting x-forwarded-host to prevent host header injection
+    const host = req.headers.host || '';
+    // We intentionally ignore x-forwarded-host unless specifically configured to trust it
+    next();
+  });
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
