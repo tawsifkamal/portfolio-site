@@ -1,0 +1,4 @@
+## 2024-05-18 - [CRITICAL] Hardcoded Google Cloud Project ID
+**Vulnerability:** Google Cloud Project ID (`"adept-bison-407117"`) was hardcoded in `server/genAi.js` and `server/test.js`.
+**Learning:** Hardcoding project IDs or credentials exposes configuration secrets to the codebase, which can be particularly harmful if pushed to a public repository, and makes environment separation (like dev vs. staging vs. prod) difficult and error-prone.
+**Prevention:** Use environment variables (e.g. `process.env.GOOGLE_CLOUD_PROJECT`) for all sensitive configuration data and API keys. Additionally, validate that these environment variables are provided at runtime to prevent silent failures.
