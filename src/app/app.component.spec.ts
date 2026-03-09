@@ -6,6 +6,29 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
     }).compileComponents();
+
+    // Create elements needed by Renderer2/DOM manipulations
+    const follower = document.createElement('div');
+    follower.classList.add('mouse-follower');
+    document.body.appendChild(follower);
+
+    const about = document.createElement('div');
+    about.id = 'ABOUT';
+    document.body.appendChild(about);
+
+    const experience = document.createElement('div');
+    experience.id = 'EXPERIENCE';
+    document.body.appendChild(experience);
+
+    const projects = document.createElement('div');
+    projects.id = 'PROJECTS';
+    document.body.appendChild(projects);
+  });
+
+  afterEach(() => {
+    // Clean up DOM elements
+    document.body.innerHTML = '';
+    jest.restoreAllMocks();
   });
 
   it('should create the app', () => {
