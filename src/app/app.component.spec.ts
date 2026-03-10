@@ -38,4 +38,19 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Tawsif Kamal');
   });
+
+
+  it('should call scrollIntoView on navigation', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    const dummyElement = document.createElement('div');
+    dummyElement.id = 'dummy';
+    dummyElement.scrollIntoView = jest.fn();
+    document.body.appendChild(dummyElement);
+
+    app.navigateToSection('dummy');
+    expect(dummyElement.scrollIntoView).toHaveBeenCalled();
+
+    document.body.removeChild(dummyElement);
+  });
 });
