@@ -14,6 +14,18 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Security enhancements:
+  // Disable x-powered-by header to prevent leaking server tech
+  server.disable('x-powered-by');
+
+  // Add security headers
+  server.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    next();
+  });
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 

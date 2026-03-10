@@ -1,0 +1,4 @@
+## 2024-05-24 - [Add security headers to Express applications]
+**Vulnerability:** The Express server (`server.ts`) lacked essential security headers (like `X-Content-Type-Options`, `X-Frame-Options`, and `Strict-Transport-Security`) and exposed the framework via the `x-powered-by` header, making it susceptible to certain types of attacks and intelligence gathering.
+**Learning:** Default configurations for Express do not automatically implement security best practices. We need to explicitly configure middleware to ensure defense in depth for production builds.
+**Prevention:** Apply a middleware setting `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and `Strict-Transport-Security` along with `server.disable('x-powered-by')` as a standard pattern for all Express applications in this project.
