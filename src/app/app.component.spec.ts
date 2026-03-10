@@ -53,4 +53,12 @@ describe('AppComponent', () => {
 
     document.body.removeChild(dummyElement);
   });
+
+  it('should trigger ngOnDestroy', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect(() => app.ngOnDestroy()).not.toThrow();
+  });
 });
