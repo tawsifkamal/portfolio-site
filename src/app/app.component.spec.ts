@@ -29,6 +29,28 @@ describe('AppComponent', () => {
     jest.restoreAllMocks();
   });
 
+  it('should unlisten to mousemove on destroy', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    app.ngOnDestroy();
+    expect(app['unlistenMouseMove']).toBeDefined();
+  });
+
+  it('should navigate to section', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+
+    const mockElement = document.createElement('div');
+    mockElement.id = 'ABOUT';
+    mockElement.scrollIntoView = jest.fn();
+
+    jest.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+
+    app.navigateToSection('ABOUT');
+    expect(mockElement.scrollIntoView).toHaveBeenCalled();
+  });
+
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
