@@ -1,6 +1,6 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, AfterViewInit, Inject, NgZone, Renderer2, PLATFORM_ID, OnDestroy } from '@angular/core';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
@@ -23,95 +23,72 @@ import { ScreenSizeService } from './services/screen-size.service';
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit, OnDestroy {
-  currentSection = 'ABOUT';
-  private observer: IntersectionObserver | undefined;
-  private unlistenMouseMove: (() => void) | undefined;
+export class AppComponent implements AfterViewInit {
+  offsets = {
+    ABOUT: 0,
+    EXPERIENCE: 0,
+    PROJECTS: 0,
+  };
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    public screen: ScreenSizeService,
-    private ngZone: NgZone,
-    private renderer: Renderer2
+    public screen: ScreenSizeService
   ) {}
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      const follower = this.document.querySelector('.mouse-follower') as HTMLElement;
-      if (follower) {
-        follower.style.display = 'block';
-
-        this.ngZone.runOutsideAngular(() => {
-          this.unlistenMouseMove = this.renderer.listen(this.document, 'mousemove', (e: MouseEvent) => {
-            follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
-          });
-        });
-      }
-
-      this.setupIntersectionObserver();
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.unlistenMouseMove) {
-      this.unlistenMouseMove();
-    }
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-  }
-
-  private setupIntersectionObserver() {
-    const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+    this.offsets = {
+      ABOUT: this.calculateOffset('ABOUT', 70),
+      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
+      PROJECTS: this.calculateOffset('PROJECTS', 70),
     };
 
-    let maxRatio = 0;
-    let visibleSection = this.currentSection;
 
-    this.observer = new IntersectionObserver((entries) => {
-      this.ngZone.runOutsideAngular(() => {
-        let changed = false;
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-             if (entry.intersectionRatio > maxRatio) {
-               maxRatio = entry.intersectionRatio;
-               visibleSection = entry.target.id;
-               changed = true;
-             }
-          } else if (entry.target.id === visibleSection) {
-            maxRatio = 0;
-            // When the currently fully visible section starts hiding, re-evaluate others or keep the last known if scrolling down past all
-          }
-        });
-
-        // This logic is slightly simplified; we will want to just find the maximum intersecting entry
-        const intersectingEntries = entries.filter(e => e.isIntersecting);
-        if (intersectingEntries.length > 0) {
-           const maxEntry = intersectingEntries.reduce((prev, current) => (prev.intersectionRatio > current.intersectionRatio) ? prev : current);
-           if (this.currentSection !== maxEntry.target.id) {
-               this.ngZone.run(() => {
-                 this.currentSection = maxEntry.target.id;
-               });
-           }
-        }
-      });
-    }, options);
-
-    const sections = ['ABOUT', 'EXPERIENCE', 'PROJECTS'];
-    sections.forEach((id) => {
-      const element = this.document.getElementById(id);
-      if (element) {
-        this.observer!.observe(element);
-      }
-    });
+    const follower = this.document.querySelector(
+      '.mouse-follower'
+    ) as HTMLElement;
+    follower.style.display = 'block';
   }
+
+  private calculateOffset(sectionId: string, padding: number): number {
+    const element = this.document.getElementById(sectionId);
+    return element ? element.offsetTop - padding : 0;
+  }
+
+  currentSection = 'ABOUT';
 
   navigateToSection(section: string) {
     this.document.getElementById(section)?.scrollIntoView();
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    // Get current scroll position
+    const scrollPosition =
+      window.pageYOffset ||
+      this.document.documentElement.scrollTop ||
+      this.document.body.scrollTop ||
+      0;
+
+    if (
+      scrollPosition > this.offsets['ABOUT'] &&
+      scrollPosition < this.offsets['EXPERIENCE']
+    ) {
+      this.currentSection = 'ABOUT';
+    } else if (
+      scrollPosition > this.offsets['EXPERIENCE'] &&
+      scrollPosition < this.offsets['PROJECTS']
+    ) {
+      this.currentSection = 'EXPERIENCE';
+    } else if (scrollPosition > this.offsets['PROJECTS']) {
+      this.currentSection = 'PROJECTS';
+    }
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e: MouseEvent) {
+    const follower = document.querySelector('.mouse-follower') as HTMLElement;
+    // Update background style for radial gradient to follow the cursor
+    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
   }
 
   articles: Article[] = [
