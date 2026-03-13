@@ -1,0 +1,4 @@
+## 2026-03-13 - Add Express Security Headers
+**Vulnerability:** The application was missing basic security headers (Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options) and exposed the underlying framework by sending the x-powered-by header in Express. This could allow attackers to infer the server stack and leaves the site vulnerable to clickjacking, MIME-sniffing, and downgrade attacks.
+**Learning:** In any Node.js/Express application, the framework defaults don't provide adequate baseline security for HTTP responses, and these must be configured manually (or using libraries like helmet).
+**Prevention:** Always implement baseline security headers via a middleware near the top of the Express request pipeline. This includes `server.disable('x-powered-by')` and explicit `res.setHeader()` calls for critical protections.
