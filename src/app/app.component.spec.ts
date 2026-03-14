@@ -2,10 +2,22 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let dummyElement: HTMLElement;
+
   beforeEach(async () => {
+    dummyElement = document.createElement('div');
+    dummyElement.classList.add('mouse-follower');
+    document.body.appendChild(dummyElement);
+
     await TestBed.configureTestingModule({
       imports: [AppComponent],
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    if (dummyElement) {
+      document.body.removeChild(dummyElement);
+    }
   });
 
   it('should create the app', () => {
