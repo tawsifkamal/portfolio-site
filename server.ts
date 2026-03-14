@@ -14,6 +14,15 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Security headers and framework hiding
+  server.disable('x-powered-by');
+  server.use((req, res, next) => {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    next();
+  });
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
