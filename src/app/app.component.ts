@@ -1,6 +1,6 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, AfterViewInit, Inject, PLATFORM_ID, NgZone, Renderer2, OnDestroy } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
@@ -23,72 +23,96 @@ import { ScreenSizeService } from './services/screen-size.service';
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
-  offsets = {
-    ABOUT: 0,
-    EXPERIENCE: 0,
-    PROJECTS: 0,
-  };
+export class AppComponent implements AfterViewInit, OnDestroy {
+  currentSection = 'ABOUT';
+  title = 'portfolio-website';
+
+  private observer: IntersectionObserver | null = null;
+  private mouseMoveListener: (() => void) | null = null;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public screen: ScreenSizeService,
+    private ngZone: NgZone,
+    private renderer: Renderer2
   ) {}
 
   ngAfterViewInit() {
-    this.offsets = {
-      ABOUT: this.calculateOffset('ABOUT', 70),
-      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
-      PROJECTS: this.calculateOffset('PROJECTS', 70),
-    };
+    if (isPlatformBrowser(this.platformId)) {
+      const follower = this.document.querySelector('.mouse-follower') as HTMLElement;
+      if (follower) {
+        this.renderer.setStyle(follower, 'display', 'block');
 
+        this.ngZone.runOutsideAngular(() => {
+          this.mouseMoveListener = this.renderer.listen(this.document, 'mousemove', (e: MouseEvent) => {
+            this.renderer.setStyle(
+              follower,
+              'background',
+              `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`
+            );
+          });
+        });
+      }
 
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
-  }
-
-  private calculateOffset(sectionId: string, padding: number): number {
-    const element = this.document.getElementById(sectionId);
-    return element ? element.offsetTop - padding : 0;
-  }
-
-  currentSection = 'ABOUT';
-
-  navigateToSection(section: string) {
-    this.document.getElementById(section)?.scrollIntoView();
-  }
-
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    // Get current scroll position
-    const scrollPosition =
-      window.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop ||
-      0;
-
-    if (
-      scrollPosition > this.offsets['ABOUT'] &&
-      scrollPosition < this.offsets['EXPERIENCE']
-    ) {
-      this.currentSection = 'ABOUT';
-    } else if (
-      scrollPosition > this.offsets['EXPERIENCE'] &&
-      scrollPosition < this.offsets['PROJECTS']
-    ) {
-      this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
+      this.setupIntersectionObserver();
     }
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+  ngOnDestroy() {
+    if (this.mouseMoveListener) {
+      this.mouseMoveListener();
+    }
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  private setupIntersectionObserver() {
+    const sections = ['ABOUT', 'EXPERIENCE', 'PROJECTS'];
+    const sectionElements = sections.map((id) => this.document.getElementById(id)).filter((el): el is HTMLElement => el !== null);
+
+    if (sectionElements.length === 0) return;
+
+    // Create array of thresholds from 0 to 1
+    const thresholds = Array.from({ length: 101 }, (_, i) => i / 100);
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: thresholds,
+    };
+
+    let highestIntersectionRatio = 0;
+    let mostVisibleSection = this.currentSection;
+
+    this.ngZone.runOutsideAngular(() => {
+      this.observer = new IntersectionObserver((entries) => {
+        let changed = false;
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > highestIntersectionRatio) {
+            highestIntersectionRatio = entry.intersectionRatio;
+            mostVisibleSection = entry.target.id;
+            changed = true;
+          }
+        });
+
+        // Decay the highest ratio slightly to allow other sections to become the most visible
+        highestIntersectionRatio *= 0.95;
+
+        if (changed && this.currentSection !== mostVisibleSection) {
+          this.ngZone.run(() => {
+            this.currentSection = mostVisibleSection;
+          });
+        }
+      }, observerOptions);
+
+      sectionElements.forEach((el) => this.observer?.observe(el));
+    });
+  }
+
+  navigateToSection(section: string) {
+    this.document.getElementById(section)?.scrollIntoView();
   }
 
   articles: Article[] = [
@@ -109,6 +133,4 @@ export class AppComponent implements AfterViewInit {
       link: 'https://medium.com/@tawsifkamal/monte-carlo-reinforcement-learning-a-hands-on-approach-97b412b48293',
     },
   ];
-
-  title = 'portfolio-website';
 }
