@@ -1,0 +1,4 @@
+## 2025-03-14 - [Medium] Missing Security Headers in Angular SSR Server
+**Vulnerability:** The Express server used for Angular Server-Side Rendering (SSR) in `server.ts` lacked standard security headers and exposed the server framework via the `x-powered-by` header. This omission could allow attackers to glean information about the technology stack or exploit weaknesses like clickjacking or MIME-type sniffing.
+**Learning:** Default Angular SSR setups (`ng add @angular/ssr`) generate an Express server that doesn't include security best practices out-of-the-box. Security headers must be explicitly added.
+**Prevention:** Whenever generating an Express server for SSR, implement middleware to add headers like `Strict-Transport-Security`, `X-Frame-Options`, and `X-Content-Type-Options`, and ensure `x-powered-by` is disabled.
