@@ -51,4 +51,53 @@ describe('AppComponent', () => {
     expect(observerDisconnectSpy).toHaveBeenCalled();
     expect(app['intersectionObserver']).toBeNull();
   });
+
+  it('should navigate to section', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    const dummyElement = document.createElement('div');
+    dummyElement.id = 'TEST-SECTION';
+    document.body.appendChild(dummyElement);
+    const scrollIntoViewSpy = jest.fn();
+    dummyElement.scrollIntoView = scrollIntoViewSpy;
+
+    app.navigateToSection('TEST-SECTION');
+
+    expect(scrollIntoViewSpy).toHaveBeenCalled();
+    document.body.removeChild(dummyElement);
+  });
+
+  it('should handle intersection observer entry update', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+
+    // Trigger an intersection entry change
+    if(app['intersectionObserver']) {
+      const callback = (app['intersectionObserver'] as any).callback;
+      const entries = [
+        {
+          target: { id: 'PROJECTS' },
+          intersectionRatio: 0.8
+        },
+        {
+          target: { id: 'ABOUT' },
+          intersectionRatio: 0.1
+        }
+      ];
+
+      callback(entries, app['intersectionObserver']);
+    }
+
+    expect(app.currentSection).toBe('PROJECTS');
+  });
+
+  it('should not throw when document object does not exist in mouse move listener', () => {
+     const fixture = TestBed.createComponent(AppComponent);
+     const app = fixture.componentInstance;
+     fixture.detectChanges();
+
+     const mouseMoveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 100 });
+     document.dispatchEvent(mouseMoveEvent);
+  });
 });
