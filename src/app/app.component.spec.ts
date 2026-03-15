@@ -38,4 +38,17 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Tawsif Kamal');
   });
+
+  it('should clean up subscriptions on destroy', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const app = fixture.componentInstance;
+
+    const observerDisconnectSpy = jest.spyOn(app['intersectionObserver'] as any, 'disconnect');
+
+    app.ngOnDestroy();
+
+    expect(observerDisconnectSpy).toHaveBeenCalled();
+    expect(app['intersectionObserver']).toBeNull();
+  });
 });
