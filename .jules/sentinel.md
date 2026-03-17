@@ -1,0 +1,4 @@
+## 2025-02-18 - Hardcoded GCP Project ID in Server Files
+**Vulnerability:** Hardcoded Google Cloud Platform (GCP) project IDs ("adept-bison-407117") were present in `server/genAi.js` and `server/test.js`.
+**Learning:** Hardcoding project IDs can lead to unauthorized access or unintended charges if the repository is made public or shared improperly, as it exposes the specific environment the application targets. It also makes it difficult to deploy the application across different environments (dev, staging, prod) without modifying the source code.
+**Prevention:** Use environment variables (e.g., `process.env.GOOGLE_CLOUD_PROJECT`) to manage configuration values like project IDs.
