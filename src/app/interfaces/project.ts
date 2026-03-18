@@ -1,7 +1,7 @@
 export interface Project {
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl?: string;
   linkIconSrc?: string;
   link?: string;
   skills: string[]
