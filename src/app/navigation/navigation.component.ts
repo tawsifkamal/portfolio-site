@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navigation.component.css',
 })
 export class NavigationComponent {
-  @Input() selectedItem!: string;
+  @Input() selectedItem: string = 'ABOUT';
   @Output() sectionChangeEvent = new EventEmitter<string>();
 
   selectItem(item: string) {

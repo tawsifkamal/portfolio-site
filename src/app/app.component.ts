@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -23,7 +23,7 @@ import { ScreenSizeService } from './services/screen-size.service';
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
   private observer: IntersectionObserver | null = null;
   private mouseFollower: HTMLElement | null = null;
   private mouseMoveListener: ((e: MouseEvent) => void) | null = null;
