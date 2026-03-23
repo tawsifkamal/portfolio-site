@@ -20,5 +20,5 @@ export class WorkExperienceCardComponent {
   // injecting means angular does the initliazation of the class for you to prevent tight coupling (also hierarchal injection being used)
   constructor(public screen: ScreenSizeService){}
 
-  @Input() workExperience: WorkExperience;
+  @Input() workExperience!: WorkExperience;
 }
