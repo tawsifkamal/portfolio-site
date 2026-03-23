@@ -69,22 +69,28 @@ export class AppComponent implements AfterViewInit {
       threshold: thresholds,
     };
 
-    let highestRatio = 0;
-    let mostVisibleSection = this.currentSection;
+    const sectionRatios = new Map<string, number>();
 
     this.observer = new IntersectionObserver((entries) => {
       this.ngZone.run(() => {
+        // Update the latest ratios for sections that changed
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > highestRatio) {
-            highestRatio = entry.intersectionRatio;
-            mostVisibleSection = entry.target.id;
+          sectionRatios.set(entry.target.id, entry.intersectionRatio);
+        });
+
+        // Find the most visible section across ALL tracked sections
+        let highestRatio = 0;
+        let mostVisibleSection = this.currentSection;
+
+        sectionRatios.forEach((ratio, id) => {
+          if (ratio > highestRatio) {
+            highestRatio = ratio;
+            mostVisibleSection = id;
           }
         });
 
-        // Reset after evaluating entries in this batch
-        if (entries.length > 0) {
+        if (highestRatio > 0) {
           this.currentSection = mostVisibleSection;
-          highestRatio = 0;
         }
       });
     }, options);
