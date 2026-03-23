@@ -7,7 +7,9 @@ globalThis.IntersectionObserver = class {
   takeRecords(): IntersectionObserverEntry[] {
     return [];
   }
-  constructor(public callback: IntersectionObserverCallback, public options?: IntersectionObserverInit) {}
+  constructor(public callback: IntersectionObserverCallback, public options?: IntersectionObserverInit) {
+    (globalThis as any).__intersectionObserverCallback = callback;
+  }
   observe() {}
   unobserve() {}
   disconnect() {}
