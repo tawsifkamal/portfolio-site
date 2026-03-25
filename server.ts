@@ -53,4 +53,12 @@ function run(): void {
   });
 }
 
-run();
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const serverMainScript = join(serverDistFolder, 'server.mjs');
+
+if (
+  process.argv[1] === fileURLToPath(import.meta.url) ||
+  process.argv[1] === serverMainScript
+) {
+  run();
+}
