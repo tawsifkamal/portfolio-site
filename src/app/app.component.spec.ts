@@ -1,11 +1,28 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
+jest.mock('@angular/common', () => ({
+  ...jest.requireActual('@angular/common'),
+  isPlatformBrowser: () => true
+}));
+
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
     }).compileComponents();
+
+    const follower = document.createElement('div');
+    follower.className = 'mouse-follower';
+    document.body.appendChild(follower);
+  });
+
+  afterEach(() => {
+    const follower = document.querySelector('.mouse-follower');
+    if (follower) {
+      follower.remove();
+    }
+    jest.restoreAllMocks();
   });
 
   it('should create the app', () => {
