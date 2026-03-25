@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject, PLATFORM_ID, NgZone } from '@angular/core';
+import { Component, HostListener, AfterViewInit, OnDestroy, Inject, PLATFORM_ID, NgZone } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -23,10 +23,11 @@ import { ScreenSizeService } from './services/screen-size.service';
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
   private sectionRatios = new Map<string, number>();
   private observer: IntersectionObserver | null = null;
   private follower: HTMLElement | null = null;
+  private mouseMoveListener: ((e: MouseEvent) => void) | null = null;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -92,12 +93,22 @@ export class AppComponent implements AfterViewInit {
 
   private setupMouseMoveListener() {
     this.ngZone.runOutsideAngular(() => {
-      this.document.addEventListener('mousemove', (e: MouseEvent) => {
+      this.mouseMoveListener = (e: MouseEvent) => {
         if (this.follower) {
           this.follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
         }
-      });
+      };
+      this.document.addEventListener('mousemove', this.mouseMoveListener);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+    if (this.mouseMoveListener) {
+      this.document.removeEventListener('mousemove', this.mouseMoveListener);
+    }
   }
 
   currentSection = 'ABOUT';
