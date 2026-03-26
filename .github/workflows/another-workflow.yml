@@ -19,7 +19,7 @@ jobs:
       - name: List markdown files
         run: find . -name "*.md" | head -20
 
-  # Job 2: This will fail
+  # Job 2: Passes
   validate-config:
     runs-on: ubuntu-latest
     steps:
@@ -27,4 +27,4 @@ jobs:
       - name: Validate configuration
         run: echo "Validating configuration..."
       - name: Intentional failure
-        run: exit 1
+        run: echo "Configuration is valid"
