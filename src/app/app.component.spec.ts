@@ -6,6 +6,16 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
     }).compileComponents();
+    const mouseFollower = document.createElement('div');
+    mouseFollower.classList.add('mouse-follower');
+    document.body.appendChild(mouseFollower);
+  });
+
+  afterEach(() => {
+    const mouseFollower = document.querySelector('.mouse-follower');
+    if (mouseFollower) {
+      document.body.removeChild(mouseFollower);
+    }
   });
 
   it('should create the app', () => {
