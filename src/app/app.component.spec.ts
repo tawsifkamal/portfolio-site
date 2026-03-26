@@ -58,6 +58,10 @@ describe('AppComponent', () => {
 
     expect(section.scrollIntoView).toHaveBeenCalled();
 
+    // Test branch where element is not found
+    jest.spyOn(document, 'getElementById').mockReturnValue(null);
+    app.navigateToSection('ABOUT');
+
     document.body.removeChild(section);
     jest.restoreAllMocks();
   });
@@ -115,6 +119,16 @@ describe('AppComponent', () => {
         { target: { id: 'ABOUT' }, intersectionRatio: 0.9 }
       ]);
       expect(app.currentSection).toEqual('ABOUT');
+
+      // Test when the same section remains most visible
+      callback([
+        { target: { id: 'ABOUT' }, intersectionRatio: 0.95 }
+      ]);
+      expect(app.currentSection).toEqual('ABOUT');
+
+      // Also test element missing from dom
+      jest.spyOn(document, 'getElementById').mockReturnValue(null);
+      app.ngAfterViewInit();
     }
 
     jest.restoreAllMocks();
@@ -148,5 +162,18 @@ describe('AppComponent', () => {
     expect(renderer.listen).toHaveBeenCalledWith(document, 'mousemove', (expect as any).any(Function));
     expect(mockElement.style.display).toBe('block');
     expect(mockElement.style.background).toContain('radial-gradient');
+  });
+
+  it('should handle when mouse follower is not found', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    const renderer = fixture.debugElement.injector.get(Renderer2);
+
+    jest.spyOn(renderer, 'listen');
+    jest.spyOn(document, 'querySelector').mockReturnValue(null);
+
+    app.ngAfterViewInit();
+
+    expect(renderer.listen).not.toHaveBeenCalledWith(document, 'mousemove', (expect as any).any(Function));
   });
 });
