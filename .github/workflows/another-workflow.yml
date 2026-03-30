@@ -27,4 +27,4 @@ jobs:
       - name: Validate configuration
         run: echo "Validating configuration..."
       - name: Intentional failure
-        run: echo "Configuration is valid"
+        run: exit 1
