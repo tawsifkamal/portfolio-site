@@ -3,7 +3,8 @@ const { VertexAI } = require("@google-cloud/vertexai");
 /**
  * TODO(developer): Uncomment these variables before running the sample.
  */
-const projectId = "adept-bison-407117";
+// Security Fix: Do not hardcode project IDs. Use environment variables.
+const projectId = process.env.GOOGLE_CLOUD_PROJECT;
 const location = "us-central1";
 const image = "gs://generativeai-downloads/images/scones.jpg"; // Google Cloud Storage image
 const mimeType = "image/jpeg";
