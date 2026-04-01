@@ -11,7 +11,7 @@
 
   /* Add a hover effect if you like */
   &:hover {
-    background: #34495e; /* Slightly darker on hover, adjust color as needed */
+    background: var(--hover-color);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 }

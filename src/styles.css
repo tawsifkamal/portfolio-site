@@ -1,12 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --primary-bg-color: #111830;
-  --secondary-bg-color: #1a3049;
-  --primary-text-color: rgb(182, 194, 223);
-  --tertiary-text-color: #54d2d3;
-  --secondary-text-color: #E2E8F0;
-  --hover-color: #1a3049;
+  --primary-bg-color: #0f172a;
+  --secondary-bg-color: #1e293b;
+  --primary-text-color: #cbd5e1;
+  --tertiary-text-color: #a78bfa;
+  --secondary-text-color: #f8fafc;
+  --hover-color: #334155;
+  --card-background-color: #1e293b;
+  --border-color: #334155;
   --font-family: Inter;
 }
 
