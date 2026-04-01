@@ -19,12 +19,18 @@ jobs:
       - name: List markdown files
         run: find . -name "*.md" | head -20
 
-  # Job 2: This will fail
+  # Job 2: Validate Config
   validate-config:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
       - name: Validate configuration
         run: echo "Validating configuration..."
-      - name: Intentional failure
-        run: exit 1
+      - name: Run build check
+        run: npx ng build
