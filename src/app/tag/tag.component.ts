@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './tag.component.css',
 })
 export class TagComponent {
-  @Input() text: string;
+  @Input() text!: string;
 }
