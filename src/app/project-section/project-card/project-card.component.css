@@ -107,3 +107,11 @@ img {
     background-color: transparent;
   }
 }
+
+.simple-card .right-section {
+  flex: 1;
+}
+
+.simple-card .container {
+  display: block;
+}
