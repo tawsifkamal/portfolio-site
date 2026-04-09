@@ -1,0 +1,4 @@
+## 2026-04-09 - Missing Security Headers in Express Server
+**Vulnerability:** The Angular SSR Express server `server.ts` was missing critical security headers (`Strict-Transport-Security`, `X-Frame-Options`, `X-Content-Type-Options`, `X-XSS-Protection`) and exposing the `X-Powered-By` header, which could allow attackers to gain information about the server infrastructure and exploit vulnerabilities like clickjacking, MIME-type sniffing, or XSS.
+**Learning:** By default, Express doesn't come with built-in security headers. The application's server needs to implement them explicitly to provide a baseline level of defense in depth against common web vulnerabilities.
+**Prevention:** Always implement basic security headers, such as those provided by middleware like Helmet, or custom implementations as done here, to prevent these types of attacks.
