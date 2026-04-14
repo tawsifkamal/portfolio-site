@@ -1,6 +1,6 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, AfterViewInit, Inject, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
@@ -23,103 +23,72 @@ import { ScreenSizeService } from './services/screen-size.service';
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit, OnDestroy {
-  currentSection = 'ABOUT';
-  private intersectionObserver: IntersectionObserver | null = null;
-  private mouseMoveListener: ((e: MouseEvent) => void) | null = null;
-  private follower: HTMLElement | null = null;
+export class AppComponent implements AfterViewInit {
+  offsets = {
+    ABOUT: 0,
+    EXPERIENCE: 0,
+    PROJECTS: 0,
+  };
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    public screen: ScreenSizeService,
-    private ngZone: NgZone
+    public screen: ScreenSizeService
   ) {}
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.follower = this.document.querySelector('.mouse-follower') as HTMLElement;
-      if (this.follower) {
-        this.follower.style.display = 'block';
-      }
-
-      this.setupIntersectionObserver();
-      this.setupMouseMoveListener();
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
-    }
-    if (this.mouseMoveListener) {
-      this.document.removeEventListener('mousemove', this.mouseMoveListener);
-    }
-  }
-
-  private setupIntersectionObserver() {
-    const sectionIds = ['ABOUT', 'EXPERIENCE', 'PROJECTS'];
-    const thresholds = Array.from({ length: 11 }, (_, i) => i / 10); // [0.0, 0.1, ..., 1.0]
-
-    // Use a map to keep track of the intersection ratios for each section
-    const sectionRatios = new Map<string, number>();
-
-    this.intersectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          sectionRatios.set(entry.target.id, entry.intersectionRatio);
-        });
-
-        // Find the section with the highest intersection ratio
-        let maxRatio = 0;
-        let mostVisibleSection = this.currentSection;
-
-        sectionRatios.forEach((ratio, id) => {
-          if (ratio > maxRatio) {
-            maxRatio = ratio;
-            mostVisibleSection = id;
-          }
-        });
-
-        // Only update if we have a clearly visible section (ratio > 0)
-        if (maxRatio > 0 && this.currentSection !== mostVisibleSection) {
-          this.ngZone.run(() => {
-            this.currentSection = mostVisibleSection;
-          });
-        }
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: thresholds,
-      }
-    );
-
-    sectionIds.forEach((id) => {
-      const element = this.document.getElementById(id);
-      if (element) {
-        this.intersectionObserver!.observe(element);
-        sectionRatios.set(id, 0); // Initialize map
-      }
-    });
-  }
-
-  private setupMouseMoveListener() {
-    this.mouseMoveListener = (e: MouseEvent) => {
-      if (this.follower) {
-        this.follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
-      }
+    this.offsets = {
+      ABOUT: this.calculateOffset('ABOUT', 70),
+      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
+      PROJECTS: this.calculateOffset('PROJECTS', 70),
     };
 
-    this.ngZone.runOutsideAngular(() => {
-      this.document.addEventListener('mousemove', this.mouseMoveListener!);
-    });
+
+    const follower = this.document.querySelector(
+      '.mouse-follower'
+    ) as HTMLElement;
+    follower.style.display = 'block';
   }
 
+  private calculateOffset(sectionId: string, padding: number): number {
+    const element = this.document.getElementById(sectionId);
+    return element ? element.offsetTop - padding : 0;
+  }
+
+  currentSection = 'ABOUT';
+
   navigateToSection(section: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+    this.document.getElementById(section)?.scrollIntoView();
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    // Get current scroll position
+    const scrollPosition =
+      window.pageYOffset ||
+      this.document.documentElement.scrollTop ||
+      this.document.body.scrollTop ||
+      0;
+
+    if (
+      scrollPosition > this.offsets['ABOUT'] &&
+      scrollPosition < this.offsets['EXPERIENCE']
+    ) {
+      this.currentSection = 'ABOUT';
+    } else if (
+      scrollPosition > this.offsets['EXPERIENCE'] &&
+      scrollPosition < this.offsets['PROJECTS']
+    ) {
+      this.currentSection = 'EXPERIENCE';
+    } else if (scrollPosition > this.offsets['PROJECTS']) {
+      this.currentSection = 'PROJECTS';
     }
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e: MouseEvent) {
+    const follower = document.querySelector('.mouse-follower') as HTMLElement;
+    // Update background style for radial gradient to follow the cursor
+    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
   }
 
   articles: Article[] = [

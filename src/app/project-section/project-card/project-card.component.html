@@ -2,13 +2,12 @@
   [ngStyle]="{ color: 'inherit', textDecoration: 'none' }"
   [href]="project.link"
   target="_blank"
-  rel="noopener noreferrer"
 >
   <div class="container">
     <div class="left-section">
       <div class="img-wrapper">
         <img [src]="project.imageUrl" />
-        @if (project.linkIconSrc && !screen.isLarge()) {
+        @if (project.linkIconSrc && !screen.isLarge) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
@@ -18,7 +17,7 @@
         <p class="project-name">
           {{ project.name }}
         </p>
-        @if (project.linkIconSrc && screen.isLarge()) {
+        @if (project.linkIconSrc && screen.isLarge) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
@@ -32,7 +31,7 @@
       }
 
       <div class="skill-section">
-        @for (skill of project.skills; track skill) {
+        @for (skill of project.skills; track $index) {
         <app-tag [text]="skill" />
         }
       </div>
