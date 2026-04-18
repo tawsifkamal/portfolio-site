@@ -1,0 +1,8 @@
+--- .github/workflows/blank.yml
++++ .github/workflows/blank.yml
+@@ -47,5 +47,4 @@
+     steps:
+       - uses: actions/checkout@v4
+       - name: Run integration tests
+         run: echo "Starting integration tests..."
+-      - name: Bad command that will fail
