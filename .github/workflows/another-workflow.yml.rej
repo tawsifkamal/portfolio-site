@@ -1,0 +1,7 @@
+--- .github/workflows/another-workflow.yml
++++ .github/workflows/another-workflow.yml
+@@ -21,4 +21,3 @@
+       - uses: actions/checkout@v4
+       - name: Validate configuration
+         run: echo "Validating configuration..."
+-      - name: Intentional failure
