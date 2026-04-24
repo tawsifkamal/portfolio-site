@@ -27,3 +27,21 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('h1')?.textContent).toContain('Tawsif Kamal');
   });
 });
+it('should trigger intersection observer and navigation', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const app = fixture.componentInstance;
+
+    // Test navigation
+    HTMLElement.prototype.scrollIntoView = jest.fn();
+    app.navigateToSection('PROJECTS');
+    expect(HTMLElement.prototype.scrollIntoView).toHaveBeenCalled();
+
+    // Trigger observer
+    if ((globalThis as any).__intersectionObserverCallback) {
+        (globalThis as any).__intersectionObserverCallback([
+            { target: { id: 'EXPERIENCE' }, intersectionRatio: 0.8 }
+        ]);
+        expect(app.currentSection).toBe('EXPERIENCE');
+    }
+});
