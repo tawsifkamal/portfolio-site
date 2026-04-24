@@ -53,4 +53,6 @@ function run(): void {
   });
 }
 
-run();
+if (process.env['npm_lifecycle_event'] !== 'build') {
+  run();
+}
