@@ -2,3 +2,4 @@
   font-weight: bolder;
   margin: 0;
 }
+:host { display: block; }

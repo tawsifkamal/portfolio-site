@@ -1,23 +1,25 @@
 <a
   [ngStyle]="{ color: 'inherit', textDecoration: 'none' }"
   [href]="project.link"
-  target="_blank"
+  target="_blank" rel="noopener noreferrer"
 >
-  <div class="container">
+  <div class="container" [ngClass]="{'simple-card': !project.imageUrl}">
+    @if (project.imageUrl) {
     <div class="left-section">
       <div class="img-wrapper">
         <img [src]="project.imageUrl" />
-        @if (project.linkIconSrc && !screen.isLarge) {
+        @if (project.linkIconSrc && !screen.isLarge()) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
     </div>
+    }
     <div class="right-section">
       <div class="project-name-and-logo-container">
         <p class="project-name">
           {{ project.name }}
         </p>
-        @if (project.linkIconSrc && screen.isLarge) {
+        @if (project.linkIconSrc && screen.isLarge()) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
@@ -31,7 +33,7 @@
       }
 
       <div class="skill-section">
-        @for (skill of project.skills; track $index) {
+        @for (skill of project.skills; track skill) {
         <app-tag [text]="skill" />
         }
       </div>
