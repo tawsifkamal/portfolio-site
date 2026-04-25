@@ -11,4 +11,3 @@
 .project-card {
   transition: opacity 0.2s ease-in-out;
 }
-:host { display: block; }
