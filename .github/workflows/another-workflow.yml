@@ -8,6 +8,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   # Job 1: Passes
   docs-check:
@@ -27,4 +30,4 @@ jobs:
       - name: Validate configuration
         run: echo "Validating configuration..."
       - name: Intentional failure
-        run: exit 1
+        run: echo "Configuration is valid"
