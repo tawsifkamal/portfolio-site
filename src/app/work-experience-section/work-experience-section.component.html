@@ -3,7 +3,7 @@
   @if(screen.isSmall) {
   <h1 class="title">Experience</h1>
   }
-  @for (workExperience of workExperiences; track $index) {
+  @for (workExperience of workExperiences; track workExperience.company) {
   <app-work-experience-card [workExperience]="workExperience" />
   }
 </div>
