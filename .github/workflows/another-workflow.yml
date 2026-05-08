@@ -1,6 +1,9 @@
 # Second workflow to test multiple check suites
 name: Secondary CI
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
     branches: [ "main" ]
@@ -19,12 +22,10 @@ jobs:
       - name: List markdown files
         run: find . -name "*.md" | head -20
 
-  # Job 2: This will fail
+  # Job 2: Validation
   validate-config:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Validate configuration
         run: echo "Validating configuration..."
-      - name: Intentional failure
-        run: exit 1
