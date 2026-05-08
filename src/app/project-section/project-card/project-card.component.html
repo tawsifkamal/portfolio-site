@@ -1,7 +1,7 @@
 <a
   [ngStyle]="{ color: 'inherit', textDecoration: 'none' }"
   [href]="project.link"
-  target="_blank"
+  target="_blank" rel="noopener noreferrer"
 >
   <div class="container">
     <div class="left-section">
@@ -31,7 +31,7 @@
       }
 
       <div class="skill-section">
-        @for (skill of project.skills; track $index) {
+        @for (skill of project.skills; track skill) {
         <app-tag [text]="skill" />
         }
       </div>
