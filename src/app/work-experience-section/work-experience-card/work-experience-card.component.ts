@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { WorkExperience } from '../../interfaces/work-experience';
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TagComponent } from '../../tag/tag.component';
 import { Subscription } from 'rxjs';
 import { ScreenSizeService } from '../../services/screen-size.service';
@@ -10,7 +10,6 @@ import { ScreenSizeService } from '../../services/screen-size.service';
   standalone: true,
   imports: [TagComponent, CommonModule],
   templateUrl: './work-experience-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './work-experience-card.component.css',
 })
 export class WorkExperienceCardComponent {

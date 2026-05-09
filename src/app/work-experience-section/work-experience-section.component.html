@@ -1,9 +1,9 @@
 <div class="container">
 
-  @if(screen.isSmall()) {
+  @if(screen.isSmall) {
   <h1 class="title">Experience</h1>
   }
-  @for (workExperience of workExperiences; track workExperience.role) {
+  @for (workExperience of workExperiences; track $index) {
   <app-work-experience-card [workExperience]="workExperience" />
   }
 </div>
