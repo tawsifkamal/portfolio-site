@@ -1,5 +1,8 @@
 name: Run tests and upload coverage
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TONODE24: true
+
 on: 
   push
 
