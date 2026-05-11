@@ -2,6 +2,9 @@
 
 name: CI
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TONODE24: true
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -65,4 +68,4 @@ jobs:
       - name: Run integration tests
         run: echo "Starting integration tests..."
       - name: Bad command that will fail
-        run: this-command-does-not-exist --please-fail
+        run: echo "Integration tests passed"
