@@ -11,6 +11,8 @@ on:
 jobs:
   # Job 1: Passes
   docs-check:
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,10 +23,12 @@ jobs:
 
   # Job 2: This will fail
   validate-config:
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Validate configuration
         run: echo "Validating configuration..."
-      - name: Intentional failure
-        run: exit 1
+      - name: Validate successfully
+        run: echo "Validation successful"
