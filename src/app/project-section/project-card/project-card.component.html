@@ -31,7 +31,7 @@
       }
 
       <div class="skill-section">
-        @for (skill of project.skills; track $index) {
+        @for (skill of project.skills; track skill) {
         <app-tag [text]="skill" />
         }
       </div>
