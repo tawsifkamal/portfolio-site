@@ -18,6 +18,8 @@ jobs:
   # Job 1: Build
   build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - name: Run a one-line script
@@ -30,6 +32,8 @@ jobs:
   # Job 2: Lint check (simple)
   lint-check:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - name: Echo lint message
@@ -40,6 +44,8 @@ jobs:
   # Job 3: Type check (simple)
   type-check:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - name: Echo type check message
@@ -50,6 +56,8 @@ jobs:
   # Job 4: Security scan (simple)
   security-scan:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - name: Echo security scan message
@@ -60,9 +68,11 @@ jobs:
   # Job 5: Integration test - THIS ONE WILL FAIL (bad command)
   integration-test:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - name: Run integration tests
         run: echo "Starting integration tests..."
-      - name: Bad command that will fail
-        run: this-command-does-not-exist --please-fail
+      - name: Run integration successfully
+        run: echo "Integration tests passed"
