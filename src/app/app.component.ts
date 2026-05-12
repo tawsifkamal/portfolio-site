@@ -35,60 +35,70 @@ export class AppComponent implements AfterViewInit {
     public screen: ScreenSizeService
   ) {}
 
-  ngAfterViewInit() {
-    this.offsets = {
-      ABOUT: this.calculateOffset('ABOUT', 70),
-      EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
-      PROJECTS: this.calculateOffset('PROJECTS', 70),
-    };
-
-
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
-  }
-
-  private calculateOffset(sectionId: string, padding: number): number {
-    const element = this.document.getElementById(sectionId);
-    return element ? element.offsetTop - padding : 0;
-  }
+  private mouseFollower: HTMLElement | null = null;
+  private observer: IntersectionObserver | null = null;
+  private sectionRatios = new Map<string, number>();
 
   currentSection = 'ABOUT';
+
+  ngAfterViewInit() {
+    this.mouseFollower = this.document.querySelector('.mouse-follower');
+    if (this.mouseFollower) {
+      this.mouseFollower.style.display = 'block';
+    }
+
+    if (typeof IntersectionObserver !== 'undefined') {
+      const thresholds = [];
+      for (let i = 0; i <= 1.0; i += 0.05) {
+        thresholds.push(i);
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            this.sectionRatios.set(entry.target.id, entry.intersectionRatio);
+          });
+
+          let maxRatio = 0;
+          let activeSection = this.currentSection;
+
+          for (const [id, ratio] of this.sectionRatios.entries()) {
+            if (ratio > maxRatio) {
+              maxRatio = ratio;
+              activeSection = id;
+            }
+          }
+
+          if (maxRatio > 0 && activeSection !== this.currentSection) {
+            this.currentSection = activeSection;
+          }
+        },
+        {
+          root: null,
+          rootMargin: '-70px 0px 0px 0px',
+          threshold: thresholds,
+        }
+      );
+
+      ['ABOUT', 'EXPERIENCE', 'PROJECTS'].forEach((id) => {
+        const element = this.document.getElementById(id);
+        if (element) {
+          this.observer?.observe(element);
+          this.sectionRatios.set(id, 0);
+        }
+      });
+    }
+  }
 
   navigateToSection(section: string) {
     this.document.getElementById(section)?.scrollIntoView();
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onWindowScroll() {
-    // Get current scroll position
-    const scrollPosition =
-      window.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop ||
-      0;
-
-    if (
-      scrollPosition > this.offsets['ABOUT'] &&
-      scrollPosition < this.offsets['EXPERIENCE']
-    ) {
-      this.currentSection = 'ABOUT';
-    } else if (
-      scrollPosition > this.offsets['EXPERIENCE'] &&
-      scrollPosition < this.offsets['PROJECTS']
-    ) {
-      this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
-    }
-  }
-
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    if (this.mouseFollower) {
+      this.mouseFollower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    }
   }
 
   articles: Article[] = [
