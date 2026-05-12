@@ -60,9 +60,9 @@ jobs:
   # Job 5: Integration test - THIS ONE WILL FAIL (bad command)
   integration-test:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TONODE24: true
     steps:
       - uses: actions/checkout@v4
       - name: Run integration tests
         run: echo "Starting integration tests..."
-      - name: Bad command that will fail
-        run: this-command-does-not-exist --please-fail
