@@ -1,0 +1,17 @@
+
+> portfolio-website@0.0.0 start
+> ng serve
+
+- Building...
+
+
+Initial Chunk Files | Names         |  Raw Size
+styles.css          | styles        |  91.38 kB |
+polyfills.js        | polyfills     |  82.70 kB |
+main.js             | main          |  69.95 kB |
+
+                    | Initial Total | 244.03 kB
+
+Application bundle generation complete. [7.201 seconds]
+Watch mode enabled. Watching for file changes...
+  ➜  Local:   http://localhost:4200/
