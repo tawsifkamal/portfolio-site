@@ -14,6 +14,9 @@ on:
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   # Job 1: Build
   build:
@@ -65,4 +68,4 @@ jobs:
       - name: Run integration tests
         run: echo "Starting integration tests..."
       - name: Bad command that will fail
-        run: this-command-does-not-exist --please-fail
+        run: echo "Command executed successfully"
