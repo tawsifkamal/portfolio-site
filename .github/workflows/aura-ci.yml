@@ -1,3 +1,6 @@
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TONODE24: true
+
 name: Aura PR Notification
 
 on:
