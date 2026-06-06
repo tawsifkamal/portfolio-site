@@ -4,6 +4,6 @@ export interface Project {
   imageUrl: string;
   linkIconSrc?: string;
   link?: string;
-  skills: string[]
+  skills: string[];
   prize?: string;
 }

@@ -1,5 +1,11 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  AfterViewInit,
+  Inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -22,6 +28,7 @@ import { ScreenSizeService } from './services/screen-size.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
   offsets = {
@@ -32,7 +39,7 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
+    public screen: ScreenSizeService,
   ) {}
 
   ngAfterViewInit() {
@@ -42,9 +49,8 @@ export class AppComponent implements AfterViewInit {
       PROJECTS: this.calculateOffset('PROJECTS', 70),
     };
 
-
     const follower = this.document.querySelector(
-      '.mouse-follower'
+      '.mouse-follower',
     ) as HTMLElement;
     follower.style.display = 'block';
   }

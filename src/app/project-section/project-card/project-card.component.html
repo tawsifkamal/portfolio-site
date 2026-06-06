@@ -7,8 +7,8 @@
     <div class="left-section">
       <div class="img-wrapper">
         <img [src]="project.imageUrl" />
-        @if (project.linkIconSrc && !screen.isLarge) {
-        <img class="icon" [src]="project.linkIconSrc" />
+        @if (project.linkIconSrc && !screen.isLarge()) {
+          <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
     </div>
@@ -17,8 +17,8 @@
         <p class="project-name">
           {{ project.name }}
         </p>
-        @if (project.linkIconSrc && screen.isLarge) {
-        <img class="icon" [src]="project.linkIconSrc" />
+        @if (project.linkIconSrc && screen.isLarge()) {
+          <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
 
@@ -26,13 +26,13 @@
         {{ project.description }}
       </p>
 
-      @if(project.prize) {
-      <p class="project-prize">🏆 {{ project.prize }}</p>
+      @if (project.prize) {
+        <p class="project-prize">🏆 {{ project.prize }}</p>
       }
 
       <div class="skill-section">
         @for (skill of project.skills; track $index) {
-        <app-tag [text]="skill" />
+          <app-tag [text]="skill" />
         }
       </div>
     </div>

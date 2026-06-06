@@ -20,7 +20,7 @@ describe('ProjectCardComponent', () => {
       description: 'Test Description',
       skills: ['Test Skill'],
       logoSrc: 'test.png',
-      additionalInfo: 'Test Info'
+      additionalInfo: 'Test Info',
     };
     fixture.detectChanges();
   });
