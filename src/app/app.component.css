@@ -92,7 +92,9 @@
   text-decoration: none;
   position: relative;
   display: inline-block;
-  transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition:
+    color 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
   padding: 0.2rem 0;
 }
 
@@ -181,7 +183,10 @@
   display: block; /* Makes the whole card clickable */
   text-decoration: none;
   color: var(--primary-text-color);
-  background-color: var(--card-background-color, #1a1a1a); /* Assuming a dark mode site */
+  background-color: var(
+    --card-background-color,
+    #1a1a1a
+  ); /* Assuming a dark mode site */
   border: 1px solid var(--border-color, #333);
   border-radius: 8px;
   padding: 20px;

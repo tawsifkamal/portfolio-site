@@ -2,10 +2,10 @@
   <div class="left-section">
     <h1 class="name">Tawsif Kamal</h1>
 
-    @if (screen.isSmall) {
-    <h4 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h4>
+    @if (screen.isSmall()) {
+      <h4 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h4>
     } @else {
-    <h3 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h3>
+      <h3 class="description">CS &#64; Georgia Tech | IoT Intern &#64; IBM</h3>
     }
 
     <h4 class="punchline">
@@ -13,11 +13,17 @@
     </h4>
 
     <img class="profile-image" src="assets/images/profile.jpeg" />
-    <app-navigation [selectedItem]="currentSection" (sectionChangeEvent)="navigateToSection($event)"
-      class="navigation" />
+    <app-navigation
+      [selectedItem]="currentSection"
+      (sectionChangeEvent)="navigateToSection($event)"
+      class="navigation"
+    />
 
     <div class="profile-icons">
-      <a href="https://www.youtube.com/channel/UCfYIV34hpU_DXoOnYGngfWQ" target="_blank">
+      <a
+        href="https://www.youtube.com/channel/UCfYIV34hpU_DXoOnYGngfWQ"
+        target="_blank"
+      >
         <img src="assets/profileIcons/youtube-outline.png" />
       </a>
       <a href="https://www.linkedin.com/in/tawsif-kamal/" target="_blank">
@@ -32,12 +38,10 @@
     </div>
   </div>
   <div class="right-section">
-    <div class="about-me" id="ABOUT">
-      Hey! I'm working on Jules at Google!
-    </div>
+    <div class="about-me" id="ABOUT">Hey! I'm working on Jules at Google!</div>
 
-    @if(screen.isSmall) {
-    <div class="divider"></div>
+    @if (screen.isSmall()) {
+      <div class="divider"></div>
     }
 
     <app-work-experience-section id="EXPERIENCE" />
@@ -47,19 +51,37 @@
     <div class="projects-section" id="PROJECTS">
       <h1 class="title">Projects</h1>
       <div class="project-cards-container">
-        <a class="project-card" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+        <a
+          class="project-card"
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          target="_blank"
+        >
           <h2 class="project-title">DevBox CLI</h2>
-          <p class="project-description">An AI-powered CLI that provisions cloud VMs and runs coding agents</p>
+          <p class="project-description">
+            An AI-powered CLI that provisions cloud VMs and runs coding agents
+          </p>
           <span class="project-link">View Project &#8594;</span>
         </a>
-        <a class="project-card" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
+        <a
+          class="project-card"
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          target="_blank"
+        >
           <h2 class="project-title">LLM Orchestrator</h2>
-          <p class="project-description">Kubernetes-based framework for deploying LLM pipelines</p>
+          <p class="project-description">
+            Kubernetes-based framework for deploying LLM pipelines
+          </p>
           <span class="project-link">View Project &#8594;</span>
         </a>
-        <a class="project-card" href="https://github.com/tawsifkamal/portfolio-site" target="_blank">
+        <a
+          class="project-card"
+          href="https://github.com/tawsifkamal/portfolio-site"
+          target="_blank"
+        >
           <h2 class="project-title">Portfolio Site</h2>
-          <p class="project-description">Angular portfolio with automated deployments</p>
+          <p class="project-description">
+            Angular portfolio with automated deployments
+          </p>
           <span class="project-link">View Project &#8594;</span>
         </a>
       </div>
@@ -74,10 +96,17 @@
       </div>
 
       @for (article of articles; track $index) {
-      <div class="article-list">
-        <a class="article-link" [ngStyle]="screen.isSmall ? { 'text-decoration': 'underline' } : {}"
-          [href]="article.link" target="_blank">{{ article.name }}</a>
-      </div>
+        <div class="article-list">
+          <a
+            class="article-link"
+            [ngStyle]="
+              screen.isSmall() ? { 'text-decoration': 'underline' } : {}
+            "
+            [href]="article.link"
+            target="_blank"
+            >{{ article.name }}</a
+          >
+        </div>
       }
     </div>
   </div>

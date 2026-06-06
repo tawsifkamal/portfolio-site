@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { WorkExperienceCardComponent } from './work-experience-card/work-experience-card.component';
 import { WorkExperience } from '../interfaces/work-experience';
 import { ScreenSizeService } from '../services/screen-size.service';
@@ -9,9 +9,9 @@ import { ScreenSizeService } from '../services/screen-size.service';
   imports: [WorkExperienceCardComponent],
   templateUrl: 'work-experience-section.component.html',
   styleUrl: './work-experience-section.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkExperienceSectionComponent {
-
   constructor(public screen: ScreenSizeService) {}
 
   workExperiences: WorkExperience[] = [
@@ -31,7 +31,7 @@ export class WorkExperienceSectionComponent {
         'MLFLow',
         'GO-CD',
         'Azure',
-        'Graphana'
+        'Graphana',
       ],
     },
     {
@@ -41,13 +41,7 @@ export class WorkExperienceSectionComponent {
       logoSrc: 'assets/images/ibmLogo.svg',
       description:
         'Created a multi-step LLM Agent that is able to answer questions for the client combining information from several pdf files and excel files. Additionally worked on developing code conversion LLM agents on converting legacy Java Struts2 code to Springboot.',
-      skills: [
-        'Python',
-        'Langchain',
-        'Langgraph',
-        'LLMs',
-        'Google Vertex AI',
-      ],
+      skills: ['Python', 'Langchain', 'Langgraph', 'LLMs', 'Google Vertex AI'],
     },
     {
       role: 'Frontend Developer',
