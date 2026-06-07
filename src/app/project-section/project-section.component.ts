@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { Project } from '../interfaces/project';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,6 @@ import { ScreenSizeService } from '../services/screen-size.service';
   imports: [ProjectCardComponent, CommonModule],
   templateUrl: './project-section.component.html',
   styleUrl: './project-section.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectSectionComponent {
   constructor(public screen: ScreenSizeService) {}
