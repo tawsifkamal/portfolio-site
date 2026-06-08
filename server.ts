@@ -57,4 +57,7 @@ function run(): void {
   });
 }
 
-run();
+// Ensure the application does not inadvertently start a server during the build process
+if (!process.env['BUILD'] && process.env['npm_lifecycle_event'] !== 'build') {
+  run();
+}
