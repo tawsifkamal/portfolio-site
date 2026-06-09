@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+
+// Security: Hide Express from attackers
+app.disable('x-powered-by');
+
 const port = 3000;
 
 app.get("/", (req, res) => {
