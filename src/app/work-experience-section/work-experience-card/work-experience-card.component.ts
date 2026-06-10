@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkExperience } from '../../interfaces/work-experience';
 import { Component, Input } from '@angular/core';
@@ -6,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ScreenSizeService } from '../../services/screen-size.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-work-experience-card',
   standalone: true,
   imports: [TagComponent, CommonModule],

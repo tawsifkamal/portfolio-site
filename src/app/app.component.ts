@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { NavigationComponent } from './navigation/navigation.component';
 import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
@@ -9,6 +10,7 @@ import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-root',
   standalone: true,
   imports: [
