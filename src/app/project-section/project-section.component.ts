@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { Project } from '../interfaces/project';
@@ -5,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ScreenSizeService } from '../services/screen-size.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-project-section',
   standalone: true,
   imports: [ProjectCardComponent, CommonModule],
