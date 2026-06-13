@@ -1,7 +1,11 @@
 .tag {
-  background: var(--secondary-bg-color); /* Replace with the desired gradient or solid color */
-  color: var(--tertiary-text-color); /* Text color that stands out against the tag background */
-  font-family: 'Inter', sans-serif; /* Use your desired font-family */
+  background: var(
+    --secondary-bg-color
+  ); /* Replace with the desired gradient or solid color */
+  color: var(
+    --tertiary-text-color
+  ); /* Text color that stands out against the tag background */
+  font-family: "Inter", sans-serif; /* Use your desired font-family */
   font-size: 0.7rem;
   width: max-content;
   padding: 0.2em 1em; /* Adjust padding to match the design in the image */

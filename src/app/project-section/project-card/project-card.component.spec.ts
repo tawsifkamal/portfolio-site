@@ -8,10 +8,9 @@ describe('ProjectCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProjectCardComponent]
-    })
-    .compileComponents();
-    
+      imports: [ProjectCardComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ProjectCardComponent);
     component = fixture.componentInstance;
     component.project = {
@@ -19,7 +18,7 @@ describe('ProjectCardComponent', () => {
       description: 'Test Description',
       imageUrl: 'test.jpg',
       skills: ['Test Skill'],
-      link: 'http://test.com'
+      link: 'http://test.com',
     };
     fixture.detectChanges();
   });

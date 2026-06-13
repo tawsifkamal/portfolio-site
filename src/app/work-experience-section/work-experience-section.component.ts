@@ -11,7 +11,6 @@ import { ScreenSizeService } from '../services/screen-size.service';
   styleUrl: './work-experience-section.component.css',
 })
 export class WorkExperienceSectionComponent {
-
   constructor(public screen: ScreenSizeService) {}
 
   workExperiences: WorkExperience[] = [
@@ -31,7 +30,7 @@ export class WorkExperienceSectionComponent {
         'MLFLow',
         'GO-CD',
         'Azure',
-        'Graphana'
+        'Graphana',
       ],
     },
     {
@@ -41,13 +40,7 @@ export class WorkExperienceSectionComponent {
       logoSrc: 'assets/images/ibmLogo.svg',
       description:
         'Created a multi-step LLM Agent that is able to answer questions for the client combining information from several pdf files and excel files. Additionally worked on developing code conversion LLM agents on converting legacy Java Struts2 code to Springboot.',
-      skills: [
-        'Python',
-        'Langchain',
-        'Langgraph',
-        'LLMs',
-        'Google Vertex AI',
-      ],
+      skills: ['Python', 'Langchain', 'Langgraph', 'LLMs', 'Google Vertex AI'],
     },
     {
       role: 'Frontend Developer',

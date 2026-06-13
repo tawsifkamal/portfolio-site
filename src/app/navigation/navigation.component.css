@@ -6,31 +6,35 @@
 .menu-item {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem; 
+  margin-bottom: 0.5rem;
   cursor: pointer;
 }
 
 .menu-line {
-  width: 50px; 
+  width: 50px;
   height: 2px;
-  background-color: #a2aecb; 
+  background-color: #a2aecb;
   margin-right: 1rem;
-  transition: width 0.3s ease, color 0.3s ease;
+  transition:
+    width 0.3s ease,
+    color 0.3s ease;
 }
 
 /* when item is hovered or selected, extend line to 70px */
-.menu-item:hover .menu-line, .menu-item.selected .menu-line  {
+.menu-item:hover .menu-line,
+.menu-item.selected .menu-line {
   width: 70px;
 }
 
 /* when item is hovered or selected, make text white */
-.menu-item:hover, .menu-item.selected {
-  color: var(--secondary-text-color); 
+.menu-item:hover,
+.menu-item.selected {
+  color: var(--secondary-text-color);
 }
 
 .menu-text {
   font-family: "Inter", sans-serif;
   text-transform: uppercase;
-  font-weight: 600; 
-  letter-spacing: 1px; 
+  font-weight: 600;
+  letter-spacing: 1px;
 }

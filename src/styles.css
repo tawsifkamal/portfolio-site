@@ -5,18 +5,17 @@
   --secondary-bg-color: #1a3049;
   --primary-text-color: rgb(182, 194, 223);
   --tertiary-text-color: #54d2d3;
-  --secondary-text-color: #E2E8F0;
+  --secondary-text-color: #e2e8f0;
   --hover-color: #1a3049;
   --font-family: Inter;
 }
 
 *::selection {
-  background: var(--tertiary-text-color); /* Change to your desired background color */
+  background: var(
+    --tertiary-text-color
+  ); /* Change to your desired background color */
   color: #000; /* Change to your desired text color */
 }
-
-
-
 
 html,
 body {
@@ -25,9 +24,7 @@ body {
   color: var(--primary-text-color);
   scroll-behavior: smooth;
   scroll-padding: 2em;
-
 }
-
 
 .mat-typography {
   font-family: var(--font-family);

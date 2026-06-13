@@ -1,16 +1,15 @@
 <div class="container">
-  @if(screen.isSmall) {
-
+  @if (screen.isSmall) {
     <h1 class="title">Projects</h1>
   }
   @for (project of projects; track $index) {
-  <app-project-card
-    class="project-card"
-    [project]="project"
-    [hoveredProject]="hoveredProject"
-    [ngClass]="{ blurred: hoveredProject && hoveredProject !== project.name }"
-    (mouseenter)="hoveredProject = project.name"
-    (mouseleave)="hoveredProject = null"
-  />
+    <app-project-card
+      class="project-card"
+      [project]="project"
+      [hoveredProject]="hoveredProject"
+      [ngClass]="{ blurred: hoveredProject && hoveredProject !== project.name }"
+      (mouseenter)="hoveredProject = project.name"
+      (mouseleave)="hoveredProject = null"
+    />
   }
 </div>
