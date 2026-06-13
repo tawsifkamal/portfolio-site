@@ -37,9 +37,8 @@ const testAI = async () => {
 
   console.log("Non-Streaming Response Text:");
   // Create the response stream
-  const responseStream = await generativeVisionModel.generateContentStream(
-    request
-  );
+  const responseStream =
+    await generativeVisionModel.generateContentStream(request);
 
   // Wait for the response stream to complete
   const aggregatedResponse = await responseStream.response;
@@ -52,4 +51,4 @@ const testAI = async () => {
 };
 // Instantiate the model
 
-testAI()
+testAI();

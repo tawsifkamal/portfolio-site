@@ -7,21 +7,21 @@ coverage:
     # Project coverage - overall project coverage check
     project:
       default:
-        target: 99%  # Impossible target - will always fail
-        threshold: 1%  # Allow 1% drop before failing
+        target: 99% # Impossible target - will always fail
+        threshold: 1% # Allow 1% drop before failing
         # This will create a "codecov/project" check run
 
     # Patch coverage - coverage of new/changed lines
     patch:
       default:
-        target: 100%  # All new lines must be covered
-        threshold: 0%  # No tolerance - strict 100% on patches
+        target: 100% # All new lines must be covered
+        threshold: 0% # No tolerance - strict 100% on patches
         # This will create a "codecov/patch" check run
 
     # Changes - shows coverage changes (informational)
     changes:
       default:
-        target: 0%  # Will always show changes
+        target: 0% # Will always show changes
         # This will create a "codecov/changes" check run
 
 # Component-specific coverage (creates additional check runs per component)
@@ -48,7 +48,7 @@ flag_management:
     statuses:
       - type: project
         target: 80%
-      - type: patch  
+      - type: patch
         target: 100%
   individual_flags:
     - name: unit

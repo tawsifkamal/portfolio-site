@@ -18,7 +18,7 @@ export class WorkExperienceCardComponent {
 
   // we are injecting the BreakpointObserver class so that we don't have to initialize it here
   // injecting means angular does the initliazation of the class for you to prevent tight coupling (also hierarchal injection being used)
-  constructor(public screen: ScreenSizeService){}
+  constructor(public screen: ScreenSizeService) {}
 
   @Input() workExperience: WorkExperience;
 }

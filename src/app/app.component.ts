@@ -1,7 +1,6 @@
 import { NavigationComponent } from './navigation/navigation.component';
 import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
@@ -13,7 +12,6 @@ import { ScreenSizeService } from './services/screen-size.service';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     WorkExperienceSectionComponent,
     TagComponent,
     NavigationComponent,
@@ -32,7 +30,7 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
+    public screen: ScreenSizeService,
   ) {}
 
   ngAfterViewInit() {
@@ -42,9 +40,8 @@ export class AppComponent implements AfterViewInit {
       PROJECTS: this.calculateOffset('PROJECTS', 70),
     };
 
-
     const follower = this.document.querySelector(
-      '.mouse-follower'
+      '.mouse-follower',
     ) as HTMLElement;
     follower.style.display = 'block';
   }
