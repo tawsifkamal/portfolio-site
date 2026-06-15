@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+
+// Security improvement: Disable the 'x-powered-by' header to prevent information leakage
+app.disable('x-powered-by');
+
 const port = 3000;
 
 app.get("/", (req, res) => {
