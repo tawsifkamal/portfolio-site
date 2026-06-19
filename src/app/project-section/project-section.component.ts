@@ -18,6 +18,7 @@ export class ProjectSectionComponent {
   projects: Project[] = [
     {
       name: 'TinyGen: An LLM Coding Agent',
+      status: 'Hibernating',
       description:
         "Created an LLM agent that can create pull requests through natural language prompts given any Github repository.",
       imageUrl: 'assets/images/tinygen-thumbnail.png',
@@ -100,6 +101,7 @@ export class ProjectSectionComponent {
     },
     {
       name: 'TawsifCoin',
+      status: 'Archived',
       description:
         "Made a full-stack web app of my 'fake' crypto coin to learn the ideas behind blockchain such as a elliptic hash functions, SHA256, Proof of Work and more.",
       imageUrl: 'assets/images/tawsifCoinThumbnail.png',
