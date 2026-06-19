@@ -7,4 +7,5 @@ module.exports = {
     '<rootDir>/server/' 
   ],
   globalSetup: 'jest-preset-angular/global-setup',
+  coverageReporters: ['clover', 'json', 'lcov', 'text', 'json-summary'],
 };
