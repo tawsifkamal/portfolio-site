@@ -181,8 +181,8 @@
   display: block; /* Makes the whole card clickable */
   text-decoration: none;
   color: var(--primary-text-color);
-  background-color: var(--card-background-color, #1a1a1a); /* Assuming a dark mode site */
-  border: 1px solid var(--border-color, #333);
+  background-color: var(--card-background-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
   transition: all 0.3s ease;

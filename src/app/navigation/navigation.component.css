@@ -13,7 +13,7 @@
 .menu-line {
   width: 50px; 
   height: 2px;
-  background-color: #a2aecb; 
+  background-color: var(--primary-text-color); 
   margin-right: 1rem;
   transition: width 0.3s ease, color 0.3s ease;
 }
