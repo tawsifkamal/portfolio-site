@@ -26,4 +26,20 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Tawsif Kamal');
   });
+
+  it('should call scrollIntoView on the specified element', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    const mockElement = { scrollIntoView: jest.fn() };
+    const getElementByIdSpy = jest
+      .spyOn(document, 'getElementById')
+      .mockReturnValue(mockElement as any);
+
+    app.navigateToSection('ABOUT');
+
+    expect(getElementByIdSpy).toHaveBeenCalledWith('ABOUT');
+    expect(mockElement.scrollIntoView).toHaveBeenCalled();
+
+    getElementByIdSpy.mockRestore();
+  });
 });
