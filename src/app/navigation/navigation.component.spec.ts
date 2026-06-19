@@ -20,4 +20,11 @@ describe('NavigationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should select an item and emit change event', () => {
+    jest.spyOn(component.sectionChangeEvent, 'emit');
+    component.selectItem('PROJECTS');
+    expect(component.selectedItem).toBe('PROJECTS');
+    expect(component.sectionChangeEvent.emit).toHaveBeenCalledWith('PROJECTS');
+  });
 });
