@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, NgZone, OnDestroy } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -23,7 +23,7 @@ import { ScreenSizeService } from './services/screen-size.service';
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
   offsets = {
     ABOUT: 0,
     EXPERIENCE: 0,
@@ -32,8 +32,11 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    public screen: ScreenSizeService
+    public screen: ScreenSizeService,
+    private ngZone: NgZone
   ) {}
+
+  private mouseMoveListener: (e: MouseEvent) => void;
 
   ngAfterViewInit() {
     this.offsets = {
@@ -46,7 +49,24 @@ export class AppComponent implements AfterViewInit {
     const follower = this.document.querySelector(
       '.mouse-follower'
     ) as HTMLElement;
-    follower.style.display = 'block';
+
+    if (follower) {
+      follower.style.display = 'block';
+
+      // Run outside Angular to prevent Change Detection on every mouse move
+      this.ngZone.runOutsideAngular(() => {
+        this.mouseMoveListener = (e: MouseEvent) => {
+          follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+        };
+        this.document.addEventListener('mousemove', this.mouseMoveListener);
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.mouseMoveListener) {
+      this.document.removeEventListener('mousemove', this.mouseMoveListener);
+    }
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
@@ -84,12 +104,6 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
-  }
 
   articles: Article[] = [
     {
