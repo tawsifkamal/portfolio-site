@@ -117,5 +117,14 @@ export class ProjectSectionComponent {
       linkIconSrc: 'assets/images/linkIcon.png',
       link: 'https://tawsifcoin.vercel.app/',
     },
+    {
+      name: 'Sample Demo Project',
+      description:
+        'A demo project showcasing various features and capabilities. This is mock data for testing purposes.',
+      imageUrl: 'assets/images/placeholder.png',
+      skills: ['TypeScript', 'Angular', 'Demo'],
+      linkIconSrc: 'assets/images/youtubeIcon.svg',
+      link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    },
   ];
 }
