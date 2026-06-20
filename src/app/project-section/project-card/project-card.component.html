@@ -20,7 +20,7 @@
           <span class="badge {{ project.status | lowercase }}">{{ project.status }}</span>
           }
         </p>
-        @if (project.linkIconSrc && screen.isLarge) {
+        @if (project.linkIconSrc && screen.isLarge()) {
         <img class="icon" [src]="project.linkIconSrc" />
         }
       </div>
