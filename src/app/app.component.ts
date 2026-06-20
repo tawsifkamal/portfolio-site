@@ -1,7 +1,6 @@
 import { NavigationComponent } from './navigation/navigation.component';
 import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
@@ -13,7 +12,6 @@ import { ScreenSizeService } from './services/screen-size.service';
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
     WorkExperienceSectionComponent,
     TagComponent,
     NavigationComponent,
@@ -109,6 +107,4 @@ export class AppComponent implements AfterViewInit {
       link: 'https://medium.com/@tawsifkamal/monte-carlo-reinforcement-learning-a-hands-on-approach-97b412b48293',
     },
   ];
-
-  title = 'portfolio-website';
 }
