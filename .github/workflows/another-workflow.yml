@@ -18,6 +18,8 @@ jobs:
         run: echo "Checking documentation..."
       - name: List markdown files
         run: find . -name "*.md" | head -20
+      - name: Fail docs check
+        run: exit 1
 
   # Job 2: Validates config
   validate-config:

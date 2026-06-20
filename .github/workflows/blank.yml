@@ -26,6 +26,8 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+      - name: Fail build
+        run: exit 1
 
   # Job 2: Lint check (simple)
   lint-check:
@@ -36,6 +38,8 @@ jobs:
         run: echo "Running lint checks..."
       - name: List files
         run: ls -la
+      - name: Fail lint
+        run: exit 1
 
   # Job 3: Type check (simple)
   type-check:
