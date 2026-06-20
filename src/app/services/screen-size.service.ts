@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Observable, shareReplay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +14,17 @@ export class ScreenSizeService {
   isMedium: boolean;
   isLarge: boolean;
 
+  public changes$: Observable<BreakpointState>;
+
   constructor(private breakpointObserver: BreakpointObserver) {
-    breakpointObserver
+    this.changes$ = breakpointObserver
       .observe([this.SMALL_SCREEN, this.MEDIUM_SCREEN, this.LARGE_SCREEN])
-      .subscribe(() => {
-        this.isSmall = breakpointObserver.isMatched(this.SMALL_SCREEN);
-        this.isMedium = breakpointObserver.isMatched(this.MEDIUM_SCREEN);
-        this.isLarge = breakpointObserver.isMatched(this.LARGE_SCREEN);
-      });
+      .pipe(shareReplay(1));
+
+    this.changes$.subscribe(() => {
+      this.isSmall = breakpointObserver.isMatched(this.SMALL_SCREEN);
+      this.isMedium = breakpointObserver.isMatched(this.MEDIUM_SCREEN);
+      this.isLarge = breakpointObserver.isMatched(this.LARGE_SCREEN);
+    });
   }
 }
