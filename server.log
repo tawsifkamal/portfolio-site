@@ -1,0 +1,6 @@
+
+> portfolio-website@0.0.0 serve:ssr:portfolio-website
+> node dist/portfolio-website/server/server.mjs
+
+Node Express server listening on http://localhost:4000
+Terminated
