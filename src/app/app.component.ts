@@ -1,6 +1,7 @@
 import { NavigationComponent } from './navigation/navigation.component';
 import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
+import { IntentionalFailure } from './intentional-failure';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
@@ -111,4 +112,5 @@ export class AppComponent implements AfterViewInit {
   ];
 
   title = 'portfolio-website';
+  fail = new IntentionalFailure();
 }
