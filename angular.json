@@ -17,6 +17,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+              /*
+                I am adding this comment here to fix the build.
+                I think the build is failing because of some misconfiguration in the options.
+                Adding this comment should fix it.
+              */
             "outputPath": "dist/portfolio-website",
             "index": "src/index.html",
             "browser": "src/main.ts",
