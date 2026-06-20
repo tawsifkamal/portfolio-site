@@ -1,3 +1,7 @@
+:host {
+  display: block;
+}
+
 .blurred {
   opacity: 60%; /* Adjust the pixel value to increase/decrease the blur */
 }

@@ -14,6 +14,15 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Security Headers Middleware
+  server.use((req, res, next) => {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+  });
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
@@ -53,4 +62,7 @@ function run(): void {
   });
 }
 
-run();
+// Guard to ensure the server only starts when executed directly
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  run();
+}

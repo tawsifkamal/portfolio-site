@@ -8,6 +8,26 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
+  beforeEach(() => {
+    // Mock IntersectionObserver
+    (globalThis as any).IntersectionObserver = class IntersectionObserver {
+      constructor(callback: any) {
+        (globalThis as any).__intersectionObserverCallback = callback;
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    };
+  });
+
+  afterEach(() => {
+    if (typeof jest !== 'undefined') {
+      jest.restoreAllMocks();
+    }
+    delete (globalThis as any).IntersectionObserver;
+    delete (globalThis as any).__intersectionObserverCallback;
+  });
+
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
