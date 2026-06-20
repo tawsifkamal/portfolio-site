@@ -3,7 +3,6 @@ import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
-import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
@@ -15,7 +14,6 @@ import { ScreenSizeService } from './services/screen-size.service';
     CommonModule,
     RouterOutlet,
     WorkExperienceSectionComponent,
-    TagComponent,
     NavigationComponent,
     ProjectSectionComponent,
   ],
