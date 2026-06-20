@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
+import { PaymentSectionComponent } from './payment-section/payment-section.component';
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
 
@@ -18,6 +19,7 @@ import { ScreenSizeService } from './services/screen-size.service';
     TagComponent,
     NavigationComponent,
     ProjectSectionComponent,
+    PaymentSectionComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -28,6 +30,7 @@ export class AppComponent implements AfterViewInit {
     ABOUT: 0,
     EXPERIENCE: 0,
     PROJECTS: 0,
+    PAYMENT: 0,
   };
 
   constructor(
@@ -40,6 +43,7 @@ export class AppComponent implements AfterViewInit {
       ABOUT: this.calculateOffset('ABOUT', 70),
       EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
       PROJECTS: this.calculateOffset('PROJECTS', 70),
+      PAYMENT: this.calculateOffset('PAYMENT', 70),
     };
 
 
@@ -79,8 +83,13 @@ export class AppComponent implements AfterViewInit {
       scrollPosition < this.offsets['PROJECTS']
     ) {
       this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
+    } else if (
+      scrollPosition > this.offsets['PROJECTS'] &&
+      scrollPosition < this.offsets['PAYMENT']
+    ) {
       this.currentSection = 'PROJECTS';
+    } else if (scrollPosition > this.offsets['PAYMENT']) {
+      this.currentSection = 'PAYMENT';
     }
   }
 

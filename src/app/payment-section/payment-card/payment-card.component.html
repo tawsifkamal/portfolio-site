@@ -1,0 +1,14 @@
+<div
+  class="payment-card"
+  [class.selected]="isSelected"
+  (click)="onSelect()"
+  role="button"
+  [attr.aria-pressed]="isSelected"
+>
+  <div class="card-icon">{{ method.icon }}</div>
+  <div class="card-content">
+    <h3 class="card-label">{{ method.label }}</h3>
+    <p class="card-description">{{ method.description }}</p>
+  </div>
+  <div class="card-indicator" *ngIf="isSelected">✓</div>
+</div>
