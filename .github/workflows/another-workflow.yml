@@ -8,6 +8,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TONODE24: true
+
 jobs:
   # Job 1: Passes
   docs-check:
