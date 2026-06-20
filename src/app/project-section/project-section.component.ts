@@ -17,6 +17,27 @@ export class ProjectSectionComponent {
   hoveredProject: string | null = null;
   projects: Project[] = [
     {
+      name: 'DevBox CLI',
+      description: 'An AI-powered CLI that provisions cloud VMs and runs coding agents',
+      imageUrl: '',
+      link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      skills: [],
+    },
+    {
+      name: 'LLM Orchestrator',
+      description: 'Kubernetes-based framework for deploying LLM pipelines',
+      imageUrl: '',
+      link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      skills: [],
+    },
+    {
+      name: 'Portfolio Site',
+      description: 'Angular portfolio with automated deployments',
+      imageUrl: '',
+      link: 'https://github.com/tawsifkamal/portfolio-site',
+      skills: [],
+    },
+    {
       name: 'TinyGen: An LLM Coding Agent',
       status: 'Hibernating',
       description:
