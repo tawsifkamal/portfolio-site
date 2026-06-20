@@ -15,7 +15,7 @@ async function authenticateImplicitWithAdc() {
   // Note that the credentials are not specified when constructing the client.
   // The client library finds your credentials using ADC.
   const storage = new Storage({
-    projectId: "adept-bison-407117",
+    projectId: process.env.GOOGLE_CLOUD_PROJECT, // Security: Use environment variable instead of hardcoded ID
   });
   const [buckets] = await storage.getBuckets();
   console.log("Buckets:");
