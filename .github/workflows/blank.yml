@@ -26,6 +26,7 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+          exit 1
 
   # Job 2: Lint check (simple)
   lint-check:
@@ -35,7 +36,9 @@ jobs:
       - name: Echo lint message
         run: echo "Running lint checks..."
       - name: List files
-        run: ls -la
+        run: |
+          ls -la
+          exit 1
 
   # Job 3: Type check (simple)
   type-check:
@@ -45,7 +48,9 @@ jobs:
       - name: Echo type check message
         run: echo "Running type checks..."
       - name: Show node version
-        run: node --version || echo "Node not installed"
+        run: |
+          node --version || echo "Node not installed"
+          exit 1
 
   # Job 4: Security scan (simple)
   security-scan:
@@ -55,7 +60,9 @@ jobs:
       - name: Echo security scan message
         run: echo "Running security scan..."
       - name: Check for secrets
-        run: echo "No secrets found!"
+        run: |
+          echo "No secrets found!"
+          exit 1
 
   # Job 5: Integration test - THIS ONE WILL FAIL (bad command)
   integration-test:
