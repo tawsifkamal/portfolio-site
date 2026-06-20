@@ -119,3 +119,4 @@ export class ProjectSectionComponent {
     },
   ];
 }
+// Add a new function with NO test coverage function untestableMath(a: any, b: any) { if (a > 10) { return a * b + 100; } return a - b; } export { untestableMath };
