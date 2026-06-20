@@ -1,0 +1,88 @@
+.dashboard-container {
+  padding: 20px 0;
+  color: #ccd6f6;
+}
+
+.section-title {
+  color: #e2e8f0;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.service-info {
+  background: rgba(29, 78, 216, 0.05);
+  border: 1px solid rgba(29, 78, 216, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.service-info h3 {
+  margin-top: 0;
+  color: #5eead4;
+}
+
+.deployments-section h3 {
+  color: #e2e8f0;
+  margin-bottom: 15px;
+}
+
+.deployment-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 4px solid transparent;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.deployment-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(5px);
+}
+
+.deployment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dep-id {
+  font-family: monospace;
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+.dep-status {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.dep-commit {
+  margin: 0;
+  color: #e2e8f0;
+}
+
+.dep-time {
+  margin: 5px 0 0 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.external-link {
+  color: #5eead4;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.external-link:hover {
+  text-decoration: underline;
+}
