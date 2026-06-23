@@ -14,6 +14,15 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Security enhancements: disable X-Powered-By header and add other standard security headers
+  server.disable('x-powered-by');
+  server.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+  });
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
