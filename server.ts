@@ -8,6 +8,11 @@ import bootstrap from './src/main.server';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
+
+  // Security enhancement: Disable the X-Powered-By header to prevent information leakage
+  // This prevents attackers from knowing we are running Express and potentially targeting Express-specific vulnerabilities
+  server.disable('x-powered-by');
+
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
