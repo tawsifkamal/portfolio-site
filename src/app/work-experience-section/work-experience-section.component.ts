@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { WorkExperienceCardComponent } from './work-experience-card/work-experience-card.component';
 import { WorkExperience } from '../interfaces/work-experience';
 import { ScreenSizeService } from '../services/screen-size.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-work-experience-section',
   standalone: true,
   imports: [WorkExperienceCardComponent],
