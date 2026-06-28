@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-tag',
   standalone: true,
   imports: [],
