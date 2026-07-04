@@ -14,6 +14,9 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Security: Disable x-powered-by header to prevent information disclosure
+  server.disable('x-powered-by');
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
