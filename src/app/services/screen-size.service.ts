@@ -1,26 +1,37 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScreenSizeService {
+  private breakpointObserver = inject(BreakpointObserver);
+
   private SMALL_SCREEN = '(max-width: 1023px)';
   private MEDIUM_SCREEN = '(min-width: 1024px) and (max-width: 1439px)';
   private LARGE_SCREEN = '(min-width: 1440px)';
 
-  isSmall: boolean;
-  isMedium: boolean;
-  isLarge: boolean;
+  private screenState = toSignal(
+    this.breakpointObserver.observe([
+      this.SMALL_SCREEN,
+      this.MEDIUM_SCREEN,
+      this.LARGE_SCREEN,
+    ]),
+    {
+      initialValue: { matches: false, breakpoints: {} as Record<string, boolean> }
+    }
+  );
 
-  constructor(private breakpointObserver: BreakpointObserver) {
-    breakpointObserver
-      .observe([this.SMALL_SCREEN, this.MEDIUM_SCREEN, this.LARGE_SCREEN])
-      .subscribe(() => {
-        this.isSmall = breakpointObserver.isMatched(this.SMALL_SCREEN);
-        this.isMedium = breakpointObserver.isMatched(this.MEDIUM_SCREEN);
-        this.isLarge = breakpointObserver.isMatched(this.LARGE_SCREEN);
-      });
+  get isSmall(): boolean {
+    return this.screenState().breakpoints[this.SMALL_SCREEN] ?? false;
+  }
+
+  get isMedium(): boolean {
+    return this.screenState().breakpoints[this.MEDIUM_SCREEN] ?? false;
+  }
+
+  get isLarge(): boolean {
+    return this.screenState().breakpoints[this.LARGE_SCREEN] ?? false;
   }
 }
