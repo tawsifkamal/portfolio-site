@@ -1,17 +1,16 @@
 .tag {
-  background: var(--secondary-bg-color); /* Replace with the desired gradient or solid color */
-  color: var(--tertiary-text-color); /* Text color that stands out against the tag background */
-  font-family: 'Inter', sans-serif; /* Use your desired font-family */
+  background: var(--secondary-bg-color);
+  color: var(--tertiary-text-color);
+  font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   width: max-content;
-  padding: 0.2em 1em; /* Adjust padding to match the design in the image */
+  padding: 0.2em 1em;
   border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 
-  /* Add a hover effect if you like */
   &:hover {
-    background: #34495e; /* Slightly darker on hover, adjust color as needed */
+    background: #34495e;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 }
