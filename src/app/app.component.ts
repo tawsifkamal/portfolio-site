@@ -1,10 +1,11 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
+import { ArticleSectionComponent } from './article-section/article-section.component';
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
 
@@ -18,10 +19,12 @@ import { ScreenSizeService } from './services/screen-size.service';
     TagComponent,
     NavigationComponent,
     ProjectSectionComponent,
+    ArticleSectionComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
   offsets = {

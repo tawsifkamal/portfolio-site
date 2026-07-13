@@ -44,42 +44,11 @@
 
     <div class="divider"></div>
 
-    <div class="projects-section" id="PROJECTS">
-      <h1 class="title">Projects</h1>
-      <div class="project-cards-container">
-        <a class="project-card" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
-          <h2 class="project-title">DevBox CLI</h2>
-          <p class="project-description">An AI-powered CLI that provisions cloud VMs and runs coding agents</p>
-          <span class="project-link">View Project &#8594;</span>
-        </a>
-        <a class="project-card" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
-          <h2 class="project-title">LLM Orchestrator</h2>
-          <p class="project-description">Kubernetes-based framework for deploying LLM pipelines</p>
-          <span class="project-link">View Project &#8594;</span>
-        </a>
-        <a class="project-card" href="https://github.com/tawsifkamal/portfolio-site" target="_blank">
-          <h2 class="project-title">Portfolio Site</h2>
-          <p class="project-description">Angular portfolio with automated deployments</p>
-          <span class="project-link">View Project &#8594;</span>
-        </a>
-      </div>
-    </div>
+    <app-project-section id="PROJECTS" />
 
     <div class="divider"></div>
 
-    <div class="article-section">
-      <div class="article-section-header">
-        <h1 class="title">Articles</h1>
-        <img src="assets/images/linkClipIcon.png" />
-      </div>
-
-      @for (article of articles; track $index) {
-      <div class="article-list">
-        <a class="article-link" [ngStyle]="screen.isSmall ? { 'text-decoration': 'underline' } : {}"
-          [href]="article.link" target="_blank">{{ article.name }}</a>
-      </div>
-      }
-    </div>
+    <app-article-section [articles]="articles" />
   </div>
 
   <div class="mouse-follower"></div>
