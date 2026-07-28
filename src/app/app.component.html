@@ -82,7 +82,9 @@
     </div>
   </div>
 
-  <div class="mouse-follower"></div>
+  <div class="mouse-follower"
+       [style.display]="showFollower() ? 'block' : 'none'"
+       [style.background]="'radial-gradient(600px at ' + mouseX() + 'px ' + mouseY() + 'px, rgba(29, 78, 216, 0.15), transparent 80%)'"></div>
 </main>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
