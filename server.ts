@@ -14,6 +14,9 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Security enhancement: Hide Express technology stack signature
+  server.disable('x-powered-by');
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
