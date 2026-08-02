@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -22,6 +22,7 @@ import { ScreenSizeService } from './services/screen-size.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
   offsets = {
@@ -54,7 +55,12 @@ export class AppComponent implements AfterViewInit {
     return element ? element.offsetTop - padding : 0;
   }
 
-  currentSection = 'ABOUT';
+  currentSectionSignal = signal<string>('ABOUT');
+
+  // Expose signal value directly as property for template access
+  get currentSection() {
+    return this.currentSectionSignal();
+  }
 
   navigateToSection(section: string) {
     this.document.getElementById(section)?.scrollIntoView();
@@ -73,22 +79,25 @@ export class AppComponent implements AfterViewInit {
       scrollPosition > this.offsets['ABOUT'] &&
       scrollPosition < this.offsets['EXPERIENCE']
     ) {
-      this.currentSection = 'ABOUT';
+      this.currentSectionSignal.set('ABOUT');
     } else if (
       scrollPosition > this.offsets['EXPERIENCE'] &&
       scrollPosition < this.offsets['PROJECTS']
     ) {
-      this.currentSection = 'EXPERIENCE';
+      this.currentSectionSignal.set('EXPERIENCE');
     } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
+      this.currentSectionSignal.set('PROJECTS');
     }
   }
 
+  mouseX = signal(0);
+  mouseY = signal(0);
+  mouseBackground = computed(() => `radial-gradient(600px at ${this.mouseX()}px ${this.mouseY()}px, rgba(29, 78, 216, 0.15), transparent 80%)`);
+
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    this.mouseX.set(e.clientX);
+    this.mouseY.set(e.clientY);
   }
 
   articles: Article[] = [
