@@ -5,6 +5,8 @@ import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
+import { FeaturedProjectsComponent } from './featured-projects/featured-projects.component';
+import { ArticleSectionComponent } from './article-section/article-section.component';
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
 
@@ -18,6 +20,8 @@ import { ScreenSizeService } from './services/screen-size.service';
     TagComponent,
     NavigationComponent,
     ProjectSectionComponent,
+    FeaturedProjectsComponent,
+    ArticleSectionComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
