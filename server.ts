@@ -17,6 +17,9 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
+  // Security: Disable X-Powered-By header to prevent technology stack information leakage
+  server.disable('x-powered-by');
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
