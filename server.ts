@@ -14,6 +14,9 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Sentinel: Disable x-powered-by header to prevent leaking technology stack information
+  server.disable('x-powered-by');
+
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
