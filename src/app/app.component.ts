@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -22,6 +22,7 @@ import { ScreenSizeService } from './services/screen-size.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
   offsets = {
@@ -29,6 +30,8 @@ export class AppComponent implements AfterViewInit {
     EXPERIENCE: 0,
     PROJECTS: 0,
   };
+
+  mouseFollowerStyle = signal<Record<string, string>>({ display: 'block' });
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -41,12 +44,6 @@ export class AppComponent implements AfterViewInit {
       EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
       PROJECTS: this.calculateOffset('PROJECTS', 70),
     };
-
-
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
@@ -86,9 +83,10 @@ export class AppComponent implements AfterViewInit {
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    this.mouseFollowerStyle.set({
+      display: 'block',
+      background: `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`
+    });
   }
 
   articles: Article[] = [
