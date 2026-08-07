@@ -17,11 +17,11 @@ export class WorkExperienceSectionComponent {
   workExperiences: WorkExperience[] = [
     {
       role: 'Machine Learning Engineering Intern',
-      dateWorked: 'May 2024 - Present',
+      dateWorked: 'May 2024 - Aug 2024',
       company: 'IBM Consulting',
       logoSrc: 'assets/images/ibmLogo.svg',
       description:
-        'Creating a cloud agnostic and open-source LLMOps infrastructure framework using Kubernetes that will allow LLM developers to create end-to-end projects on our platform through Kubeflow, MLFlow, Langserve, Graphana and more.',
+        'Created a cloud agnostic and open-source LLMOps infrastructure framework using Kubernetes that allowed LLM developers to create end-to-end projects on our platform through Kubeflow, MLFlow, Langserve, Graphana and more.',
       skills: [
         'Kubernetes',
         'Python',
