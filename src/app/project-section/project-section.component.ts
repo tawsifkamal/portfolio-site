@@ -20,7 +20,7 @@ export class ProjectSectionComponent {
       name: 'TinyGen: An LLM Coding Agent',
       status: 'Hibernating',
       description:
-        "Created an LLM agent that can create pull requests through natural language prompts given any Github repository.",
+        "Created an LLM agent that can create pull requests through natural language prompts given any Github repository. 🚀",
       imageUrl: 'assets/images/tinygen-thumbnail.png',
       skills: [
         'Python',
