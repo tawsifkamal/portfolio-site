@@ -1,16 +1,12 @@
-.blurred {
-  opacity: 60%; /* Adjust the pixel value to increase/decrease the blur */
-}
+sed -i '/.projects-section {/,/}/d' src/app/app.component.css
+sed -i '/.project-cards-container {/,/}/d' src/app/app.component.css
+sed -i '/.project-card {/,/}/d' src/app/app.component.css
+sed -i '/.project-card:hover {/,/}/d' src/app/app.component.css
+sed -i '/.project-title {/,/}/d' src/app/app.component.css
+sed -i '/.project-description {/,/}/d' src/app/app.component.css
+sed -i '/.project-link {/,/}/d' src/app/app.component.css
 
-.title {
-  font-weight: bolder;
-  margin: 0;
-}
-
-
-.project-card {
-  transition: opacity 0.2s ease-in-out;
-}
+cat << 'INNER_EOF' >> src/app/project-section/project-section.component.css
 .projects-section {
   margin-top: 4rem;
 }
@@ -60,3 +56,4 @@
   font-weight: 500;
   color: var(--tertiary-text-color);
 }
+INNER_EOF
