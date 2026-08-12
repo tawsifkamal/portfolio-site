@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -22,8 +22,11 @@ import { ScreenSizeService } from './services/screen-size.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements AfterViewInit {
+  mouseFollowerDisplay = signal('none');
+  mouseFollowerBackground = signal('transparent');
   offsets = {
     ABOUT: 0,
     EXPERIENCE: 0,
@@ -42,11 +45,7 @@ export class AppComponent implements AfterViewInit {
       PROJECTS: this.calculateOffset('PROJECTS', 70),
     };
 
-
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
+    this.mouseFollowerDisplay.set('block');
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
@@ -86,9 +85,7 @@ export class AppComponent implements AfterViewInit {
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    this.mouseFollowerBackground.set(`radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`);
   }
 
   articles: Article[] = [
