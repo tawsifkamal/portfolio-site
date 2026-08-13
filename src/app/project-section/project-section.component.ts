@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { Project } from '../interfaces/project';
 import { CommonModule } from '@angular/common';
@@ -10,11 +10,12 @@ import { ScreenSizeService } from '../services/screen-size.service';
   imports: [ProjectCardComponent, CommonModule],
   templateUrl: './project-section.component.html',
   styleUrl: './project-section.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectSectionComponent {
   constructor(public screen: ScreenSizeService) {}
 
-  hoveredProject: string | null = null;
+  hoveredProject = signal<string | null>(null);
   projects: Project[] = [
     {
       name: 'TinyGen: An LLM Coding Agent',
