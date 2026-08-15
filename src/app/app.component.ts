@@ -1,5 +1,5 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
@@ -22,6 +22,7 @@ import { ScreenSizeService } from './services/screen-size.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
   offsets = {
@@ -31,6 +32,7 @@ export class AppComponent implements AfterViewInit {
   };
 
   constructor(
+    private cdr: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: Document,
     public screen: ScreenSizeService
   ) {}
@@ -74,13 +76,16 @@ export class AppComponent implements AfterViewInit {
       scrollPosition < this.offsets['EXPERIENCE']
     ) {
       this.currentSection = 'ABOUT';
+      this.cdr.markForCheck();
     } else if (
       scrollPosition > this.offsets['EXPERIENCE'] &&
       scrollPosition < this.offsets['PROJECTS']
     ) {
       this.currentSection = 'EXPERIENCE';
+      this.cdr.markForCheck();
     } else if (scrollPosition > this.offsets['PROJECTS']) {
       this.currentSection = 'PROJECTS';
+      this.cdr.markForCheck();
     }
   }
 
