@@ -7,10 +7,10 @@
   <app-project-card
     class="project-card"
     [project]="project"
-    [hoveredProject]="hoveredProject"
-    [ngClass]="{ blurred: hoveredProject && hoveredProject !== project.name }"
-    (mouseenter)="hoveredProject = project.name"
-    (mouseleave)="hoveredProject = null"
+    [hoveredProject]="hoveredProject()"
+    [ngClass]="{ blurred: hoveredProject() && hoveredProject() !== project.name }"
+    (mouseenter)="hoveredProject.set(project.name)"
+    (mouseleave)="hoveredProject.set(null)"
   />
   }
 </div>

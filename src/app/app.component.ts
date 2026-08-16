@@ -1,10 +1,11 @@
 import { NavigationComponent } from './navigation/navigation.component';
-import { Component, HostListener, AfterViewInit, Inject } from '@angular/core';
+import { Component, HostListener, AfterViewInit, Inject, signal, ChangeDetectionStrategy, computed } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { WorkExperienceSectionComponent } from './work-experience-section/work-experience-section.component';
 import { TagComponent } from './tag/tag.component';
 import { ProjectSectionComponent } from './project-section/project-section.component';
+import { FeaturedProjectsComponent } from './featured-projects/featured-projects.component';
 import { Article } from './interfaces/article';
 import { ScreenSizeService } from './services/screen-size.service';
 
@@ -18,17 +19,27 @@ import { ScreenSizeService } from './services/screen-size.service';
     TagComponent,
     NavigationComponent,
     ProjectSectionComponent,
+    FeaturedProjectsComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers: [ScreenSizeService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
-  offsets = {
+  offsets = signal({
     ABOUT: 0,
     EXPERIENCE: 0,
     PROJECTS: 0,
-  };
+  });
+
+  mousePosition = signal({ x: 0, y: 0 });
+  isMouseFollowerVisible = signal(false);
+
+  mouseFollowerBackground = computed(() => {
+    const pos = this.mousePosition();
+    return `radial-gradient(600px at ${pos.x}px ${pos.y}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+  });
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -36,17 +47,13 @@ export class AppComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
-    this.offsets = {
+    this.offsets.set({
       ABOUT: this.calculateOffset('ABOUT', 70),
       EXPERIENCE: this.calculateOffset('EXPERIENCE', 70),
       PROJECTS: this.calculateOffset('PROJECTS', 70),
-    };
+    });
 
-
-    const follower = this.document.querySelector(
-      '.mouse-follower'
-    ) as HTMLElement;
-    follower.style.display = 'block';
+    this.isMouseFollowerVisible.set(true);
   }
 
   private calculateOffset(sectionId: string, padding: number): number {
@@ -54,7 +61,7 @@ export class AppComponent implements AfterViewInit {
     return element ? element.offsetTop - padding : 0;
   }
 
-  currentSection = 'ABOUT';
+  currentSection = signal('ABOUT');
 
   navigateToSection(section: string) {
     this.document.getElementById(section)?.scrollIntoView();
@@ -69,26 +76,26 @@ export class AppComponent implements AfterViewInit {
       this.document.body.scrollTop ||
       0;
 
+    const currentOffsets = this.offsets();
+
     if (
-      scrollPosition > this.offsets['ABOUT'] &&
-      scrollPosition < this.offsets['EXPERIENCE']
+      scrollPosition > currentOffsets['ABOUT'] &&
+      scrollPosition < currentOffsets['EXPERIENCE']
     ) {
-      this.currentSection = 'ABOUT';
+      this.currentSection.set('ABOUT');
     } else if (
-      scrollPosition > this.offsets['EXPERIENCE'] &&
-      scrollPosition < this.offsets['PROJECTS']
+      scrollPosition > currentOffsets['EXPERIENCE'] &&
+      scrollPosition < currentOffsets['PROJECTS']
     ) {
-      this.currentSection = 'EXPERIENCE';
-    } else if (scrollPosition > this.offsets['PROJECTS']) {
-      this.currentSection = 'PROJECTS';
+      this.currentSection.set('EXPERIENCE');
+    } else if (scrollPosition > currentOffsets['PROJECTS']) {
+      this.currentSection.set('PROJECTS');
     }
   }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    const follower = document.querySelector('.mouse-follower') as HTMLElement;
-    // Update background style for radial gradient to follow the cursor
-    follower.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.15), transparent 80%)`;
+    this.mousePosition.set({ x: e.clientX, y: e.clientY });
   }
 
   articles: Article[] = [
